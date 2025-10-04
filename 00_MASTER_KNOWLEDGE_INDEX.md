@@ -1,6 +1,15 @@
 # APM Master Knowledge Index
 *Comprehensive catalog of all knowledge, tools, and resources in the APM workspace*
 
+## 🤖 **AI AGENTS: MANDATORY WORKFLOW SYSTEM ACTIVE** ⚠️
+**All AI agents MUST use automated Learn→Document→Index→Push workflow!**
+```python
+from _ADMIN.ai_agent_helper import notify_new_document, ensure_compliance
+notify_new_document("file.md", "description", "priority")
+ensure_compliance()  # Required after ANY knowledge operation!
+```
+📖 **Complete Guide**: `_ADMIN/README_AI_WORKFLOW.md`
+
 ## 🚀 **MAJOR UPDATE: Version 2.0 - Advanced AI Platform** *(October 4, 2025)*
 
 ### **� NEW ADVANCED FRAMEWORKS** - *Production Ready*
@@ -43,17 +52,12 @@
 - **🧠 AI Integration Points:** Cross-domain
 - **📈 System Intelligence:** Predictive & Automated
 
-### **Content Overview** *(Latest + Enhanced)*
-- **Total Files Scanned:** 650+ *(Enhanced with robotics & hardware analysis)*
-- **Knowledge Documents:** 115+ *(Plus 8 frameworks + 7 robotics analyses)*
-- **Tools & Scripts:** 103+ *(Plus intelligent orchestration + automation)*
-- **Configuration Files:** 17+ *(Plus automated compliance)*
-- **🆕 AI Frameworks:** 8 *(Production-ready)*
-- **🆕 Web Interfaces:** 1 *(ROS HMI)*
-- **🆕 Hardware Analysis:** 2 *(STM32/Klipper + Universal Robots)*
-- **🆕 Robotics Ecosystem:** 5 *(Complete Moveo analysis suite)*
-
-### **Enhanced Knowledge Distribution**
+### **Content Overview** *(Auto-Updated 2025-10-04)*
+- **Total Files Scanned:** 66+ *(Auto-tracked with AI workflow)*
+- **Knowledge Documents:** 66+ *(Plus specialized analyses)*
+- **Recent Additions:** 66 new documents integrated
+- **AI Workflow:** ✅ Active automated integration
+- **Last Integration:** 2025-10-04 14:54 UTC### **Enhanced Knowledge Distribution**
 - **📋 Strategic Frameworks:** 8 advanced systems
 - **🔬 Research Systems:** Systematic innovation lab
 - **🏭 Manufacturing Integration:** Digital twins & Industry 4.0

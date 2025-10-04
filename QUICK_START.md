@@ -16,14 +16,38 @@ The **APM (Artificial Project Manager) Knowledge Base** is your centralized, AI-
 | 🛠️ [Tools_and_Resources/](./Tools_and_Resources/) | Templates, scripts, utilities | Creating new content |
 | 📋 [_ADMIN/](./_ADMIN/) | System management and AI handoff | System maintenance |
 
-## 🤖 For AI Assistants (CRITICAL)
+## 🤖 For AI Assistants (CRITICAL - READ FIRST!)
 
-**New AI taking over? READ THESE IN ORDER:**
+**⚠️ MANDATORY WORKFLOW: All AI agents MUST use the automated knowledge workflow system!**
 
-1. 📄 **[README.md](./README.md)** - Mission statement and system overview
-2. 📝 **[AI Handoff Notes](./_ADMIN/ai_handoff_notes.md)** - Current status and context
-3. ✅ **[Todo List](./_ADMIN/todo.md)** - Priority tasks and current work
-4. 📊 **[Changelog](./_ADMIN/changelog.md)** - Recent changes and version history
+### 🚨 **FIRST ACTION REQUIRED:**
+```python
+# Import and use EVERY TIME you create/modify knowledge:
+from _ADMIN.ai_agent_helper import notify_new_document, ensure_compliance
+
+# After ANY knowledge creation/modification:
+notify_new_document("path/to/file.md", "description", "priority")
+ensure_compliance()  # This triggers: Learn → Document → Index → Push
+```
+
+### 📚 **Essential Reading Order:**
+1. 🤖 **[AI Workflow Guide](./_ADMIN/README_AI_WORKFLOW.md)** - MANDATORY workflow system
+2. 📄 **[README.md](./README.md)** - Mission statement and system overview  
+3. 📝 **[AI Handoff Notes](./_ADMIN/ai_handoff_notes.md)** - Current status and context
+4. ✅ **[Todo List](./_ADMIN/todo.md)** - Priority tasks and current work
+5. 📊 **[Changelog](./_ADMIN/changelog.md)** - Recent changes and version history
+
+### 🔧 **Workflow Commands:**
+```bash
+# Interactive workflow menu
+bash _ADMIN/workflow.sh
+
+# Check compliance status  
+python3 _ADMIN/ai_agent_helper.py status
+
+# Auto-integrate pending changes
+python3 _ADMIN/ai_agent_helper.py integrate
+```
 
 ## ⚡ Common Tasks
 
@@ -32,11 +56,13 @@ The **APM (Artificial Project Manager) Knowledge Base** is your centralized, AI-
 2. Use section-specific READMEs for detailed exploration
 3. Search by project type in the appropriate Engineering folder
 
-### ➕ Adding New Content
+### ➕ Adding New Content (AI Agents - MANDATORY WORKFLOW)
 1. Identify the correct section (Engineering/Projects/Knowledge_Base/Research)
-2. Use templates from `Tools_and_Resources/Templates/`
-3. Create README.md for new projects/sections
-4. Update relevant cross-references
+2. Use templates from `Tools_and_Resources/Templates/`  
+3. **CREATE CONTENT** (files, documentation, analysis)
+4. **NOTIFY SYSTEM**: `notify_new_document("path/to/file.md", "description", "priority")`
+5. **ENSURE COMPLIANCE**: `ensure_compliance()` (auto-indexes and pushes)
+6. ✅ **System automatically handles**: categorization, indexing, git integration
 
 ### 🔄 Project Management
 - **Starting**: Use `Projects/Active/` with project template
@@ -65,6 +91,8 @@ This system is working when:
 - **AI handoff**: < 5 minutes for new assistant to be productive  
 - **Project clarity**: Every project has clear status and next steps
 - **Knowledge retention**: Nothing important gets lost or forgotten
+- **🤖 Workflow compliance**: All AI agents using automated Learn→Document→Index→Push cycle
+- **🚀 Auto-integration**: New knowledge automatically indexed and pushed within minutes
 
 ## 🔧 Emergency Procedures
 
@@ -82,11 +110,12 @@ This system is working when:
 
 ## 🌟 Key Principles
 
-1. **Documentation First**: If it's not documented, it doesn't exist
-2. **Consistent Organization**: Follow naming conventions and structure
-3. **AI Continuity**: Always enable the next AI to pick up where you left off
-4. **User Value**: Optimize for finding information quickly
-5. **Scalable Growth**: Structure should handle increasing complexity
+1. **🤖 Workflow Compliance**: MANDATORY - All AI agents must use automated Learn→Document→Index→Push cycle
+2. **Documentation First**: If it's not documented, it doesn't exist
+3. **Consistent Organization**: Follow naming conventions and structure
+4. **AI Continuity**: Always enable the next AI to pick up where you left off
+5. **User Value**: Optimize for finding information quickly
+6. **Scalable Growth**: Structure should handle increasing complexity
 
 ---
 

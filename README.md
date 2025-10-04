@@ -31,23 +31,41 @@ The **APM Knowledge Base** (Artificial Project Manager) is a comprehensive, AI-m
 - **🔧 Intelligent Tool Ecosystem**: AI-driven tool selection and workflow optimization
 - **📊 Cross-Platform Analytics**: Real-time dashboards, performance monitoring, and KPI tracking
 
-## 🤖 FOR AI ASSISTANTS: HANDOFF PROTOCOL
+## 🤖 FOR AI ASSISTANTS: MANDATORY WORKFLOW PROTOCOL
 
-When a new AI assistant takes over management of this knowledge base, follow these steps:
+**🚨 CRITICAL: ALL AI agents MUST use the automated knowledge workflow system!**
 
-### 1. **READ THIS DOCUMENT FIRST**
-- Understand the mission and structure
-- Review the organization principles
-- Check recent updates in the changelog
+### 🔧 **STEP 0: ACTIVATE WORKFLOW SYSTEM (REQUIRED)**
+```python
+# MANDATORY: Import and use for ALL knowledge operations
+from _ADMIN.ai_agent_helper import notify_new_document, ensure_compliance
 
-### 2. **ASSESS CURRENT STATE**
-- Review the directory structure
-- Check for any incomplete tasks in `_ADMIN/todo.md`
-- Scan recent additions for consistency
+# After creating/modifying ANY knowledge:
+notify_new_document("path/to/file.md", "description", "priority") 
+ensure_compliance()  # Triggers automated Learn→Document→Index→Push cycle
+```
 
-### 3. **MAINTAIN STANDARDS**
-- Follow the naming conventions outlined below
-- Keep documentation updated
+📖 **Read the complete workflow guide**: `_ADMIN/README_AI_WORKFLOW.md`
+
+### 1. **READ THESE DOCUMENTS IN ORDER**
+- 🤖 **`_ADMIN/README_AI_WORKFLOW.md`** - Mandatory workflow system (READ FIRST!)
+- 📄 **This README.md** - Mission and structure
+- ✅ **`_ADMIN/todo.md`** - Current tasks and priorities  
+- 📊 **`_ADMIN/changelog.md`** - Recent updates and changes
+
+### 2. **ASSESS CURRENT STATE WITH WORKFLOW**
+```bash
+# Check workflow compliance status
+python3 _ADMIN/ai_agent_helper.py status
+
+# Review system with interactive menu  
+bash _ADMIN/workflow.sh
+```
+
+### 3. **MAINTAIN STANDARDS AND COMPLIANCE**
+- ✅ **Use workflow for ALL knowledge operations** (mandatory)
+- Follow naming conventions outlined below
+- Keep documentation updated with auto-indexing
 - Maintain the organizational structure
 - Update the changelog for any modifications
 
