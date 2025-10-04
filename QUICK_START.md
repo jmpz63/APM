@@ -13,7 +13,7 @@ The **APM (Artificial Project Manager) Knowledge Base** is your centralized, AI-
 | 📚 [Knowledge_Base/](./Knowledge_Base/) | Learning materials, references, tutorials | Research & learning |
 | 🚀 [Projects/](./Projects/) | Active, completed, and archived projects | Project management |
 | 🔬 [Research/](./Research/) | Papers, experiments, research notes | Academic work |
-| 🛠️ [Tools_and_Resources/](./Tools_and_Resources/) | Templates, scripts, utilities | Creating new content |
+| 🛠️ [Tools/](./Tools/) | Templates, scripts, utilities | Creating new content |
 | 📋 [_ADMIN/](./_ADMIN/) | System management and AI handoff | System maintenance |
 
 ## 🤖 For AI Assistants (CRITICAL - READ FIRST!)
@@ -57,7 +57,7 @@ bash _ADMIN/workflow.sh
 
 ### ➕ Adding New Content (AI Agents - MANDATORY WORKFLOW)
 1. Identify the correct section (Engineering/Projects/Knowledge_Base/Research)
-2. Use templates from `Tools_and_Resources/Templates/`  
+2. Use templates from `Tools/Templates/`  
 3. **CREATE CONTENT** (files, documentation, analysis)
 4. **NOTIFY SYSTEM**: `notify_new_document("path/to/file.md", "description", "priority")`
 5. **ENSURE COMPLIANCE**: `ensure_compliance()` (auto-indexes and pushes)
@@ -96,7 +96,7 @@ This system is working when:
 ## 🔧 Emergency Procedures
 
 ### If System Becomes Disorganized:
-1. Refer to templates in `Tools_and_Resources/Templates/`
+1. Refer to templates in `Tools/Templates/`
 2. Check maintenance procedures in `_ADMIN/maintenance_log.md`
 3. Follow organization principles in main README.md
 4. When in doubt, create a README file explaining the situation

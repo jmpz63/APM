@@ -66,7 +66,7 @@
 - Knowledge_Base section for learning materials
 - Projects section for active/completed/archived work
 - Research section for papers and experiments
-- Tools_and_Resources section for utilities
+- Tools section for utilities
 - _ADMIN section for management
 
 #### 📁 Directory Structure Established:
@@ -76,7 +76,7 @@ APM/
 ├── Knowledge_Base/
 ├── Projects/
 ├── Research/
-├── Tools_and_Resources/
+├── Tools/
 └── _ADMIN/
 ```
 
