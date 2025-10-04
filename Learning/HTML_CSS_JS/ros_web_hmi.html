@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APM ROS Web HMI - Manufacturing Control Interface</title>
+    <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+    <script src="https://static.robotwebtools.org/ros3djs/current/ros3d.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --apm-primary: #2E86AB;
+            --apm-secondary: #A23B72;
+            --apm-accent: #F18F01;
+            --safety-red: #C73E1D;
+            --success-green: #27AE60;
+            --warning-orange: #E67E22;
+            --neutral-gray: #7F8C8D;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2c3e50;
+            overflow-x: hidden;
+        }
+        
+        .hmi-container {
+            display: grid;
+            grid-template-areas:
+                "header header header header"
+                "status controls robot-view alerts"
+                "trajectory controls robot-view joints"
+                "data-viz data-viz robot-view system";
+            grid-template-columns: 300px 250px 1fr 250px;
+            grid-template-rows: auto 200px 200px 300px;
+            gap: 20px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .hmi-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .hmi-panel:hover {
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+        
+        .header-panel {
+            grid-area: header;
+            background: linear-gradient(135deg, var(--apm-primary), var(--apm-secondary));
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-panel { grid-area: status; }
+        .controls-panel { grid-area: controls; }
+        .robot-panel { grid-area: robot-view; }
+        .alerts-panel { grid-area: alerts; }
+        .trajectory-panel { grid-area: trajectory; }
+        .joints-panel { grid-area: joints; }
+        .data-panel { grid-area: data-viz; }
+        .system-panel { grid-area: system; }
+        
+        .panel-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--apm-primary);
+            border-bottom: 2px solid var(--apm-accent);
+            padding-bottom: 8px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-connected { background: var(--success-green); }
+        .status-disconnected { background: var(--safety-red); }
+        .status-warning { background: var(--warning-orange); }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .control-button {
+            background: linear-gradient(135deg, var(--apm-primary), var(--apm-secondary));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .control-button:hover {
+            background: linear-gradient(135deg, var(--apm-secondary), var(--apm-primary));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .control-button:active {
+            transform: translateY(0);
+        }
+        
+        .emergency-stop {
+            background: linear-gradient(135deg, var(--safety-red), #E74C3C) !important;
+            font-size: 16px !important;
+            padding: 15px 30px !important;
+        }
+        
+        .joint-slider {
+            width: 100%;
+            margin: 10px 0;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: #ddd;
+            outline: none;
+        }
+        
+        .joint-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--apm-primary);
+            cursor: pointer;
+        }
+        
+        .joint-value {
+            display: inline-block;
+            background: var(--apm-accent);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .alert-item {
+            background: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid var(--safety-red);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        
+        .alert-warning {
+            background: rgba(230, 126, 34, 0.1);
+            border-left-color: var(--warning-orange);
+        }
+        
+        .alert-info {
+            background: rgba(46, 134, 171, 0.1);
+            border-left-color: var(--apm-primary);
+        }
+        
+        #robotVisualization {
+            width: 100%;
+            height: 400px;
+            border: 2px solid var(--apm-primary);
+            border-radius: 8px;
+            background: #000;
+        }
+        
+        .data-chart {
+            width: 100%;
+            height: 200px;
+        }
+        
+        .system-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .metric-label {
+            font-weight: 600;
+            color: var(--apm-primary);
+        }
+        
+        .metric-value {
+            background: var(--apm-accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .connection-status {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .hmi-container {
+                grid-template-areas:
+                    "header header header"
+                    "status controls alerts"
+                    "trajectory robot-view robot-view"
+                    "joints robot-view robot-view"
+                    "data-viz data-viz system"
+                    "data-viz data-viz system";
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .hmi-container {
+                grid-template-areas:
+                    "header"
+                    "status"
+                    "controls"
+                    "robot-view"
+                    "trajectory"
+                    "joints"
+                    "alerts"
+                    "data-viz"
+                    "system";
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hmi-container">
+        <!-- Header Panel -->
+        <div class="hmi-panel header-panel">
+            <div class="logo">🏭 APM Manufacturing HMI</div>
+            <div class="connection-status">
+                <span class="status-indicator status-disconnected" id="rosStatus"></span>
+                <span id="connectionText">Connecting to ROS...</span>
+            </div>
+            <div style="font-size: 14px;">
+                🤖 Moveo Robotics | 📅 <span id="currentTime"></span>
+            </div>
+        </div>
+        
+        <!-- System Status Panel -->
+        <div class="hmi-panel status-panel">
+            <div class="panel-title">🔧 System Status</div>
+            <div class="system-metric">
+                <span class="metric-label">Robot State</span>
+                <span class="metric-value" id="robotState">UNKNOWN</span>
+            </div>
+            <div class="system-metric">
+                <span class="metric-label">Motion Planning</span>
+                <span class="metric-value" id="planningStatus">READY</span>
+            </div>
+            <div class="system-metric">
+                <span class="metric-label">Safety Status</span>
+                <span class="metric-value" id="safetyStatus">OK</span>
+            </div>
+            <div class="system-metric">
+                <span class="metric-label">Current Task</span>
+                <span class="metric-value" id="currentTask">IDLE</span>
+            </div>
+        </div>
+        
+        <!-- Control Panel -->
+        <div class="hmi-panel controls-panel">
+            <div class="panel-title">🎮 Robot Controls</div>
+            <button class="control-button emergency-stop" onclick="emergencyStop()">
+                🛑 EMERGENCY STOP
+            </button>
+            <button class="control-button" onclick="homingSequence()">
+                🏠 Home Robot
+            </button>
+            <button class="control-button" onclick="enableRobot()">
+                ⚡ Enable Motors
+            </button>
+            <button class="control-button" onclick="disableRobot()">
+                🔌 Disable Motors
+            </button>
+            <button class="control-button" onclick="pauseMotion()">
+                ⏸️ Pause Motion
+            </button>
+            <button class="control-button" onclick="resumeMotion()">
+                ▶️ Resume Motion
+            </button>
+        </div>
+        
+        <!-- 3D Robot Visualization -->
+        <div class="hmi-panel robot-panel">
+            <div class="panel-title">🤖 Robot Visualization</div>
+            <div id="robotVisualization"></div>
+            <div style="text-align: center; margin-top: 10px; font-size: 12px; color: #666;">
+                Interactive 3D view • Mouse: Rotate | Wheel: Zoom | Right-click: Pan
+            </div>
+        </div>
+        
+        <!-- Alert Panel -->
+        <div class="hmi-panel alerts-panel">
+            <div class="panel-title">⚠️ Alerts & Notifications</div>
+            <div id="alertContainer">
+                <div class="alert-item alert-info">
+                    ℹ️ System initialized successfully
+                </div>
+                <div class="alert-item alert-warning">
+                    ⚠️ Joint 3 approaching temperature limit
+                </div>
+            </div>
+        </div>
+        
+        <!-- Trajectory Panel -->
+        <div class="hmi-panel trajectory-panel">
+            <div class="panel-title">📈 Trajectory Execution</div>
+            <div style="margin-bottom: 15px;">
+                <strong>Progress:</strong>
+                <div style="background: #ddd; height: 20px; border-radius: 10px; margin-top: 5px;">
+                    <div id="trajectoryProgress" style="background: linear-gradient(90deg, var(--apm-primary), var(--apm-accent)); height: 100%; width: 0%; border-radius: 10px; transition: width 0.3s;"></div>
+                </div>
+                <span id="progressText" style="font-size: 12px;">0% Complete</span>
+            </div>
+            <button class="control-button" onclick="executePickPlace()">
+                🔄 Execute Pick & Place
+            </button>
+        </div>
+        
+        <!-- Joint Control Panel -->
+        <div class="hmi-panel joints-panel">
+            <div class="panel-title">🦾 Joint Control</div>
+            <div id="jointControls">
+                <!-- Joint sliders will be dynamically generated -->
+            </div>
+        </div>
+        
+        <!-- Data Visualization Panel -->
+        <div class="hmi-panel data-panel">
+            <div class="panel-title">📊 Real-Time Monitoring</div>
+            <canvas id="dataChart" class="data-chart"></canvas>
+        </div>
+        
+        <!-- System Metrics Panel -->
+        <div class="hmi-panel system-panel">
+            <div class="panel-title">💻 System Metrics</div>
+            <div class="system-metric">
+                <span class="metric-label">CPU Usage</span>
+                <span class="metric-value" id="cpuUsage">--</span>
+            </div>
+            <div class="system-metric">
+                <span class="metric-label">Memory</span>
+                <span class="metric-value" id="memUsage">--</span>
+            </div>
+            <div class="system-metric">
+                <span class="metric-label">ROS Nodes</span>
+                <span class="metric-value" id="nodeCount">--</span>
+            </div>
+            <div class="system-metric">
+                <span class="metric-label">Topics</span>
+                <span class="metric-value" id="topicCount">--</span>
+            </div>
+            <div class="system-metric">
+                <span class="metric-label">Uptime</span>
+                <span class="metric-value" id="systemUptime">--</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // ROS Connection Management
+        let ros = null;
+        let isConnected = false;
+        let jointStateListener = null;
+        let trajectoryProgressListener = null;
+        
+        // Joint names for Moveo robot (from your workspace)
+        const jointNames = ['joint1', 'joint2', 'joint3', 'joint4', 'joint5', 'joint6'];
+        const jointLimits = [-1.0821, 1.0821, -3.14, 3.14, -3.14, 3.14, -3.14, 3.14, -3.14, 3.14, -3.14, 3.14];
+        
+        // Initialize ROS connection
+        function initROS() {
+            // Connect to rosbridge websocket
+            ros = new ROSLIB.Ros({
+                url: 'ws://localhost:9091'  // Updated rosbridge port
+            });
+            
+            ros.on('connection', function() {
+                console.log('Connected to ROS bridge server.');
+                isConnected = true;
+                updateConnectionStatus(true);
+                initializeSubscribers();
+                initializePublishers();
+            });
+            
+            ros.on('error', function(error) {
+                console.log('Error connecting to ROS bridge server: ', error);
+                isConnected = false;
+                updateConnectionStatus(false);
+            });
+            
+            ros.on('close', function() {
+                console.log('Connection to ROS bridge server closed.');
+                isConnected = false;
+                updateConnectionStatus(false);
+                // Attempt reconnection
+                setTimeout(initROS, 5000);
+            });
+        }
+        
+        // Update connection status indicator
+        function updateConnectionStatus(connected) {
+            const statusIndicator = document.getElementById('rosStatus');
+            const connectionText = document.getElementById('connectionText');
+            
+            if (connected) {
+                statusIndicator.className = 'status-indicator status-connected';
+                connectionText.textContent = 'ROS Connected';
+                document.getElementById('robotState').textContent = 'READY';
+            } else {
+                statusIndicator.className = 'status-indicator status-disconnected';
+                connectionText.textContent = 'ROS Disconnected';
+                document.getElementById('robotState').textContent = 'OFFLINE';
+            }
+        }
+        
+        // Initialize ROS subscribers
+        function initializeSubscribers() {
+            // Joint state subscriber
+            jointStateListener = new ROSLIB.Topic({
+                ros: ros,
+                name: '/joint_states',
+                messageType: 'sensor_msgs/JointState'
+            });
+            
+            jointStateListener.subscribe(function(message) {
+                updateJointDisplay(message);
+            });
+            
+            // Trajectory execution feedback (if using MoveIt)
+            const moveGroupFeedback = new ROSLIB.Topic({
+                ros: ros,
+                name: '/move_group/feedback',
+                messageType: 'moveit_msgs/MoveGroupActionFeedback'
+            });
+            
+            moveGroupFeedback.subscribe(function(message) {
+                updateTrajectoryProgress(message);
+            });
+        }
+        
+        // Initialize ROS publishers
+        function initializePublishers() {
+            // Joint trajectory publisher for direct control
+            window.jointTrajectoryPub = new ROSLIB.Topic({
+                ros: ros,
+                name: '/joint_trajectory',
+                messageType: 'trajectory_msgs/JointTrajectory'
+            });
+        }
+        
+        // Update joint position display
+        function updateJointDisplay(jointState) {
+            for (let i = 0; i < jointNames.length && i < jointState.position.length; i++) {
+                const slider = document.getElementById(`joint${i}Slider`);
+                const display = document.getElementById(`joint${i}Value`);
+                if (slider && display) {
+                    const position = jointState.position[i];
+                    slider.value = position;
+                    display.textContent = `${(position * 180 / Math.PI).toFixed(1)}°`;
+                }
+            }
+        }
+        
+        // Control functions
+        function emergencyStop() {
+            addAlert('🛑 EMERGENCY STOP ACTIVATED', 'alert-item');
+            if (isConnected) {
+                // Publish emergency stop command
+                const stopMsg = new ROSLIB.Message({
+                    joint_names: jointNames,
+                    points: []  // Empty trajectory stops motion
+                });
+                window.jointTrajectoryPub.publish(stopMsg);
+            }
+            document.getElementById('robotState').textContent = 'E-STOP';
+        }
+        
+        function homingSequence() {
+            addAlert('🏠 Initiating homing sequence...', 'alert-item alert-info');
+            if (isConnected) {
+                const homePositions = [0, 0, 0, 0, 0, 0];  // Home position
+                sendJointTrajectory(homePositions, 5.0);  // 5 second duration
+            }
+        }
+        
+        function enableRobot() {
+            addAlert('⚡ Robot motors enabled', 'alert-item alert-info');
+            document.getElementById('robotState').textContent = 'ENABLED';
+        }
+        
+        function disableRobot() {
+            addAlert('🔌 Robot motors disabled', 'alert-item alert-warning');
+            document.getElementById('robotState').textContent = 'DISABLED';
+        }
+        
+        function pauseMotion() {
+            addAlert('⏸️ Motion paused', 'alert-item alert-warning');
+        }
+        
+        function resumeMotion() {
+            addAlert('▶️ Motion resumed', 'alert-item alert-info');
+        }
+        
+        function executePickPlace() {
+            addAlert('🔄 Executing pick & place sequence...', 'alert-item alert-info');
+            document.getElementById('currentTask').textContent = 'PICK & PLACE';
+            
+            // Simulate trajectory progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 2;
+                document.getElementById('trajectoryProgress').style.width = `${progress}%`;
+                document.getElementById('progressText').textContent = `${progress}% Complete`;
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    addAlert('✅ Pick & place sequence completed', 'alert-item alert-info');
+                    document.getElementById('currentTask').textContent = 'IDLE';
+                    setTimeout(() => {
+                        document.getElementById('trajectoryProgress').style.width = '0%';
+                        document.getElementById('progressText').textContent = '0% Complete';
+                    }, 2000);
+                }
+            }, 100);
+        }
+        
+        // Send joint trajectory command
+        function sendJointTrajectory(positions, duration) {
+            if (!isConnected) return;
+            
+            const trajectory = new ROSLIB.Message({
+                joint_names: jointNames,
+                points: [{
+                    positions: positions,
+                    velocities: new Array(6).fill(0),
+                    accelerations: new Array(6).fill(0),
+                    time_from_start: {
+                        sec: Math.floor(duration),
+                        nanosec: (duration % 1) * 1000000000
+                    }
+                }]
+            });
+            
+            window.jointTrajectoryPub.publish(trajectory);
+        }
+        
+        // Add alert to notification panel
+        function addAlert(message, className) {
+            const container = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = className;
+            alert.innerHTML = `${message} <small style="float: right;">${new Date().toLocaleTimeString()}</small>`;
+            
+            container.insertBefore(alert, container.firstChild);
+            
+            // Remove old alerts (keep last 5)
+            while (container.children.length > 5) {
+                container.removeChild(container.lastChild);
+            }
+            
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.style.opacity = '0';
+                    setTimeout(() => {
+                        if (alert.parentNode) {
+                            container.removeChild(alert);
+                        }
+                    }, 500);
+                }
+            }, 10000);
+        }
+        
+        // Initialize joint control sliders
+        function initJointControls() {
+            const container = document.getElementById('jointControls');
+            
+            for (let i = 0; i < jointNames.length; i++) {
+                const jointDiv = document.createElement('div');
+                jointDiv.innerHTML = `
+                    <div style="margin-bottom: 15px;">
+                        <label style="font-weight: 600; color: var(--apm-primary);">
+                            ${jointNames[i].toUpperCase()}
+                            <span class="joint-value" id="joint${i}Value">0.0°</span>
+                        </label>
+                        <input type="range" class="joint-slider" id="joint${i}Slider"
+                               min="${jointLimits[i*2]}" max="${jointLimits[i*2+1]}"
+                               step="0.01" value="0"
+                               oninput="updateJointValue(${i}, this.value)">
+                    </div>
+                `;
+                container.appendChild(jointDiv);
+            }
+        }
+        
+        // Update joint value from slider
+        function updateJointValue(jointIndex, value) {
+            const display = document.getElementById(`joint${jointIndex}Value`);
+            display.textContent = `${(value * 180 / Math.PI).toFixed(1)}°`;
+            
+            // Send command to ROS (with debouncing)
+            clearTimeout(window.jointUpdateTimeout);
+            window.jointUpdateTimeout = setTimeout(() => {
+                const positions = jointNames.map((_, i) => {
+                    const slider = document.getElementById(`joint${i}Slider`);
+                    return parseFloat(slider.value);
+                });
+                sendJointTrajectory(positions, 1.0);  // 1 second move
+            }, 500);  // 500ms debounce
+        }
+        
+        // Initialize data chart
+        function initDataChart() {
+            const ctx = document.getElementById('dataChart').getContext('2d');
+            
+            window.dataChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Joint 1 Position (°)',
+                        data: [],
+                        borderColor: 'rgb(46, 134, 171)',
+                        backgroundColor: 'rgba(46, 134, 171, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'CPU Usage (%)',
+                        data: [],
+                        borderColor: 'rgb(241, 143, 1)',
+                        backgroundColor: 'rgba(241, 143, 1, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { display: false },
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { display: true, position: 'top' }
+                    }
+                }
+            });
+            
+            // Update chart every second
+            setInterval(updateDataChart, 1000);
+        }
+        
+        // Update data chart with new data
+        function updateDataChart() {
+            const now = new Date().toLocaleTimeString();
+            const joint1Pos = Math.random() * 180 - 90;  // Simulate joint position
+            const cpuUsage = Math.random() * 100;  // Simulate CPU usage
+            
+            window.dataChart.data.labels.push(now);
+            window.dataChart.data.datasets[0].data.push(joint1Pos);
+            window.dataChart.data.datasets[1].data.push(cpuUsage);
+            
+            // Keep only last 20 data points
+            if (window.dataChart.data.labels.length > 20) {
+                window.dataChart.data.labels.shift();
+                window.dataChart.data.datasets.forEach(dataset => {
+                    dataset.data.shift();
+                });
+            }
+            
+            window.dataChart.update('none');  // Update without animation for performance
+        }
+        
+        // Update system metrics
+        function updateSystemMetrics() {
+            // Simulate system metrics (replace with real ROS data)
+            document.getElementById('cpuUsage').textContent = Math.floor(Math.random() * 100) + '%';
+            document.getElementById('memUsage').textContent = Math.floor(Math.random() * 8000) + 'MB';
+            document.getElementById('nodeCount').textContent = Math.floor(Math.random() * 20) + 5;
+            document.getElementById('topicCount').textContent = Math.floor(Math.random() * 50) + 30;
+            
+            // Update uptime
+            const uptime = Date.now() - window.startTime;
+            const hours = Math.floor(uptime / (1000 * 60 * 60));
+            const minutes = Math.floor((uptime % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('systemUptime').textContent = `${hours}h ${minutes}m`;
+        }
+        
+        // Update current time
+        function updateTime() {
+            document.getElementById('currentTime').textContent = new Date().toLocaleString();
+        }
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            window.startTime = Date.now();
+            
+            // Initialize components
+            initROS();
+            initJointControls();
+            initDataChart();
+            
+            // Start periodic updates
+            setInterval(updateTime, 1000);
+            setInterval(updateSystemMetrics, 5000);
+            
+            // Initial welcome message
+            addAlert('🚀 APM Manufacturing HMI initialized', 'alert-item alert-info');
+        });
+        
+        // Handle window resize for responsive design
+        window.addEventListener('resize', function() {
+            if (window.dataChart) {
+                window.dataChart.resize();
+            }
+        });
+    </script>
+</body>
+</html>

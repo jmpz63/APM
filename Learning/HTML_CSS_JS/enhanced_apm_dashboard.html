@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced APM Dashboard v2.0 - Advanced HTML Skills Practice</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* APM Brand Variables System */
+        :root {
+            --apm-primary: #2E86AB;
+            --apm-secondary: #A23B72;
+            --apm-accent: #F18F01;
+            --apm-success: #70ad47;
+            --apm-warning: #f39c12;
+            --apm-danger: #e74c3c;
+            
+            --engineering-blue: #1f4e79;
+            --manufacturing-orange: #c55a11;
+            --safety-red: #C73E1D;
+            
+            --bg-light: #f8f9fa;
+            --bg-dark: #2c3e50;
+            --text-light: #333;
+            --text-dark: #ecf0f1;
+            
+            --shadow-light: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-heavy: 0 8px 25px rgba(0,0,0,0.15);
+            --border-radius: 12px;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Dark Theme Support */
+        [data-theme="dark"] {
+            --bg-light: #34495e;
+            --bg-dark: #2c3e50;
+            --text-light: #ecf0f1;
+            --text-dark: #bdc3c7;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--apm-primary) 0%, var(--apm-secondary) 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            transition: var(--transition-smooth);
+        }
+        
+        /* Advanced Grid Layout */
+        .dashboard-container {
+            display: grid;
+            grid-template-areas: 
+                "header header header header"
+                "sidebar metrics metrics charts"
+                "sidebar content content charts"
+                "footer footer footer footer";
+            grid-template-columns: 280px 1fr 1fr 320px;
+            grid-template-rows: auto auto 1fr auto;
+            min-height: 100vh;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            grid-area: header;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 20px 30px;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideInDown 0.6s ease-out;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--apm-primary), var(--apm-accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        
+        .header-title {
+            color: var(--text-light);
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+        
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .theme-toggle {
+            background: var(--apm-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-weight: 500;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--apm-secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+        
+        .sidebar {
+            grid-area: sidebar;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow-light);
+            animation: slideInLeft 0.6s ease-out;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 12px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: var(--transition-smooth);
+            gap: 12px;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, var(--apm-primary), var(--apm-accent));
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .nav-icon {
+            font-size: 1.2em;
+        }
+        
+        .metrics-grid {
+            grid-area: metrics;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--apm-primary), var(--apm-accent));
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--apm-primary);
+            margin-bottom: 8px;
+        }
+        
+        .metric-label {
+            color: var(--text-light);
+            font-weight: 500;
+            opacity: 0.8;
+        }
+        
+        .metric-trend {
+            font-size: 0.9em;
+            margin-top: 8px;
+        }
+        
+        .trend-up { color: var(--apm-success); }
+        .trend-down { color: var(--apm-danger); }
+        
+        .main-content {
+            grid-area: content;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow-light);
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .charts-panel {
+            grid-area: charts;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow-light);
+            animation: slideInRight 0.6s ease-out;
+        }
+        
+        .chart-container {
+            margin-bottom: 30px;
+        }
+        
+        .chart-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--apm-primary);
+        }
+        
+        .footer {
+            grid-area: footer;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow-light);
+            text-align: center;
+            color: var(--text-light);
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .dashboard-container {
+                grid-template-areas: 
+                    "header header"
+                    "sidebar metrics"
+                    "content charts"
+                    "footer footer";
+                grid-template-columns: 250px 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-areas: 
+                    "header"
+                    "metrics"
+                    "sidebar"
+                    "content"
+                    "charts"
+                    "footer";
+                grid-template-columns: 1fr;
+                padding: 10px;
+                gap: 15px;
+            }
+        }
+        
+        /* Animations */
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Interactive Elements */
+        .search-box {
+            width: 300px;
+            padding: 12px 20px;
+            border: 2px solid transparent;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: var(--transition-smooth);
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: var(--apm-primary);
+            box-shadow: 0 0 0 3px rgba(46, 134, 171, 0.1);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-light);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--apm-success), var(--apm-accent));
+            border-radius: 4px;
+            transition: width 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo-section">
+                <div class="logo">APM</div>
+                <h1 class="header-title">Advanced Project Management Dashboard</h1>
+            </div>
+            <div class="header-controls">
+                <input type="text" class="search-box" placeholder="Search APM knowledge base..." id="searchBox">
+                <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+            </div>
+        </header>
+        
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <h3>Navigation</h3>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <span class="nav-icon">📊</span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">🏭</span>
+                        Manufacturing
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">🔧</span>
+                        Engineering
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">📚</span>
+                        Knowledge Base
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">📈</span>
+                        Analytics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Metrics Grid -->
+        <section class="metrics-grid">
+            <div class="metric-card" onclick="showDetails('projects')">
+                <div class="metric-value">23</div>
+                <div class="metric-label">Active Projects</div>
+                <div class="metric-trend trend-up">↗ +12% this month</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 78%"></div>
+                </div>
+            </div>
+            
+            <div class="metric-card" onclick="showDetails('knowledge')">
+                <div class="metric-value">634</div>
+                <div class="metric-label">Knowledge Files</div>
+                <div class="metric-trend trend-up">↗ +47 this week</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 92%"></div>
+                </div>
+            </div>
+            
+            <div class="metric-card" onclick="showDetails('safety')">
+                <div class="metric-value">98%</div>
+                <div class="metric-label">Safety Compliance</div>
+                <div class="metric-trend trend-up">↗ ISO 13849 Cat 3</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 98%"></div>
+                </div>
+            </div>
+            
+            <div class="metric-card" onclick="showDetails('efficiency')">
+                <div class="metric-value">87%</div>
+                <div class="metric-label">Manufacturing Efficiency</div>
+                <div class="metric-trend trend-down">↘ -2% optimization needed</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 87%"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <h2>Project Overview</h2>
+            <div id="projectDetails">
+                <h3>Mini Prototype Manufacturing System</h3>
+                <p><strong>Status:</strong> Active Development</p>
+                <p><strong>Progress:</strong> Shop drawing generation system completed (100%)</p>
+                <p><strong>Next Milestone:</strong> Advanced control system integration</p>
+                
+                <h4>Recent Achievements:</h4>
+                <ul>
+                    <li>✅ OpenSCAD parametric 3D model (1800x1200x600mm frame)</li>
+                    <li>✅ Automated shop drawing generation (PDF output: 332KB, 6 pages)</li>
+                    <li>✅ Interactive folder explorer with drill-down capabilities</li>
+                    <li>✅ Comprehensive knowledge management system</li>
+                </ul>
+                
+                <h4>Current Focus:</h4>
+                <ul>
+                    <li>🔄 ROS 2 + MoveIt integration patterns</li>
+                    <li>🔄 Hardware systems integration (Klipper → ROS 2 pipeline)</li>
+                    <li>🔄 Advanced HTML/CSS/JavaScript skill development</li>
+                </ul>
+            </div>
+        </main>
+        
+        <!-- Charts Panel -->
+        <aside class="charts-panel">
+            <div class="chart-container">
+                <h3 class="chart-title">Knowledge Base Growth</h3>
+                <canvas id="knowledgeChart" width="280" height="180"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <h3 class="chart-title">Project Categories</h3>
+                <canvas id="projectChart" width="280" height="180"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <h3 class="chart-title">Engineering Standards</h3>
+                <canvas id="standardsChart" width="280" height="180"></canvas>
+            </div>
+        </aside>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 APM - Advanced Project Management | Enhanced Dashboard v2.0 | 
+               <span id="lastUpdated">Last updated: Loading...</span>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Advanced JavaScript functionality
+        
+        // Theme management with local storage
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('apm-theme', newTheme);
+            
+            const button = document.querySelector('.theme-toggle');
+            button.textContent = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        }
+        
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('apm-theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            const button = document.querySelector('.theme-toggle');
+            button.textContent = savedTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        }
+        
+        // Interactive metric cards
+        function showDetails(category) {
+            const details = document.getElementById('projectDetails');
+            
+            const content = {
+                projects: `
+                    <h3>Active Projects Dashboard</h3>
+                    <p><strong>Total Active:</strong> 23 projects</p>
+                    <p><strong>Completion Rate:</strong> 78% average</p>
+                    <ul>
+                        <li>🏭 Mini Prototype Manufacturing System (95% complete)</li>
+                        <li>🤖 ROS 2 MoveIt Integration (60% complete)</li>
+                        <li>📚 Knowledge Base Enhancement (90% complete)</li>
+                        <li>🔍 Interactive Folder Explorer (100% complete)</li>
+                    </ul>
+                `,
+                knowledge: `
+                    <h3>Knowledge Base Statistics</h3>
+                    <p><strong>Total Files:</strong> 634 files indexed</p>
+                    <p><strong>Categories:</strong> Documentation (109), Tools (101), Configs (17), CAD (3)</p>
+                    <ul>
+                        <li>📄 ROS 2 + MoveIt Integration Lessons</li>
+                        <li>🔧 Hardware Systems Integration KB</li>
+                        <li>🤖 AI Agent Onboarding Patterns</li>
+                        <li>📊 Shop Drawing Generation Lessons</li>
+                    </ul>
+                `,
+                safety: `
+                    <h3>Safety Compliance Overview</h3>
+                    <p><strong>Current Rating:</strong> 98% compliant</p>
+                    <p><strong>Standards:</strong> ISO 13849 Category 3, ASME Y14.5, NFPA, NEC</p>
+                    <ul>
+                        <li>✅ ISO 13849 Category 3 safety system requirements</li>
+                        <li>✅ ASME Y14.5 dimensioning and tolerancing</li>
+                        <li>✅ IEEE TSN networking protocols</li>
+                        <li>⚠️ Minor documentation updates needed</li>
+                    </ul>
+                `,
+                efficiency: `
+                    <h3>Manufacturing Efficiency Analysis</h3>
+                    <p><strong>Current Rating:</strong> 87% efficient</p>
+                    <p><strong>Target:</strong> 95% by end of quarter</p>
+                    <ul>
+                        <li>🎯 Shop drawing generation: 85% success rate</li>
+                        <li>⚡ Process automation: 90% complete</li>
+                        <li>🔄 Workflow optimization opportunities identified</li>
+                        <li>📈 Continuous improvement initiatives active</li>
+                    </ul>
+                `
+            };
+            
+            details.innerHTML = content[category] || details.innerHTML;
+            
+            // Add smooth transition effect
+            details.style.opacity = '0.7';
+            setTimeout(() => {
+                details.style.opacity = '1';
+            }, 150);
+        }
+        
+        // Initialize Charts
+        function initializeCharts() {
+            // Knowledge Base Growth Chart
+            const knowledgeCtx = document.getElementById('knowledgeChart').getContext('2d');
+            new Chart(knowledgeCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Knowledge Files',
+                        data: [245, 289, 334, 445, 567, 634],
+                        borderColor: getComputedStyle(document.documentElement).getPropertyValue('--apm-primary'),
+                        backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--apm-primary') + '20',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+            
+            // Project Categories Pie Chart
+            const projectCtx = document.getElementById('projectChart').getContext('2d');
+            new Chart(projectCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Manufacturing', 'Engineering', 'Knowledge', 'Tools'],
+                    datasets: [{
+                        data: [40, 30, 20, 10],
+                        backgroundColor: [
+                            getComputedStyle(document.documentElement).getPropertyValue('--manufacturing-orange'),
+                            getComputedStyle(document.documentElement).getPropertyValue('--engineering-blue'),
+                            getComputedStyle(document.documentElement).getPropertyValue('--apm-primary'),
+                            getComputedStyle(document.documentElement).getPropertyValue('--apm-accent')
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: { fontSize: 12 }
+                        }
+                    }
+                }
+            });
+            
+            // Standards Compliance Bar Chart
+            const standardsCtx = document.getElementById('standardsChart').getContext('2d');
+            new Chart(standardsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['ISO 13849', 'ASME Y14.5', 'IEEE TSN', 'NFPA'],
+                    datasets: [{
+                        label: 'Compliance %',
+                        data: [98, 95, 92, 96],
+                        backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--apm-success'),
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Search functionality
+        function initializeSearch() {
+            const searchBox = document.getElementById('searchBox');
+            searchBox.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                console.log('Searching APM knowledge for:', query);
+                // TODO: Implement actual search against knowledge database
+                
+                if (query.length > 2) {
+                    // Simulate search results
+                    console.log('Found results for:', query);
+                }
+            });
+        }
+        
+        // Update timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            document.getElementById('lastUpdated').textContent = 
+                `Last updated: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+        }
+        
+        // Navigation interactivity
+        function initializeNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Update main content based on selection
+                    const section = this.textContent.trim();
+                    updateMainContent(section);
+                });
+            });
+        }
+        
+        function updateMainContent(section) {
+            const content = document.getElementById('projectDetails');
+            
+            // Simulate different content for different sections
+            const sectionContent = {
+                'Dashboard': 'Dashboard overview content...',
+                'Manufacturing': 'Manufacturing projects and systems...',
+                'Engineering': 'Engineering documentation and standards...',
+                'Knowledge Base': 'Search and browse APM knowledge...',
+                'Analytics': 'Performance metrics and analytics...',
+                'Settings': 'System configuration and preferences...'
+            };
+            
+            if (sectionContent[section]) {
+                content.innerHTML = `<h3>${section}</h3><p>${sectionContent[section]}</p>`;
+            }
+        }
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
+            initializeCharts();
+            initializeSearch();
+            initializeNavigation();
+            updateTimestamp();
+            
+            // Update timestamp every minute
+            setInterval(updateTimestamp, 60000);
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'k':
+                        e.preventDefault();
+                        document.getElementById('searchBox').focus();
+                        break;
+                    case 'd':
+                        e.preventDefault();
+                        toggleTheme();
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
