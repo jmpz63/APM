@@ -1,0 +1,2869 @@
+{
+  "scan_stats": {
+    "total_files": 634,
+    "knowledge_files": 109,
+    "tools": 101,
+    "configs": 17,
+    "last_scan": "2025-10-04T12:15:00.222538"
+  },
+  "knowledge_db": {
+    "documentation": [
+      {
+        "path": "README.md",
+        "full_path": "/home/arm1/APM/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [],
+        "size": 5421,
+        "modified": "2025-10-04T09:30:17.109204"
+      },
+      {
+        "path": "Business_Intelligence_Demo.md",
+        "full_path": "/home/arm1/APM/Business_Intelligence_Demo.md",
+        "name": "Business_Intelligence_Demo.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "automation",
+          "manufacturing"
+        ],
+        "size": 5806,
+        "modified": "2025-10-04T09:30:17.114204"
+      },
+      {
+        "path": "QUICK_START.md",
+        "full_path": "/home/arm1/APM/QUICK_START.md",
+        "name": "QUICK_START.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "software"
+        ],
+        "size": 3944,
+        "modified": "2025-10-04T09:06:40.898465"
+      },
+      {
+        "path": "00_MASTER_KNOWLEDGE_INDEX.md",
+        "full_path": "/home/arm1/APM/00_MASTER_KNOWLEDGE_INDEX.md",
+        "name": "00_MASTER_KNOWLEDGE_INDEX.md",
+        "type": "documentation",
+        "doc_type": "lessons_learned",
+        "topics": [
+          "automation",
+          "hardware",
+          "safety",
+          "integration",
+          "manufacturing",
+          "software",
+          "visualization",
+          "ros2",
+          "moveit"
+        ],
+        "size": 9684,
+        "modified": "2025-10-04T12:14:06.880794"
+      },
+      {
+        "path": "Core_Capabilities_Scope.md",
+        "full_path": "/home/arm1/APM/Core_Capabilities_Scope.md",
+        "name": "Core_Capabilities_Scope.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "automation",
+          "hardware",
+          "integration",
+          "manufacturing",
+          "software",
+          "klipper",
+          "ros2",
+          "moveit"
+        ],
+        "size": 7876,
+        "modified": "2025-10-04T09:41:30.598689"
+      },
+      {
+        "path": "Phase1_Complete_Summary.md",
+        "full_path": "/home/arm1/APM/Phase1_Complete_Summary.md",
+        "name": "Phase1_Complete_Summary.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "automation",
+          "manufacturing",
+          "klipper",
+          "software"
+        ],
+        "size": 4349,
+        "modified": "2025-10-04T09:20:20.219675"
+      },
+      {
+        "path": "Projects/Active/Klipper_3D_Printer/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Klipper_3D_Printer/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "automation",
+          "hardware",
+          "integration",
+          "manufacturing",
+          "software",
+          "klipper"
+        ],
+        "size": 5741,
+        "modified": "2025-10-04T09:20:20.219675"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "onboarding_guide",
+        "topics": [
+          "automation",
+          "hardware",
+          "integration",
+          "visualization",
+          "software",
+          "klipper",
+          "ros2",
+          "moveit"
+        ],
+        "size": 2413,
+        "modified": "2025-10-04T09:20:20.218675"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/05_Tips_Tricks.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/05_Tips_Tricks.md",
+        "name": "05_Tips_Tricks.md",
+        "type": "documentation",
+        "doc_type": "onboarding_guide",
+        "topics": [
+          "ros2",
+          "klipper",
+          "hardware",
+          "moveit"
+        ],
+        "size": 11620,
+        "modified": "2025-10-04T09:10:59.213793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/01_Project_Manual.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/01_Project_Manual.md",
+        "name": "01_Project_Manual.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "hardware",
+          "integration",
+          "software",
+          "klipper",
+          "ros2",
+          "moveit"
+        ],
+        "size": 31962,
+        "modified": "2025-10-04T09:10:59.213793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/00_Mission.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/00_Mission.txt",
+        "name": "00_Mission.txt",
+        "type": "documentation",
+        "doc_type": "lessons_learned",
+        "topics": [
+          "automation",
+          "hardware",
+          "safety",
+          "integration",
+          "visualization",
+          "software",
+          "klipper",
+          "ros2",
+          "moveit"
+        ],
+        "size": 2304,
+        "modified": "2025-10-04T09:10:59.213793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/02_Progress_Log.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/02_Progress_Log.md",
+        "name": "02_Progress_Log.md",
+        "type": "documentation",
+        "doc_type": "onboarding_guide",
+        "topics": [
+          "automation",
+          "integration",
+          "hardware",
+          "klipper",
+          "moveit"
+        ],
+        "size": 6833,
+        "modified": "2025-10-04T09:10:59.213793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "hardware",
+          "safety",
+          "integration",
+          "software",
+          "klipper",
+          "ros2",
+          "moveit"
+        ],
+        "size": 4471,
+        "modified": "2025-10-04T09:10:59.217793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/HARDWARE_NOTES.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/HARDWARE_NOTES.md",
+        "name": "HARDWARE_NOTES.md",
+        "type": "documentation",
+        "doc_type": "onboarding_guide",
+        "topics": [
+          "klipper",
+          "hardware",
+          "safety",
+          "software"
+        ],
+        "size": 5035,
+        "modified": "2025-10-04T09:10:59.217793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "project_readme",
+        "topics": [
+          "automation",
+          "software"
+        ],
+        "size": 1743,
+        "modified": "2025-10-04T09:10:59.213793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint_datasheet_template.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint_datasheet_template.md",
+        "name": "joint_datasheet_template.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [],
+        "size": 1258,
+        "modified": "2025-10-04T09:10:59.213793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint4/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint4/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "project_readme",
+        "topics": [],
+        "size": 119,
+        "modified": "2025-10-04T09:10:59.217793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint4/joint4.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint4/joint4.md",
+        "name": "joint4.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [],
+        "size": 664,
+        "modified": "2025-10-04T09:10:59.217793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint2/joint2.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint2/joint2.md",
+        "name": "joint2.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [],
+        "size": 1906,
+        "modified": "2025-10-04T09:10:59.217793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint2/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint2/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "project_readme",
+        "topics": [],
+        "size": 236,
+        "modified": "2025-10-04T09:10:59.217793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint5/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint5/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "project_readme",
+        "topics": [],
+        "size": 124,
+        "modified": "2025-10-04T09:10:59.217793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint5/joint5.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint5/joint5.md",
+        "name": "joint5.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [],
+        "size": 670,
+        "modified": "2025-10-04T09:10:59.217793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint3/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint3/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "project_readme",
+        "topics": [],
+        "size": 136,
+        "modified": "2025-10-04T09:10:59.217793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint3/joint3.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint3/joint3.md",
+        "name": "joint3.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [],
+        "size": 792,
+        "modified": "2025-10-04T09:10:59.217793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint1/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint1/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "project_readme",
+        "topics": [],
+        "size": 145,
+        "modified": "2025-10-04T09:10:59.214793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint1/joint1.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint1/joint1.md",
+        "name": "joint1.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "klipper"
+        ],
+        "size": 1463,
+        "modified": "2025-10-04T09:10:59.214793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint6/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint6/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "project_readme",
+        "topics": [],
+        "size": 158,
+        "modified": "2025-10-04T09:10:59.217793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint6/joint6.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint6/joint6.md",
+        "name": "joint6.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "hardware"
+        ],
+        "size": 720,
+        "modified": "2025-10-04T09:10:59.217793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/board/Octopus_Max_EZ.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/board/Octopus_Max_EZ.md",
+        "name": "Octopus_Max_EZ.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "klipper",
+          "software"
+        ],
+        "size": 3536,
+        "modified": "2025-10-04T09:10:59.222793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/board/datasheets/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/board/datasheets/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "project_readme",
+        "topics": [],
+        "size": 577,
+        "modified": "2025-10-04T09:10:59.222793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "ros2",
+          "klipper",
+          "safety"
+        ],
+        "size": 1835,
+        "modified": "2025-10-04T09:10:59.349793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge-0.0.1-py3.10.egg-info/SOURCES.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge-0.0.1-py3.10.egg-info/SOURCES.txt",
+        "name": "SOURCES.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 1284,
+        "modified": "2025-10-04T09:10:59.378793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge-0.0.1-py3.10.egg-info/dependency_links.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge-0.0.1-py3.10.egg-info/dependency_links.txt",
+        "name": "dependency_links.txt",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [],
+        "size": 1,
+        "modified": "2025-10-04T09:10:59.378793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge-0.0.1-py3.10.egg-info/entry_points.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge-0.0.1-py3.10.egg-info/entry_points.txt",
+        "name": "entry_points.txt",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [],
+        "size": 486,
+        "modified": "2025-10-04T09:10:59.378793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge-0.0.1-py3.10.egg-info/requires.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge-0.0.1-py3.10.egg-info/requires.txt",
+        "name": "requires.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 30,
+        "modified": "2025-10-04T09:10:59.378793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge-0.0.1-py3.10.egg-info/top_level.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge-0.0.1-py3.10.egg-info/top_level.txt",
+        "name": "top_level.txt",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [],
+        "size": 24,
+        "modified": "2025-10-04T09:10:59.379793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/moveo_trajectory_bridge.egg-info/SOURCES.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/moveo_trajectory_bridge.egg-info/SOURCES.txt",
+        "name": "SOURCES.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 1284,
+        "modified": "2025-10-04T09:10:59.340793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/moveo_trajectory_bridge.egg-info/dependency_links.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/moveo_trajectory_bridge.egg-info/dependency_links.txt",
+        "name": "dependency_links.txt",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [],
+        "size": 1,
+        "modified": "2025-10-04T09:10:59.339793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/moveo_trajectory_bridge.egg-info/entry_points.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/moveo_trajectory_bridge.egg-info/entry_points.txt",
+        "name": "entry_points.txt",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [],
+        "size": 486,
+        "modified": "2025-10-04T09:10:59.339793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/moveo_trajectory_bridge.egg-info/requires.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/moveo_trajectory_bridge.egg-info/requires.txt",
+        "name": "requires.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 30,
+        "modified": "2025-10-04T09:10:59.340793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/moveo_trajectory_bridge.egg-info/top_level.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/moveo_trajectory_bridge.egg-info/top_level.txt",
+        "name": "top_level.txt",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [],
+        "size": 24,
+        "modified": "2025-10-04T09:10:59.340793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_description/install_manifest.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_description/install_manifest.txt",
+        "name": "install_manifest.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 1548,
+        "modified": "2025-10-04T09:10:59.305793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_description/CMakeCache.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_description/CMakeCache.txt",
+        "name": "CMakeCache.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 18222,
+        "modified": "2025-10-04T09:10:59.304793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_description/CMakeFiles/CMakeRuleHashes.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_description/CMakeFiles/CMakeRuleHashes.txt",
+        "name": "CMakeRuleHashes.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 102,
+        "modified": "2025-10-04T09:10:59.295793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_description/CMakeFiles/TargetDirectories.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_description/CMakeFiles/TargetDirectories.txt",
+        "name": "TargetDirectories.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 722,
+        "modified": "2025-10-04T09:10:59.296793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/install_manifest.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/install_manifest.txt",
+        "name": "install_manifest.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "moveit"
+        ],
+        "size": 2101,
+        "modified": "2025-10-04T09:10:59.338793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/CMakeCache.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/CMakeCache.txt",
+        "name": "CMakeCache.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 18257,
+        "modified": "2025-10-04T09:10:59.336793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/CMakeFiles/CMakeRuleHashes.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/CMakeFiles/CMakeRuleHashes.txt",
+        "name": "CMakeRuleHashes.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 104,
+        "modified": "2025-10-04T09:10:59.322793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/CMakeFiles/TargetDirectories.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/CMakeFiles/TargetDirectories.txt",
+        "name": "TargetDirectories.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 742,
+        "modified": "2025-10-04T09:10:59.322793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "ros2",
+          "klipper",
+          "safety"
+        ],
+        "size": 1835,
+        "modified": "2025-10-04T09:10:59.474792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/datasheets/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/datasheets/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "project_readme",
+        "topics": [
+          "automation",
+          "software"
+        ],
+        "size": 1052,
+        "modified": "2025-10-04T09:10:59.474792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_description/CMakeLists.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_description/CMakeLists.txt",
+        "name": "CMakeLists.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 191,
+        "modified": "2025-10-04T09:10:59.475792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/README.md",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "automation",
+          "hardware",
+          "integration",
+          "software",
+          "klipper",
+          "ros2",
+          "moveit"
+        ],
+        "size": 1622,
+        "modified": "2025-10-04T09:10:59.476792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/CMakeLists.txt",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/CMakeLists.txt",
+        "name": "CMakeLists.txt",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 223,
+        "modified": "2025-10-04T09:10:59.476792"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/Bill_of_Materials.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/Bill_of_Materials.md",
+        "name": "Bill_of_Materials.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "automation",
+          "manufacturing",
+          "hardware"
+        ],
+        "size": 6843,
+        "modified": "2025-10-04T09:55:28.017814"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/Development_Plan.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/Development_Plan.md",
+        "name": "Development_Plan.md",
+        "type": "documentation",
+        "doc_type": "api_documentation",
+        "topics": [
+          "automation",
+          "hardware",
+          "safety",
+          "manufacturing",
+          "klipper",
+          "ros2"
+        ],
+        "size": 11011,
+        "modified": "2025-10-04T09:45:16.355131"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/Design_Validation_Checklist.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/Design_Validation_Checklist.md",
+        "name": "Design_Validation_Checklist.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "automation",
+          "hardware",
+          "safety",
+          "manufacturing",
+          "ros2"
+        ],
+        "size": 7175,
+        "modified": "2025-10-04T10:01:19.437211"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/FINAL_DESIGN_PACKAGE.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/FINAL_DESIGN_PACKAGE.md",
+        "name": "FINAL_DESIGN_PACKAGE.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "automation",
+          "hardware",
+          "safety",
+          "integration",
+          "manufacturing",
+          "ros2"
+        ],
+        "size": 8676,
+        "modified": "2025-10-04T10:01:19.062191"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/procurement_plan.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/procurement_plan.md",
+        "name": "procurement_plan.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "manufacturing",
+          "hardware",
+          "safety"
+        ],
+        "size": 4879,
+        "modified": "2025-10-04T10:01:19.062191"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/working_vs_broken_analysis.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/working_vs_broken_analysis.md",
+        "name": "working_vs_broken_analysis.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "software",
+          "integration"
+        ],
+        "size": 4753,
+        "modified": "2025-10-04T11:03:52.759526"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/AutoLISP_vs_OpenSCAD_Guide.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/AutoLISP_vs_OpenSCAD_Guide.md",
+        "name": "AutoLISP_vs_OpenSCAD_Guide.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "automation",
+          "manufacturing"
+        ],
+        "size": 6213,
+        "modified": "2025-10-04T10:34:30.804324"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/FINAL_SYSTEM_DOCUMENTATION.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/FINAL_SYSTEM_DOCUMENTATION.md",
+        "name": "FINAL_SYSTEM_DOCUMENTATION.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "automation",
+          "manufacturing"
+        ],
+        "size": 4975,
+        "modified": "2025-10-04T11:03:52.759526"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/SUCCESS_SUMMARY.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/SUCCESS_SUMMARY.md",
+        "name": "SUCCESS_SUMMARY.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "automation",
+          "manufacturing",
+          "software"
+        ],
+        "size": 3074,
+        "modified": "2025-10-04T11:03:52.760526"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/NEXT_STEPS_ROADMAP.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/NEXT_STEPS_ROADMAP.md",
+        "name": "NEXT_STEPS_ROADMAP.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "manufacturing",
+          "integration",
+          "hardware"
+        ],
+        "size": 7865,
+        "modified": "2025-10-04T11:39:52.157991"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/QUICK_REFERENCE.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/QUICK_REFERENCE.md",
+        "name": "QUICK_REFERENCE.md",
+        "type": "documentation",
+        "doc_type": "lessons_learned",
+        "topics": [
+          "manufacturing",
+          "software",
+          "integration"
+        ],
+        "size": 3916,
+        "modified": "2025-10-04T11:39:52.157991"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/test_results.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/test_results.md",
+        "name": "test_results.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "manufacturing",
+          "software"
+        ],
+        "size": 3951,
+        "modified": "2025-10-04T10:51:38.230762"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/LESSONS_LEARNED_HTML_VIEWERS.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/LESSONS_LEARNED_HTML_VIEWERS.md",
+        "name": "LESSONS_LEARNED_HTML_VIEWERS.md",
+        "type": "documentation",
+        "doc_type": "lessons_learned",
+        "topics": [
+          "visualization",
+          "software"
+        ],
+        "size": 2796,
+        "modified": "2025-10-04T12:07:08.030328"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/LESSONS_LEARNED.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/LESSONS_LEARNED.md",
+        "name": "LESSONS_LEARNED.md",
+        "type": "documentation",
+        "doc_type": "lessons_learned",
+        "topics": [
+          "manufacturing"
+        ],
+        "size": 22052,
+        "modified": "2025-10-04T11:44:40.037346"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/OpenSCAD_Usage_Guide.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/OpenSCAD_Usage_Guide.md",
+        "name": "OpenSCAD_Usage_Guide.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "automation",
+          "manufacturing"
+        ],
+        "size": 4929,
+        "modified": "2025-10-04T10:34:30.802325"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/KNOWLEDGE_TRANSFER_COMPLETE.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/KNOWLEDGE_TRANSFER_COMPLETE.md",
+        "name": "KNOWLEDGE_TRANSFER_COMPLETE.md",
+        "type": "documentation",
+        "doc_type": "lessons_learned",
+        "topics": [
+          "automation",
+          "manufacturing",
+          "software",
+          "integration"
+        ],
+        "size": 3274,
+        "modified": "2025-10-04T11:39:52.158991"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/3D_to_2D_Shop_Drawings_Guide.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/3D_to_2D_Shop_Drawings_Guide.md",
+        "name": "3D_to_2D_Shop_Drawings_Guide.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "manufacturing",
+          "software"
+        ],
+        "size": 10054,
+        "modified": "2025-10-04T10:41:23.469292"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/Technical_Specs/Shop_Drawings.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/Technical_Specs/Shop_Drawings.md",
+        "name": "Shop_Drawings.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "automation",
+          "manufacturing"
+        ],
+        "size": 17934,
+        "modified": "2025-10-04T10:24:58.844989"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/Technical_Specs/Engineering_Summary.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/Technical_Specs/Engineering_Summary.md",
+        "name": "Engineering_Summary.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "automation",
+          "hardware",
+          "safety",
+          "manufacturing",
+          "ros2"
+        ],
+        "size": 3135,
+        "modified": "2025-10-04T09:55:28.018815"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/Technical_Specs/CAD_Precision_Drawings.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/Technical_Specs/CAD_Precision_Drawings.md",
+        "name": "CAD_Precision_Drawings.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "automation",
+          "manufacturing"
+        ],
+        "size": 9072,
+        "modified": "2025-10-04T10:24:58.844989"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/Technical_Specs/Technical_Drawings.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/Technical_Specs/Technical_Drawings.md",
+        "name": "Technical_Drawings.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "automation",
+          "manufacturing"
+        ],
+        "size": 10796,
+        "modified": "2025-10-04T10:01:19.061190"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/Drawings/generation_status_report.md",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/Drawings/generation_status_report.md",
+        "name": "generation_status_report.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [],
+        "size": 2962,
+        "modified": "2025-10-04T10:56:20.735804"
+      },
+      {
+        "path": "Tools_and_Resources/Templates/project_template.md",
+        "full_path": "/home/arm1/APM/Tools_and_Resources/Templates/project_template.md",
+        "name": "project_template.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "software",
+          "hardware"
+        ],
+        "size": 2527,
+        "modified": "2025-10-04T09:06:40.898465"
+      },
+      {
+        "path": "Tools_and_Resources/Templates/research_paper_template.md",
+        "full_path": "/home/arm1/APM/Tools_and_Resources/Templates/research_paper_template.md",
+        "name": "research_paper_template.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 3265,
+        "modified": "2025-10-04T09:06:40.898465"
+      },
+      {
+        "path": "Business_Intelligence/Web_Intelligence/supplier_intelligence.md",
+        "full_path": "/home/arm1/APM/Business_Intelligence/Web_Intelligence/supplier_intelligence.md",
+        "name": "supplier_intelligence.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "automation",
+          "manufacturing",
+          "software",
+          "hardware"
+        ],
+        "size": 3504,
+        "modified": "2025-10-04T10:01:19.062191"
+      },
+      {
+        "path": "Knowledge_Base/AI_Agent_Onboarding_Patterns.md",
+        "full_path": "/home/arm1/APM/Knowledge_Base/AI_Agent_Onboarding_Patterns.md",
+        "name": "AI_Agent_Onboarding_Patterns.md",
+        "type": "documentation",
+        "doc_type": "lessons_learned",
+        "topics": [
+          "automation",
+          "integration",
+          "hardware"
+        ],
+        "size": 10829,
+        "modified": "2025-10-04T12:13:15.704477"
+      },
+      {
+        "path": "Knowledge_Base/ROS_Robotics/ROS2_Comprehensive_Guide.md",
+        "full_path": "/home/arm1/APM/Knowledge_Base/ROS_Robotics/ROS2_Comprehensive_Guide.md",
+        "name": "ROS2_Comprehensive_Guide.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "automation",
+          "hardware",
+          "safety",
+          "integration",
+          "manufacturing",
+          "software",
+          "ros2",
+          "moveit"
+        ],
+        "size": 25371,
+        "modified": "2025-10-04T09:41:30.602689"
+      },
+      {
+        "path": "Tools/Web_Scraping_Documentation.md",
+        "full_path": "/home/arm1/APM/Tools/Web_Scraping_Documentation.md",
+        "name": "Web_Scraping_Documentation.md",
+        "type": "documentation",
+        "doc_type": "api_documentation",
+        "topics": [
+          "automation",
+          "manufacturing",
+          "software"
+        ],
+        "size": 11640,
+        "modified": "2025-10-04T09:50:14.945320"
+      },
+      {
+        "path": "Tools/CAD_Integration_Tools.md",
+        "full_path": "/home/arm1/APM/Tools/CAD_Integration_Tools.md",
+        "name": "CAD_Integration_Tools.md",
+        "type": "documentation",
+        "doc_type": "api_documentation",
+        "topics": [
+          "manufacturing",
+          "software",
+          "integration"
+        ],
+        "size": 12537,
+        "modified": "2025-10-04T10:30:14.341511"
+      },
+      {
+        "path": "Business/README.md",
+        "full_path": "/home/arm1/APM/Business/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "automation",
+          "manufacturing",
+          "hardware"
+        ],
+        "size": 8200,
+        "modified": "2025-10-04T09:30:17.110204"
+      },
+      {
+        "path": "Business/Marketing_Strategy/Marketing_Plan.md",
+        "full_path": "/home/arm1/APM/Business/Marketing_Strategy/Marketing_Plan.md",
+        "name": "Marketing_Plan.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "manufacturing"
+        ],
+        "size": 18375,
+        "modified": "2025-10-04T09:41:30.600689"
+      },
+      {
+        "path": "Business/Contacts_Network/Contractors/Drywallers/MikeJohnson_PremiumDrywall.md",
+        "full_path": "/home/arm1/APM/Business/Contacts_Network/Contractors/Drywallers/MikeJohnson_PremiumDrywall.md",
+        "name": "MikeJohnson_PremiumDrywall.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 3633,
+        "modified": "2025-10-04T09:30:17.113204"
+      },
+      {
+        "path": "Business/Contacts_Network/Contractors/Painters/SarahMartinez_PrecisionPaint.md",
+        "full_path": "/home/arm1/APM/Business/Contacts_Network/Contractors/Painters/SarahMartinez_PrecisionPaint.md",
+        "name": "SarahMartinez_PrecisionPaint.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [],
+        "size": 3793,
+        "modified": "2025-10-04T09:30:17.113204"
+      },
+      {
+        "path": "Business/Templates_Documents/contact_database_template.md",
+        "full_path": "/home/arm1/APM/Business/Templates_Documents/contact_database_template.md",
+        "name": "contact_database_template.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [],
+        "size": 2985,
+        "modified": "2025-10-04T09:30:17.110204"
+      },
+      {
+        "path": "Business/Templates_Documents/drywall_bid_template.md",
+        "full_path": "/home/arm1/APM/Business/Templates_Documents/drywall_bid_template.md",
+        "name": "drywall_bid_template.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 5687,
+        "modified": "2025-10-04T09:30:17.111204"
+      },
+      {
+        "path": "Business/Startup_Ideas/Premanufactured_Wall_Panels/Business_Plan.md",
+        "full_path": "/home/arm1/APM/Business/Startup_Ideas/Premanufactured_Wall_Panels/Business_Plan.md",
+        "name": "Business_Plan.md",
+        "type": "documentation",
+        "doc_type": "api_documentation",
+        "topics": [
+          "ros2",
+          "manufacturing",
+          "hardware",
+          "automation"
+        ],
+        "size": 12141,
+        "modified": "2025-10-04T09:41:30.599689"
+      },
+      {
+        "path": "Business/Management_Operations/Management_Framework.md",
+        "full_path": "/home/arm1/APM/Business/Management_Operations/Management_Framework.md",
+        "name": "Management_Framework.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "automation",
+          "manufacturing",
+          "software",
+          "integration"
+        ],
+        "size": 13117,
+        "modified": "2025-10-04T09:41:30.599689"
+      },
+      {
+        "path": "Engineering/README.md",
+        "full_path": "/home/arm1/APM/Engineering/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "automation",
+          "hardware",
+          "manufacturing",
+          "software",
+          "klipper",
+          "ros2"
+        ],
+        "size": 1126,
+        "modified": "2025-10-04T09:00:28.404987"
+      },
+      {
+        "path": "Engineering/Hardware_Systems_Integration_KB.md",
+        "full_path": "/home/arm1/APM/Engineering/Hardware_Systems_Integration_KB.md",
+        "name": "Hardware_Systems_Integration_KB.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "hardware",
+          "safety",
+          "integration",
+          "klipper",
+          "ros2",
+          "moveit"
+        ],
+        "size": 9587,
+        "modified": "2025-10-04T12:13:15.701477"
+      },
+      {
+        "path": "Engineering/Mechanical/README.md",
+        "full_path": "/home/arm1/APM/Engineering/Mechanical/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "manufacturing"
+        ],
+        "size": 645,
+        "modified": "2025-10-04T09:00:30.448935"
+      },
+      {
+        "path": "Engineering/Computer_Science/README.md",
+        "full_path": "/home/arm1/APM/Engineering/Computer_Science/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "project_readme",
+        "topics": [
+          "hardware",
+          "manufacturing",
+          "software",
+          "klipper",
+          "ros2"
+        ],
+        "size": 977,
+        "modified": "2025-10-04T09:00:36.613774"
+      },
+      {
+        "path": "Engineering/Computer_Science/ROS2_MoveIt_Integration_Lessons.md",
+        "full_path": "/home/arm1/APM/Engineering/Computer_Science/ROS2_MoveIt_Integration_Lessons.md",
+        "name": "ROS2_MoveIt_Integration_Lessons.md",
+        "type": "documentation",
+        "doc_type": "lessons_learned",
+        "topics": [
+          "automation",
+          "hardware",
+          "integration",
+          "klipper",
+          "ros2",
+          "moveit"
+        ],
+        "size": 5997,
+        "modified": "2025-10-04T12:13:15.701477"
+      },
+      {
+        "path": "Engineering/Civil/README.md",
+        "full_path": "/home/arm1/APM/Engineering/Civil/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "safety"
+        ],
+        "size": 710,
+        "modified": "2025-10-04T09:00:34.570827"
+      },
+      {
+        "path": "Engineering/Electrical/README.md",
+        "full_path": "/home/arm1/APM/Engineering/Electrical/README.md",
+        "name": "README.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "manufacturing",
+          "software",
+          "hardware"
+        ],
+        "size": 714,
+        "modified": "2025-10-04T09:00:32.530880"
+      },
+      {
+        "path": "_ADMIN/todo.md",
+        "full_path": "/home/arm1/APM/_ADMIN/todo.md",
+        "name": "todo.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "automation",
+          "hardware",
+          "manufacturing",
+          "software",
+          "klipper"
+        ],
+        "size": 3378,
+        "modified": "2025-10-04T09:20:20.218675"
+      },
+      {
+        "path": "_ADMIN/population_strategy.md",
+        "full_path": "/home/arm1/APM/_ADMIN/population_strategy.md",
+        "name": "population_strategy.md",
+        "type": "documentation",
+        "doc_type": "lessons_learned",
+        "topics": [
+          "automation",
+          "hardware",
+          "manufacturing",
+          "software",
+          "klipper",
+          "ros2",
+          "moveit"
+        ],
+        "size": 6942,
+        "modified": "2025-10-04T09:10:33.387852"
+      },
+      {
+        "path": "_ADMIN/maintenance_log.md",
+        "full_path": "/home/arm1/APM/_ADMIN/maintenance_log.md",
+        "name": "maintenance_log.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [],
+        "size": 4404,
+        "modified": "2025-10-04T09:06:40.896465"
+      },
+      {
+        "path": "_ADMIN/ai_handoff_notes.md",
+        "full_path": "/home/arm1/APM/_ADMIN/ai_handoff_notes.md",
+        "name": "ai_handoff_notes.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "automation",
+          "hardware",
+          "manufacturing",
+          "klipper",
+          "ros2"
+        ],
+        "size": 3798,
+        "modified": "2025-10-04T09:06:40.896465"
+      },
+      {
+        "path": "_ADMIN/changelog.md",
+        "full_path": "/home/arm1/APM/_ADMIN/changelog.md",
+        "name": "changelog.md",
+        "type": "documentation",
+        "doc_type": "installation_guide",
+        "topics": [
+          "software",
+          "hardware"
+        ],
+        "size": 1643,
+        "modified": "2025-10-04T09:06:40.895465"
+      },
+      {
+        "path": "Standards/Standards_Master_Index.md",
+        "full_path": "/home/arm1/APM/Standards/Standards_Master_Index.md",
+        "name": "Standards_Master_Index.md",
+        "type": "documentation",
+        "doc_type": "knowledge_index",
+        "topics": [
+          "automation",
+          "integration",
+          "hardware",
+          "safety",
+          "software"
+        ],
+        "size": 4987,
+        "modified": "2025-10-04T10:19:54.350333"
+      },
+      {
+        "path": "Standards/Safety_Standards/ISO_13849_Functional_Safety.md",
+        "full_path": "/home/arm1/APM/Standards/Safety_Standards/ISO_13849_Functional_Safety.md",
+        "name": "ISO_13849_Functional_Safety.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "automation",
+          "integration",
+          "hardware",
+          "safety",
+          "software"
+        ],
+        "size": 5792,
+        "modified": "2025-10-04T10:19:54.349333"
+      },
+      {
+        "path": "Standards/IEEE_Standards/IEEE_Automation_Networking.md",
+        "full_path": "/home/arm1/APM/Standards/IEEE_Standards/IEEE_Automation_Networking.md",
+        "name": "IEEE_Automation_Networking.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "automation",
+          "hardware",
+          "safety"
+        ],
+        "size": 11036,
+        "modified": "2025-10-04T10:19:54.352333"
+      },
+      {
+        "path": "Standards/ISA_Standards/ISA_Process_Control.md",
+        "full_path": "/home/arm1/APM/Standards/ISA_Standards/ISA_Process_Control.md",
+        "name": "ISA_Process_Control.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "automation",
+          "integration",
+          "hardware",
+          "safety",
+          "manufacturing"
+        ],
+        "size": 14782,
+        "modified": "2025-10-04T10:19:54.354333"
+      },
+      {
+        "path": "Standards/ASME_Standards/ASME_Manufacturing_Standards.md",
+        "full_path": "/home/arm1/APM/Standards/ASME_Standards/ASME_Manufacturing_Standards.md",
+        "name": "ASME_Manufacturing_Standards.md",
+        "type": "documentation",
+        "doc_type": "technical_documentation",
+        "topics": [
+          "automation",
+          "manufacturing",
+          "safety"
+        ],
+        "size": 7094,
+        "modified": "2025-10-04T10:19:54.352333"
+      },
+      {
+        "path": "Standards/Networking_Standards/EtherCAT_Advanced_Control.md",
+        "full_path": "/home/arm1/APM/Standards/Networking_Standards/EtherCAT_Advanced_Control.md",
+        "name": "EtherCAT_Advanced_Control.md",
+        "type": "documentation",
+        "doc_type": "architecture_documentation",
+        "topics": [
+          "ros2",
+          "automation",
+          "hardware",
+          "safety"
+        ],
+        "size": 10765,
+        "modified": "2025-10-04T10:19:54.350333"
+      }
+    ],
+    "tool": [
+      {
+        "path": "open_3d_model.sh",
+        "full_path": "/home/arm1/APM/open_3d_model.sh",
+        "name": "open_3d_model.sh",
+        "type": "tool",
+        "purpose": "!/bin/bash",
+        "features": [],
+        "executable": true,
+        "language": "bash",
+        "size": 366,
+        "modified": "2025-10-04T10:33:42.881195"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/simple_joint_commands.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/simple_joint_commands.sh",
+        "name": "simple_joint_commands.sh",
+        "type": "tool",
+        "purpose": "!/bin/bash",
+        "features": [],
+        "executable": true,
+        "language": "bash",
+        "size": 4923,
+        "modified": "2025-10-04T09:10:59.222793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/test_execution_feedback.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/test_execution_feedback.py",
+        "name": "test_execution_feedback.py",
+        "type": "tool",
+        "purpose": "Test script to verify improved FollowJointTrajectory execution with proper feedback.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 3761,
+        "modified": "2025-10-04T09:10:59.222793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/precise_joint_control.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/precise_joint_control.py",
+        "name": "precise_joint_control.py",
+        "type": "tool",
+        "purpose": "Precise MoveIt Control Examples - Fine-Tuned Joint Control",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 5587,
+        "modified": "2025-10-04T09:10:59.222793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/working_moveit_control.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/working_moveit_control.py",
+        "name": "working_moveit_control.py",
+        "type": "tool",
+        "purpose": "Working MoveIt Commands - Simplified Version",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 3356,
+        "modified": "2025-10-04T09:10:59.222793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/_local_setup_util_sh.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/_local_setup_util_sh.py",
+        "name": "_local_setup_util_sh.py",
+        "type": "tool",
+        "purpose": "Copyright 2016-2019 Dirk Thomas",
+        "features": [
+          "command_line_interface"
+        ],
+        "executable": false,
+        "language": "python",
+        "size": 15024,
+        "modified": "2025-10-04T09:10:59.394793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/setup.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/setup.sh",
+        "name": "setup.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/prefix_chain.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 1911,
+        "modified": "2025-10-04T09:10:59.394793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/_local_setup_util_ps1.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/_local_setup_util_ps1.py",
+        "name": "_local_setup_util_ps1.py",
+        "type": "tool",
+        "purpose": "Copyright 2016-2019 Dirk Thomas",
+        "features": [
+          "command_line_interface"
+        ],
+        "executable": false,
+        "language": "python",
+        "size": 14856,
+        "modified": "2025-10-04T09:10:59.393793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/setup.bash",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/setup.bash",
+        "name": "setup.bash",
+        "type": "tool",
+        "purpose": "generated from colcon_bash/shell/template/prefix_chain.bash.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 1140,
+        "modified": "2025-10-04T09:10:59.394793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/local_setup.bash",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/local_setup.bash",
+        "name": "local_setup.bash",
+        "type": "tool",
+        "purpose": "generated from colcon_bash/shell/template/prefix.bash.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 3777,
+        "modified": "2025-10-04T09:10:59.394793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/local_setup.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/local_setup.sh",
+        "name": "local_setup.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/prefix.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 4355,
+        "modified": "2025-10-04T09:10:59.394793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/package.bash",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/package.bash",
+        "name": "package.bash",
+        "type": "tool",
+        "purpose": "generated from colcon_bash/shell/template/package.bash.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 1085,
+        "modified": "2025-10-04T09:10:59.349793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/package.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/package.sh",
+        "name": "package.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/package.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 2994,
+        "modified": "2025-10-04T09:10:59.349793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/launch/fjt_adapter.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/launch/fjt_adapter.launch.py",
+        "name": "fjt_adapter.launch.py",
+        "type": "tool",
+        "purpose": "!/usr/bin/env python3",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 1439,
+        "modified": "2025-10-04T09:10:59.349793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/launch/trajectory_bridge.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/launch/trajectory_bridge.launch.py",
+        "name": "trajectory_bridge.launch.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 834,
+        "modified": "2025-10-04T09:10:59.347793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/launch/joint1_bridge_only.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/launch/joint1_bridge_only.launch.py",
+        "name": "joint1_bridge_only.launch.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 1360,
+        "modified": "2025-10-04T09:10:59.347793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/launch/joint1_with_feedback.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/launch/joint1_with_feedback.launch.py",
+        "name": "joint1_with_feedback.launch.py",
+        "type": "tool",
+        "purpose": "!/usr/bin/env python3",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 2708,
+        "modified": "2025-10-04T09:10:59.347793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/launch/moveit_display_relay.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/launch/moveit_display_relay.launch.py",
+        "name": "moveit_display_relay.launch.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 756,
+        "modified": "2025-10-04T09:10:59.347793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/launch/joint1_manual_stepper_demo.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/launch/joint1_manual_stepper_demo.launch.py",
+        "name": "joint1_manual_stepper_demo.launch.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 1886,
+        "modified": "2025-10-04T09:10:59.347793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/hook/cmake_prefix_path.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/hook/cmake_prefix_path.sh",
+        "name": "cmake_prefix_path.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/hook_prepend_value.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 142,
+        "modified": "2025-10-04T09:10:59.346793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/hook/ament_prefix_path.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/hook/ament_prefix_path.sh",
+        "name": "ament_prefix_path.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/hook_prepend_value.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 142,
+        "modified": "2025-10-04T09:10:59.346793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/hook/pythonpath.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/hook/pythonpath.sh",
+        "name": "pythonpath.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/hook_prepend_value.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 164,
+        "modified": "2025-10-04T09:10:59.347793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_description/package.bash",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_description/package.bash",
+        "name": "package.bash",
+        "type": "tool",
+        "purpose": "generated from colcon_bash/shell/template/package.bash.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 1079,
+        "modified": "2025-10-04T09:10:59.357793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_description/package.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_description/package.sh",
+        "name": "package.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/package.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 3197,
+        "modified": "2025-10-04T09:10:59.357793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_description/local_setup.bash",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_description/local_setup.bash",
+        "name": "local_setup.bash",
+        "type": "tool",
+        "purpose": "generated from ament_package/template/package_level/local_setup.bash.in",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 1594,
+        "modified": "2025-10-04T09:10:59.352793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_description/local_setup.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_description/local_setup.sh",
+        "name": "local_setup.sh",
+        "type": "tool",
+        "purpose": "generated from ament_package/template/package_level/local_setup.sh.in",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 5018,
+        "modified": "2025-10-04T09:10:59.353793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_description/launch/view_model.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_description/launch/view_model.launch.py",
+        "name": "view_model.launch.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 740,
+        "modified": "2025-10-04T09:10:59.350793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_description/environment/ament_prefix_path.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_description/environment/ament_prefix_path.sh",
+        "name": "ament_prefix_path.sh",
+        "type": "tool",
+        "purpose": "copied from",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 160,
+        "modified": "2025-10-04T09:10:59.350793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_description/environment/path.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_description/environment/path.sh",
+        "name": "path.sh",
+        "type": "tool",
+        "purpose": "copied from ament_cmake_core/cmake/environment_hooks/environment/path.sh",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 185,
+        "modified": "2025-10-04T09:10:59.350793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_description/hook/cmake_prefix_path.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_description/hook/cmake_prefix_path.sh",
+        "name": "cmake_prefix_path.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/hook_prepend_value.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 142,
+        "modified": "2025-10-04T09:10:59.356793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_description/hook/pkg_config_path.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_description/hook/pkg_config_path.sh",
+        "name": "pkg_config_path.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/hook_prepend_value.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 154,
+        "modified": "2025-10-04T09:10:59.355793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_description/hook/ros_package_path.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_description/hook/ros_package_path.sh",
+        "name": "ros_package_path.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/hook_prepend_value.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 147,
+        "modified": "2025-10-04T09:10:59.355793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_description/hook/pythonpath.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_description/hook/pythonpath.sh",
+        "name": "pythonpath.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/hook_prepend_value.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 164,
+        "modified": "2025-10-04T09:10:59.357793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_description/hook/pkg_config_path_multiarch.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_description/hook/pkg_config_path_multiarch.sh",
+        "name": "pkg_config_path_multiarch.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/hook_prepend_value.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 171,
+        "modified": "2025-10-04T09:10:59.356793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/package.bash",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/package.bash",
+        "name": "package.bash",
+        "type": "tool",
+        "purpose": "generated from colcon_bash/shell/template/package.bash.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 1388,
+        "modified": "2025-10-04T09:10:59.374793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/package.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/package.sh",
+        "name": "package.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/package.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 2971,
+        "modified": "2025-10-04T09:10:59.374793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/local_setup.bash",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/local_setup.bash",
+        "name": "local_setup.bash",
+        "type": "tool",
+        "purpose": "generated from ament_package/template/package_level/local_setup.bash.in",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 1594,
+        "modified": "2025-10-04T09:10:59.365793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/local_setup.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/local_setup.sh",
+        "name": "local_setup.sh",
+        "type": "tool",
+        "purpose": "generated from ament_package/template/package_level/local_setup.sh.in",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 5022,
+        "modified": "2025-10-04T09:10:59.367793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/launch/demo.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/launch/demo.launch.py",
+        "name": "demo.launch.py",
+        "type": "tool",
+        "purpose": "!/usr/bin/env python3",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 3435,
+        "modified": "2025-10-04T09:10:59.364793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/environment/ament_prefix_path.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/environment/ament_prefix_path.sh",
+        "name": "ament_prefix_path.sh",
+        "type": "tool",
+        "purpose": "copied from",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 160,
+        "modified": "2025-10-04T09:10:59.365793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/environment/path.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/environment/path.sh",
+        "name": "path.sh",
+        "type": "tool",
+        "purpose": "copied from ament_cmake_core/cmake/environment_hooks/environment/path.sh",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 185,
+        "modified": "2025-10-04T09:10:59.365793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/hook/cmake_prefix_path.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/hook/cmake_prefix_path.sh",
+        "name": "cmake_prefix_path.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/hook_prepend_value.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 142,
+        "modified": "2025-10-04T09:10:59.373793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/hook/pythonpath.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/hook/pythonpath.sh",
+        "name": "pythonpath.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/hook_prepend_value.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 164,
+        "modified": "2025-10-04T09:10:59.374793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/__init__.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/__init__.py",
+        "name": "__init__.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 0,
+        "modified": "2025-10-04T09:10:59.379793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/joint_state_shim.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/joint_state_shim.py",
+        "name": "joint_state_shim.py",
+        "type": "tool",
+        "purpose": "Publishes joint_states by mirroring the most recent JointTrajectory point.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 2251,
+        "modified": "2025-10-04T09:10:59.381793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/moveit_display_relay.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/moveit_display_relay.py",
+        "name": "moveit_display_relay.py",
+        "type": "tool",
+        "purpose": "Relay MoveIt's DisplayTrajectory planned path to a plain JointTrajectory topic.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 4714,
+        "modified": "2025-10-04T09:10:59.381793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/trajectory_bridge.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/trajectory_bridge.py",
+        "name": "trajectory_bridge.py",
+        "type": "tool",
+        "purpose": "Baseline stable JointTrajectory -> Klipper G-code bridge.",
+        "features": [
+          "data_processing"
+        ],
+        "executable": false,
+        "language": "python",
+        "size": 23097,
+        "modified": "2025-10-04T09:10:59.382793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/dummy_publisher.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/dummy_publisher.py",
+        "name": "dummy_publisher.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 3206,
+        "modified": "2025-10-04T09:10:59.383793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/joint1_test_publisher.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/joint1_test_publisher.py",
+        "name": "joint1_test_publisher.py",
+        "type": "tool",
+        "purpose": "Publishes a simple trajectory exercising Joint1 only.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 2849,
+        "modified": "2025-10-04T09:10:59.384793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/fjt_adapter.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/fjt_adapter.py",
+        "name": "fjt_adapter.py",
+        "type": "tool",
+        "purpose": "FollowJointTrajectory -> JointTrajectory topic adapter.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 7149,
+        "modified": "2025-10-04T09:10:59.379793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/joint1_ratio_check.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/lib/python3.10/site-packages/moveo_trajectory_bridge/joint1_ratio_check.py",
+        "name": "joint1_ratio_check.py",
+        "type": "tool",
+        "purpose": "Publishes a single 36\u00b0 (or configurable) move for Joint1 to verify 1 motor rev.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 2348,
+        "modified": "2025-10-04T09:10:59.384793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/colcon_command_prefix_setup_py.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/colcon_command_prefix_setup_py.sh",
+        "name": "colcon_command_prefix_setup_py.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/command_prefix.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 65,
+        "modified": "2025-10-04T09:10:59.339793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/__init__.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/__init__.py",
+        "name": "__init__.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 0,
+        "modified": "2025-10-04T09:10:59.340793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/joint_state_shim.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/joint_state_shim.py",
+        "name": "joint_state_shim.py",
+        "type": "tool",
+        "purpose": "Publishes joint_states by mirroring the most recent JointTrajectory point.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 2251,
+        "modified": "2025-10-04T09:10:59.340793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/moveit_display_relay.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/moveit_display_relay.py",
+        "name": "moveit_display_relay.py",
+        "type": "tool",
+        "purpose": "Relay MoveIt's DisplayTrajectory planned path to a plain JointTrajectory topic.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 4714,
+        "modified": "2025-10-04T09:10:59.340793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/trajectory_bridge.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/trajectory_bridge.py",
+        "name": "trajectory_bridge.py",
+        "type": "tool",
+        "purpose": "Baseline stable JointTrajectory -> Klipper G-code bridge.",
+        "features": [
+          "data_processing"
+        ],
+        "executable": false,
+        "language": "python",
+        "size": 23097,
+        "modified": "2025-10-04T09:10:59.340793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/dummy_publisher.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/dummy_publisher.py",
+        "name": "dummy_publisher.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 3206,
+        "modified": "2025-10-04T09:10:59.341793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/joint1_test_publisher.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/joint1_test_publisher.py",
+        "name": "joint1_test_publisher.py",
+        "type": "tool",
+        "purpose": "Publishes a simple trajectory exercising Joint1 only.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 2849,
+        "modified": "2025-10-04T09:10:59.341793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/fjt_adapter.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/fjt_adapter.py",
+        "name": "fjt_adapter.py",
+        "type": "tool",
+        "purpose": "FollowJointTrajectory -> JointTrajectory topic adapter.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 7149,
+        "modified": "2025-10-04T09:10:59.340793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/joint1_ratio_check.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/build/lib/moveo_trajectory_bridge/joint1_ratio_check.py",
+        "name": "joint1_ratio_check.py",
+        "type": "tool",
+        "purpose": "Publishes a single 36\u00b0 (or configurable) move for Joint1 to verify 1 motor rev.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 2348,
+        "modified": "2025-10-04T09:10:59.341793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/prefix_override/sitecustomize.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_trajectory_bridge/prefix_override/sitecustomize.py",
+        "name": "sitecustomize.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 141,
+        "modified": "2025-10-04T09:10:59.339793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_description/colcon_command_prefix_build.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_description/colcon_command_prefix_build.sh",
+        "name": "colcon_command_prefix_build.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/command_prefix.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 65,
+        "modified": "2025-10-04T09:10:59.280793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_description/ament_cmake_environment_hooks/local_setup.bash",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_description/ament_cmake_environment_hooks/local_setup.bash",
+        "name": "local_setup.bash",
+        "type": "tool",
+        "purpose": "generated from ament_package/template/package_level/local_setup.bash.in",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 1594,
+        "modified": "2025-10-04T09:10:59.304793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_description/ament_cmake_environment_hooks/local_setup.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_description/ament_cmake_environment_hooks/local_setup.sh",
+        "name": "local_setup.sh",
+        "type": "tool",
+        "purpose": "generated from ament_package/template/package_level/local_setup.sh.in",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 5018,
+        "modified": "2025-10-04T09:10:59.304793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/colcon_command_prefix_build.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/colcon_command_prefix_build.sh",
+        "name": "colcon_command_prefix_build.sh",
+        "type": "tool",
+        "purpose": "generated from colcon_core/shell/template/command_prefix.sh.em",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 65,
+        "modified": "2025-10-04T09:10:59.306793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/ament_cmake_environment_hooks/local_setup.bash",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/ament_cmake_environment_hooks/local_setup.bash",
+        "name": "local_setup.bash",
+        "type": "tool",
+        "purpose": "generated from ament_package/template/package_level/local_setup.bash.in",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 1594,
+        "modified": "2025-10-04T09:10:59.332793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/ament_cmake_environment_hooks/local_setup.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/ament_cmake_environment_hooks/local_setup.sh",
+        "name": "local_setup.sh",
+        "type": "tool",
+        "purpose": "generated from ament_package/template/package_level/local_setup.sh.in",
+        "features": [],
+        "executable": false,
+        "language": "bash",
+        "size": 5022,
+        "modified": "2025-10-04T09:10:59.333793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/setup.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/setup.py",
+        "name": "setup.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 1696,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/__init__.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/__init__.py",
+        "name": "__init__.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 0,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/joint_state_shim.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/joint_state_shim.py",
+        "name": "joint_state_shim.py",
+        "type": "tool",
+        "purpose": "Publishes joint_states by mirroring the most recent JointTrajectory point.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 2251,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/moveit_display_relay.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/moveit_display_relay.py",
+        "name": "moveit_display_relay.py",
+        "type": "tool",
+        "purpose": "Relay MoveIt's DisplayTrajectory planned path to a plain JointTrajectory topic.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 4714,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/trajectory_bridge.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/trajectory_bridge.py",
+        "name": "trajectory_bridge.py",
+        "type": "tool",
+        "purpose": "Baseline stable JointTrajectory -> Klipper G-code bridge.",
+        "features": [
+          "data_processing"
+        ],
+        "executable": false,
+        "language": "python",
+        "size": 23097,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/dummy_publisher.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/dummy_publisher.py",
+        "name": "dummy_publisher.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 3206,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/joint1_test_publisher.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/joint1_test_publisher.py",
+        "name": "joint1_test_publisher.py",
+        "type": "tool",
+        "purpose": "Publishes a simple trajectory exercising Joint1 only.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 2849,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/fjt_adapter.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/fjt_adapter.py",
+        "name": "fjt_adapter.py",
+        "type": "tool",
+        "purpose": "FollowJointTrajectory -> JointTrajectory topic adapter.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 7149,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/joint1_ratio_check.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/moveo_trajectory_bridge/joint1_ratio_check.py",
+        "name": "joint1_ratio_check.py",
+        "type": "tool",
+        "purpose": "Publishes a single 36\u00b0 (or configurable) move for Joint1 to verify 1 motor rev.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 2348,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/launch/fjt_adapter.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/launch/fjt_adapter.launch.py",
+        "name": "fjt_adapter.launch.py",
+        "type": "tool",
+        "purpose": "!/usr/bin/env python3",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 1439,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/launch/trajectory_bridge.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/launch/trajectory_bridge.launch.py",
+        "name": "trajectory_bridge.launch.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 834,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/launch/joint1_bridge_only.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/launch/joint1_bridge_only.launch.py",
+        "name": "joint1_bridge_only.launch.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 1360,
+        "modified": "2025-10-04T09:10:59.474792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/launch/joint1_with_feedback.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/launch/joint1_with_feedback.launch.py",
+        "name": "joint1_with_feedback.launch.py",
+        "type": "tool",
+        "purpose": "!/usr/bin/env python3",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 2708,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/launch/moveit_display_relay.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/launch/moveit_display_relay.launch.py",
+        "name": "moveit_display_relay.launch.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 756,
+        "modified": "2025-10-04T09:10:59.474792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/launch/joint1_manual_stepper_demo.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/launch/joint1_manual_stepper_demo.launch.py",
+        "name": "joint1_manual_stepper_demo.launch.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 1886,
+        "modified": "2025-10-04T09:10:59.474792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/test/test_pep257.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/test/test_pep257.py",
+        "name": "test_pep257.py",
+        "type": "tool",
+        "purpose": "Copyright 2015 Open Source Robotics Foundation, Inc.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 803,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/test/test_copyright.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/test/test_copyright.py",
+        "name": "test_copyright.py",
+        "type": "tool",
+        "purpose": "Copyright 2015 Open Source Robotics Foundation, Inc.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 962,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/test/test_flake8.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/test/test_flake8.py",
+        "name": "test_flake8.py",
+        "type": "tool",
+        "purpose": "Copyright 2017 Open Source Robotics Foundation, Inc.",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 884,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_description/launch/view_model.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_description/launch/view_model.launch.py",
+        "name": "view_model.launch.py",
+        "type": "tool",
+        "purpose": "Unknown purpose",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 740,
+        "modified": "2025-10-04T09:10:59.475792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/launch/demo.launch.py",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/launch/demo.launch.py",
+        "name": "demo.launch.py",
+        "type": "tool",
+        "purpose": "!/usr/bin/env python3",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 3435,
+        "modified": "2025-10-04T09:10:59.475792"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/install_openscad.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/install_openscad.sh",
+        "name": "install_openscad.sh",
+        "type": "tool",
+        "purpose": "!/bin/bash",
+        "features": [],
+        "executable": true,
+        "language": "bash",
+        "size": 2750,
+        "modified": "2025-10-04T10:34:30.805324"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/fusion360_generator.py",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/fusion360_generator.py",
+        "name": "fusion360_generator.py",
+        "type": "tool",
+        "purpose": "Fusion 360 Python API Script - Mini Prototype Generator",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 12305,
+        "modified": "2025-10-04T10:30:14.341511"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/fixed_shop_drawings.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/fixed_shop_drawings.sh",
+        "name": "fixed_shop_drawings.sh",
+        "type": "tool",
+        "purpose": "!/bin/bash",
+        "features": [],
+        "executable": true,
+        "language": "bash",
+        "size": 19152,
+        "modified": "2025-10-04T11:03:52.758526"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/apm_analyzer.py",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/apm_analyzer.py",
+        "name": "apm_analyzer.py",
+        "type": "tool",
+        "purpose": "APM Folder Size Visualizer - Simple Bar Graph Generator",
+        "features": [
+          "data_visualization",
+          "system_integration"
+        ],
+        "executable": false,
+        "language": "python",
+        "size": 5929,
+        "modified": "2025-10-04T12:02:31.307591"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/engineering_generator.py",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/engineering_generator.py",
+        "name": "engineering_generator.py",
+        "type": "tool",
+        "purpose": "Mini Wall Panel Manufacturing Prototype - Complete Engineering Package",
+        "features": [
+          "data_processing"
+        ],
+        "executable": false,
+        "language": "python",
+        "size": 19976,
+        "modified": "2025-10-04T10:01:19.061190"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/generate_charts.py",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/generate_charts.py",
+        "name": "generate_charts.py",
+        "type": "tool",
+        "purpose": "Advanced Chart Generation System for APM Engineering Projects",
+        "features": [
+          "data_visualization",
+          "data_processing"
+        ],
+        "executable": false,
+        "language": "python",
+        "size": 9061,
+        "modified": "2025-10-04T12:00:07.084101"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/interactive_explorer.py",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/interactive_explorer.py",
+        "name": "interactive_explorer.py",
+        "type": "tool",
+        "purpose": "Interactive Drill-Down Folder Explorer",
+        "features": [
+          "data_visualization",
+          "web_server",
+          "system_integration",
+          "data_processing"
+        ],
+        "executable": false,
+        "language": "python",
+        "size": 16925,
+        "modified": "2025-10-04T12:07:08.030328"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/prototype_designer.py",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/prototype_designer.py",
+        "name": "prototype_designer.py",
+        "type": "tool",
+        "purpose": "Mini Wall Panel Manufacturing Prototype - CAD Design",
+        "features": [
+          "data_processing"
+        ],
+        "executable": false,
+        "language": "python",
+        "size": 15191,
+        "modified": "2025-10-04T10:01:19.060190"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/reliable_shop_drawings.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/reliable_shop_drawings.sh",
+        "name": "reliable_shop_drawings.sh",
+        "type": "tool",
+        "purpose": "!/bin/bash",
+        "features": [],
+        "executable": true,
+        "language": "bash",
+        "size": 11738,
+        "modified": "2025-10-04T10:47:55.020803"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/analyze_workspace.py",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/analyze_workspace.py",
+        "name": "analyze_workspace.py",
+        "type": "tool",
+        "purpose": "Directory Size Visualization Tool for APM Workspace",
+        "features": [
+          "data_visualization",
+          "system_integration",
+          "data_processing"
+        ],
+        "executable": false,
+        "language": "python",
+        "size": 11839,
+        "modified": "2025-10-04T12:00:07.084101"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/Drawings/view_drawings.sh",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/Drawings/view_drawings.sh",
+        "name": "view_drawings.sh",
+        "type": "tool",
+        "purpose": "!/bin/bash",
+        "features": [],
+        "executable": true,
+        "language": "bash",
+        "size": 902,
+        "modified": "2025-10-04T10:49:30.908858"
+      },
+      {
+        "path": "Tools_and_Resources/Scripts/apm_business_ai.py",
+        "full_path": "/home/arm1/APM/Tools_and_Resources/Scripts/apm_business_ai.py",
+        "name": "apm_business_ai.py",
+        "type": "tool",
+        "purpose": "APM Business Intelligence Automation System",
+        "features": [
+          "data_processing"
+        ],
+        "executable": true,
+        "language": "python",
+        "size": 8429,
+        "modified": "2025-10-04T09:30:17.111204"
+      },
+      {
+        "path": "Tools/knowledge_indexer.py",
+        "full_path": "/home/arm1/APM/Tools/knowledge_indexer.py",
+        "name": "knowledge_indexer.py",
+        "type": "tool",
+        "purpose": "APM Knowledge Base Auto-Indexer",
+        "features": [
+          "data_processing"
+        ],
+        "executable": false,
+        "language": "python",
+        "size": 13672,
+        "modified": "2025-10-04T12:14:55.168833"
+      },
+      {
+        "path": "Tools/web_scraping_automation.py",
+        "full_path": "/home/arm1/APM/Tools/web_scraping_automation.py",
+        "name": "web_scraping_automation.py",
+        "type": "tool",
+        "purpose": "Design the 4'x6' aluminum extrusion frame",
+        "features": [],
+        "executable": false,
+        "language": "python",
+        "size": 7971,
+        "modified": "2025-10-04T09:45:16.358131"
+      }
+    ],
+    "configuration": [
+      {
+        "path": "Projects/Active/moveo_bridge_ws/printer.cfg",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/printer.cfg",
+        "name": "printer.cfg",
+        "type": "configuration",
+        "format": "cfg",
+        "size": 36176,
+        "modified": "2025-10-04T09:10:59.222793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/03_Lessons_Learned.json",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/03_Lessons_Learned.json",
+        "name": "03_Lessons_Learned.json",
+        "type": "configuration",
+        "format": "json",
+        "size": 4118,
+        "modified": "2025-10-04T09:10:59.213793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint1/Klipper_J1_template.cfg",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint1/Klipper_J1_template.cfg",
+        "name": "Klipper_J1_template.cfg",
+        "type": "configuration",
+        "format": "cfg",
+        "size": 1419,
+        "modified": "2025-10-04T09:10:59.215793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/config/controllers.yaml",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/config/controllers.yaml",
+        "name": "controllers.yaml",
+        "type": "configuration",
+        "format": "yaml",
+        "size": 378,
+        "modified": "2025-10-04T09:10:59.363793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/config/ompl_planning.yaml",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/config/ompl_planning.yaml",
+        "name": "ompl_planning.yaml",
+        "type": "configuration",
+        "format": "yaml",
+        "size": 212,
+        "modified": "2025-10-04T09:10:59.363793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/config/allowed_collision_matrix.yaml",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/config/allowed_collision_matrix.yaml",
+        "name": "allowed_collision_matrix.yaml",
+        "type": "configuration",
+        "format": "yaml",
+        "size": 63,
+        "modified": "2025-10-04T09:10:59.363793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/config/kinematics.yaml",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/config/kinematics.yaml",
+        "name": "kinematics.yaml",
+        "type": "configuration",
+        "format": "yaml",
+        "size": 154,
+        "modified": "2025-10-04T09:10:59.363793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/config/joint_limits.yaml",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/install/share/moveo_moveit_config/config/joint_limits.yaml",
+        "name": "joint_limits.yaml",
+        "type": "configuration",
+        "format": "yaml",
+        "size": 863,
+        "modified": "2025-10-04T09:10:59.364793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_description/CTestConfiguration.ini",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_description/CTestConfiguration.ini",
+        "name": "CTestConfiguration.ini",
+        "type": "configuration",
+        "format": "ini",
+        "size": 2354,
+        "modified": "2025-10-04T09:10:59.303793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/CTestConfiguration.ini",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/build/moveo_moveit_config/CTestConfiguration.ini",
+        "name": "CTestConfiguration.ini",
+        "type": "configuration",
+        "format": "ini",
+        "size": 2360,
+        "modified": "2025-10-04T09:10:59.327793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/setup.cfg",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/setup.cfg",
+        "name": "setup.cfg",
+        "type": "configuration",
+        "format": "cfg",
+        "size": 115,
+        "modified": "2025-10-04T09:10:59.465792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/config/controllers.yaml",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/config/controllers.yaml",
+        "name": "controllers.yaml",
+        "type": "configuration",
+        "format": "yaml",
+        "size": 378,
+        "modified": "2025-10-04T09:10:59.475792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/config/ompl_planning.yaml",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/config/ompl_planning.yaml",
+        "name": "ompl_planning.yaml",
+        "type": "configuration",
+        "format": "yaml",
+        "size": 212,
+        "modified": "2025-10-04T09:10:59.475792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/config/allowed_collision_matrix.yaml",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/config/allowed_collision_matrix.yaml",
+        "name": "allowed_collision_matrix.yaml",
+        "type": "configuration",
+        "format": "yaml",
+        "size": 63,
+        "modified": "2025-10-04T09:10:59.475792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/config/kinematics.yaml",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/config/kinematics.yaml",
+        "name": "kinematics.yaml",
+        "type": "configuration",
+        "format": "yaml",
+        "size": 154,
+        "modified": "2025-10-04T09:10:59.475792"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/config/joint_limits.yaml",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/config/joint_limits.yaml",
+        "name": "joint_limits.yaml",
+        "type": "configuration",
+        "format": "yaml",
+        "size": 863,
+        "modified": "2025-10-04T09:10:59.475792"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/Technical_Specs/System_Specifications.json",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/Technical_Specs/System_Specifications.json",
+        "name": "System_Specifications.json",
+        "type": "configuration",
+        "format": "json",
+        "size": 2035,
+        "modified": "2025-10-04T09:55:28.017814"
+      }
+    ],
+    "cad": [
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint2/23HS32-4004S.STEP",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint2/23HS32-4004S.STEP",
+        "name": "23HS32-4004S.STEP",
+        "type": "cad",
+        "format": "STEP",
+        "size": 1471129,
+        "modified": "2025-10-04T09:10:59.216793"
+      },
+      {
+        "path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint1/17HS24-0644S.STEP",
+        "full_path": "/home/arm1/APM/Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint1/17HS24-0644S.STEP",
+        "name": "17HS24-0644S.STEP",
+        "type": "cad",
+        "format": "STEP",
+        "size": 1178237,
+        "modified": "2025-10-04T09:10:59.214793"
+      },
+      {
+        "path": "Projects/Active/Mini_Prototype/CAD/mini_prototype_model.scad",
+        "full_path": "/home/arm1/APM/Projects/Active/Mini_Prototype/CAD/mini_prototype_model.scad",
+        "name": "mini_prototype_model.scad",
+        "type": "cad",
+        "format": "SCAD",
+        "size": 8612,
+        "modified": "2025-10-04T10:44:08.964582"
+      }
+    ]
+  },
+  "generated": "2025-10-04T12:15:00.398979"
+}
