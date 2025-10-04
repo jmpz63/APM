@@ -22,8 +22,8 @@ The **APM (Artificial Project Manager) Knowledge Base** is your centralized, AI-
 
 ### 🚨 **FIRST ACTION REQUIRED:**
 ```python
-# Import and use EVERY TIME you create/modify knowledge:
-from _ADMIN.ai_agent_helper import notify_new_document, ensure_compliance
+# Import the new unified interface (UPDATED SYSTEM):
+from _ADMIN.ai_agent_interface import notify_new_document, ensure_compliance
 
 # After ANY knowledge creation/modification:
 notify_new_document("path/to/file.md", "description", "priority")
@@ -39,14 +39,13 @@ ensure_compliance()  # This triggers: Learn → Document → Index → Push
 
 ### 🔧 **Workflow Commands:**
 ```bash
-# Interactive workflow menu
+# New unified system commands:
+python3 _ADMIN/ai_agent_interface.py status     # Check system status
+python3 _ADMIN/ai_agent_interface.py integrate  # Auto-integrate changes
+python3 _ADMIN/apm_unified_system.py --mode auto # Full workflow
+
+# Legacy menu (still works):
 bash _ADMIN/workflow.sh
-
-# Check compliance status  
-python3 _ADMIN/ai_agent_helper.py status
-
-# Auto-integrate pending changes
-python3 _ADMIN/ai_agent_helper.py integrate
 ```
 
 ## ⚡ Common Tasks
