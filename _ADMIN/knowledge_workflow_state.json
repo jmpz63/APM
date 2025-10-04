@@ -1,0 +1,1927 @@
+{
+  "last_scan_timestamp": 1759607667.622003,
+  "file_checksums": {
+    "Knowledge_Base/universal_robots_6dof_ros_analysis.md": {
+      "checksum": "570e704ccb02a74532a00669863b27af",
+      "timestamp": 1759605413.810707,
+      "size": 16299
+    },
+    "Knowledge_Base/Cognitive_Architecture_Framework.md": {
+      "checksum": "19bb3f26d9c69d30d8ea6ced2a53b1b3",
+      "timestamp": 1759602160.1164174,
+      "size": 16119
+    },
+    "Knowledge_Base/KNOWLEDGE_EXPANSION_INDEX.md": {
+      "checksum": "1b2b810686497691662598f63fdb5946",
+      "timestamp": 1759606676.028455,
+      "size": 2559
+    },
+    "Knowledge_Base/AI_Agent_Onboarding_Patterns.md": {
+      "checksum": "fd56ab60263a2f3117ea90ff656a7b83",
+      "timestamp": 1759597995.704477,
+      "size": 10829
+    },
+    "Knowledge_Base/stm32_klipper_octopus_tft35_analysis.md": {
+      "checksum": "deb9611013b3f873c0b4b30a280073d7",
+      "timestamp": 1759605862.2780738,
+      "size": 24342
+    },
+    "Knowledge_Base/Case_Studies/bcn3d_moveo_firmware_analysis.md": {
+      "checksum": "f215761226b47e49a0c368b649b6f155",
+      "timestamp": 1759604518.832854,
+      "size": 12016
+    },
+    "Knowledge_Base/Case_Studies/ros_arduino_vs_klipper_comparison.md": {
+      "checksum": "8fe652cc161c48db316aa8ef5adcfa75",
+      "timestamp": 1759604780.6036954,
+      "size": 9282
+    },
+    "Knowledge_Base/Case_Studies/moveo_apm_integration_framework.md": {
+      "checksum": "09af42fbe6421e4a10c99e50abc09883",
+      "timestamp": 1759604518.832854,
+      "size": 16336
+    },
+    "Knowledge_Base/Case_Studies/moveo_ros_technical_analysis.md": {
+      "checksum": "58de1511b482d07828999cda30a7d72f",
+      "timestamp": 1759604518.831854,
+      "size": 8920
+    },
+    "Knowledge_Base/Case_Studies/moveo_robotics_ecosystem_analysis.md": {
+      "checksum": "84ac9bedbab06101f6cca4514795ad81",
+      "timestamp": 1759604518.8308542,
+      "size": 8136
+    },
+    "Knowledge_Base/ROS_Robotics/ROS2_Comprehensive_Guide.md": {
+      "checksum": "ca4e1cb1a25dab4697c908067bc54b96",
+      "timestamp": 1759588890.6026886,
+      "size": 25371
+    },
+    "Projects/Advanced_Project_Management_Framework.md": {
+      "checksum": "b359fdddb19295bb6be040c81b1ca79a",
+      "timestamp": 1759602160.1184173,
+      "size": 18021
+    },
+    "Projects/Active/Klipper_3D_Printer/README.md": {
+      "checksum": "94baf63bd14ec3cbdc7fed1c41fae8b9",
+      "timestamp": 1759587620.2196753,
+      "size": 5741
+    },
+    "Projects/Active/moveo_bridge_ws/README.md": {
+      "checksum": "5e003b56c158cb7662adffc34297d9b6",
+      "timestamp": 1759587620.2186754,
+      "size": 2413
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/05_Tips_Tricks.md": {
+      "checksum": "145edd61978ca5e9af3e1eb558f6fd08",
+      "timestamp": 1759587059.2137933,
+      "size": 11620
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/01_Project_Manual.md": {
+      "checksum": "e098849829ea503109123bacd86f1e45",
+      "timestamp": 1759587059.2137933,
+      "size": 31962
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/02_Progress_Log.md": {
+      "checksum": "aeb20d9a9c54972597d7db21736cc1ed",
+      "timestamp": 1759587059.2137933,
+      "size": 6833
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/README.md": {
+      "checksum": "cedb09f315dc96d290b46a3994e63b7f",
+      "timestamp": 1759587059.2177932,
+      "size": 4471
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/HARDWARE_NOTES.md": {
+      "checksum": "ebafe0677f767a1fb25080986e6df197",
+      "timestamp": 1759587059.2177932,
+      "size": 5035
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/README.md": {
+      "checksum": "e86209127b11e26c393321bd97a123e5",
+      "timestamp": 1759587059.2137933,
+      "size": 1743
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint_datasheet_template.md": {
+      "checksum": "40fbab6bc95b42ef3254a9651dfaabed",
+      "timestamp": 1759587059.2137933,
+      "size": 1258
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint4/README.md": {
+      "checksum": "673bd5cd332e0689c77b71193748f0a6",
+      "timestamp": 1759587059.2177932,
+      "size": 119
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint4/joint4.md": {
+      "checksum": "c151e49df22b30c4e6cfbb5b1f2a2b00",
+      "timestamp": 1759587059.2177932,
+      "size": 664
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint2/joint2.md": {
+      "checksum": "4a85368b084d59a850395182b28c8a33",
+      "timestamp": 1759587059.2177932,
+      "size": 1906
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint2/README.md": {
+      "checksum": "10a3d592b8b1585ea1ab5c5161ff3b7c",
+      "timestamp": 1759587059.2177932,
+      "size": 236
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint5/README.md": {
+      "checksum": "26723d212ad82f93c967d474cb3c19ca",
+      "timestamp": 1759587059.2177932,
+      "size": 124
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint5/joint5.md": {
+      "checksum": "ad65e1964b9cea8ddf4c9adfbfcc42ae",
+      "timestamp": 1759587059.2177932,
+      "size": 670
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint3/README.md": {
+      "checksum": "6b59d67be3a9d962c07434b21fc56efe",
+      "timestamp": 1759587059.2177932,
+      "size": 136
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint3/joint3.md": {
+      "checksum": "d06779febbb90126798e6d54a653843f",
+      "timestamp": 1759587059.2177932,
+      "size": 792
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint1/README.md": {
+      "checksum": "5be5352d0bbb4a284fd740e2cbd6d98d",
+      "timestamp": 1759587059.2147932,
+      "size": 145
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint1/joint1.md": {
+      "checksum": "aa45d0041e11ccd7cf03ebc78db4a7e8",
+      "timestamp": 1759587059.2147932,
+      "size": 1463
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint6/README.md": {
+      "checksum": "c1e4a99e1565a609943439e74d775283",
+      "timestamp": 1759587059.2177932,
+      "size": 158
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint6/joint6.md": {
+      "checksum": "738ceb87ef29968fc9cb8dbdbb944195",
+      "timestamp": 1759587059.2177932,
+      "size": 720
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/board/Octopus_Max_EZ.md": {
+      "checksum": "153ffcb0b24785a7f432fa8fd58923ca",
+      "timestamp": 1759587059.222793,
+      "size": 3536
+    },
+    "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/board/datasheets/README.md": {
+      "checksum": "f7ca14b89828eeaecc0079165155cf47",
+      "timestamp": 1759587059.222793,
+      "size": 577
+    },
+    "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/README.md": {
+      "checksum": "4fe478a99853afb8732533be81f69bb4",
+      "timestamp": 1759587059.3497927,
+      "size": 1835
+    },
+    "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/README.md": {
+      "checksum": "4fe478a99853afb8732533be81f69bb4",
+      "timestamp": 1759587059.4747925,
+      "size": 1835
+    },
+    "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/datasheets/README.md": {
+      "checksum": "60c31d6ea33f66553ffc30f8ef9ee31b",
+      "timestamp": 1759587059.4747925,
+      "size": 1052
+    },
+    "Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/README.md": {
+      "checksum": "ffc0a97be17af7124c1320c0fd5e2fc6",
+      "timestamp": 1759587059.4767923,
+      "size": 1622
+    },
+    "Projects/Active/Mini_Prototype/Bill_of_Materials.md": {
+      "checksum": "62cc6c0d54b6e94e126ed8652d8d2080",
+      "timestamp": 1759589728.0178144,
+      "size": 6843
+    },
+    "Projects/Active/Mini_Prototype/Development_Plan.md": {
+      "checksum": "0d019ef2bf151e22eb580382749f0ce8",
+      "timestamp": 1759589116.3551314,
+      "size": 11011
+    },
+    "Projects/Active/Mini_Prototype/Design_Validation_Checklist.md": {
+      "checksum": "beaba2b63a4fd3b4695e7b016873d669",
+      "timestamp": 1759590079.437211,
+      "size": 7175
+    },
+    "Projects/Active/Mini_Prototype/FINAL_DESIGN_PACKAGE.md": {
+      "checksum": "eb40a897b6db47c58cb0fa1b34740fe6",
+      "timestamp": 1759590079.0621905,
+      "size": 8676
+    },
+    "Projects/Active/Mini_Prototype/procurement_plan.md": {
+      "checksum": "8c14064aa05ff34ed596d2142710becb",
+      "timestamp": 1759590079.0621905,
+      "size": 4879
+    },
+    "Projects/Active/Mini_Prototype/CAD/working_vs_broken_analysis.md": {
+      "checksum": "6d117c05f48af418a2257953a22742d5",
+      "timestamp": 1759593832.759526,
+      "size": 4753
+    },
+    "Projects/Active/Mini_Prototype/CAD/AutoLISP_vs_OpenSCAD_Guide.md": {
+      "checksum": "541ffff09581c2d24a67cdac7a9c3763",
+      "timestamp": 1759592070.8043244,
+      "size": 6213
+    },
+    "Projects/Active/Mini_Prototype/CAD/FINAL_SYSTEM_DOCUMENTATION.md": {
+      "checksum": "dddd4bcc0810b0c887d811b20952d8dc",
+      "timestamp": 1759593832.759526,
+      "size": 4975
+    },
+    "Projects/Active/Mini_Prototype/CAD/SUCCESS_SUMMARY.md": {
+      "checksum": "43cf0e0a3ffde6347bf831e970c7e03c",
+      "timestamp": 1759593832.7605262,
+      "size": 3074
+    },
+    "Projects/Active/Mini_Prototype/CAD/NEXT_STEPS_ROADMAP.md": {
+      "checksum": "fef3ace18a27116a0dd40e7ed132f80f",
+      "timestamp": 1759595992.1579912,
+      "size": 7865
+    },
+    "Projects/Active/Mini_Prototype/CAD/QUICK_REFERENCE.md": {
+      "checksum": "f32179111704dc8efb851bd225438ba0",
+      "timestamp": 1759595992.1579912,
+      "size": 3916
+    },
+    "Projects/Active/Mini_Prototype/CAD/test_results.md": {
+      "checksum": "afef139b004728c580e47bb924229988",
+      "timestamp": 1759593098.2307622,
+      "size": 3951
+    },
+    "Projects/Active/Mini_Prototype/CAD/LESSONS_LEARNED_HTML_VIEWERS.md": {
+      "checksum": "cea7d2308b52907793db7c3c35bd337c",
+      "timestamp": 1759597628.0303276,
+      "size": 2796
+    },
+    "Projects/Active/Mini_Prototype/CAD/LESSONS_LEARNED.md": {
+      "checksum": "ab766d19910c358648acad56f4f3cbbf",
+      "timestamp": 1759596280.0373456,
+      "size": 22052
+    },
+    "Projects/Active/Mini_Prototype/CAD/OpenSCAD_Usage_Guide.md": {
+      "checksum": "e0aa914451cd7ca6155acc9d903cad75",
+      "timestamp": 1759592070.8023245,
+      "size": 4929
+    },
+    "Projects/Active/Mini_Prototype/CAD/KNOWLEDGE_TRANSFER_COMPLETE.md": {
+      "checksum": "3b7a2f9e211c9155628bab65968af7ba",
+      "timestamp": 1759595992.1589913,
+      "size": 3274
+    },
+    "Projects/Active/Mini_Prototype/CAD/3D_to_2D_Shop_Drawings_Guide.md": {
+      "checksum": "1e9d43dc4e0c78d58abd8a6b6927e3cd",
+      "timestamp": 1759592483.4692924,
+      "size": 10054
+    },
+    "Projects/Active/Mini_Prototype/Technical_Specs/Shop_Drawings.md": {
+      "checksum": "36195f5222e3f1b8bb07479129bf9101",
+      "timestamp": 1759591498.844989,
+      "size": 17934
+    },
+    "Projects/Active/Mini_Prototype/Technical_Specs/Engineering_Summary.md": {
+      "checksum": "8be42863e6b25b21697f4287dbf3258d",
+      "timestamp": 1759589728.0188146,
+      "size": 3135
+    },
+    "Projects/Active/Mini_Prototype/Technical_Specs/CAD_Precision_Drawings.md": {
+      "checksum": "49de0ba821846295f5eb07156b789970",
+      "timestamp": 1759591498.844989,
+      "size": 9072
+    },
+    "Projects/Active/Mini_Prototype/Technical_Specs/Technical_Drawings.md": {
+      "checksum": "45c36f5f0de1e047a23d42a30b5d8169",
+      "timestamp": 1759590079.0611904,
+      "size": 10796
+    },
+    "Projects/Active/Mini_Prototype/Drawings/generation_status_report.md": {
+      "checksum": "135bbaabc799ea24c5e3454f62ca6416",
+      "timestamp": 1759593380.7358038,
+      "size": 2962
+    },
+    "Research/Advanced_Research_Innovation_Lab.md": {
+      "checksum": "39bbd9cf8030bcb6e3d0b96754d363a9",
+      "timestamp": 1759602160.1194172,
+      "size": 23114
+    },
+    "Learning/HTML_CSS_JS_Skill_Development.md": {
+      "checksum": "c7bcfef2d9ce36ee7a4705c19a55b508",
+      "timestamp": 1759598726.3420072,
+      "size": 12611
+    },
+    "Learning/HTML_CSS_JS/ROS_Web_HMI_Setup_Guide.md": {
+      "checksum": "ba4bacf75b456325d195c1e6b6959abe",
+      "timestamp": 1759601358.4792187,
+      "size": 12000
+    },
+    "Learning/HTML_CSS_JS/QUICK_REFERENCE.md": {
+      "checksum": "0b2dd9231966b60c4378b28ae821d996",
+      "timestamp": 1759601358.4802186,
+      "size": 1468
+    },
+    "Learning/HTML_CSS_JS/Exercise_Summary_Oct_4_2025.md": {
+      "checksum": "226a5292ee0f2b68d5c1e4068a1ee0eb",
+      "timestamp": 1759601358.4812186,
+      "size": 5958
+    }
+  },
+  "knowledge_items": [
+    {
+      "file_path": "Knowledge_Base/universal_robots_6dof_ros_analysis.md",
+      "word_count": 1846,
+      "line_count": 454,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "architecture",
+        "6dof",
+        "core",
+        "universal",
+        "executive",
+        "components",
+        "hierarchy",
+        "summary",
+        "robots",
+        "mathematical"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.419104+00:00"
+    },
+    {
+      "file_path": "Knowledge_Base/Cognitive_Architecture_Framework.md",
+      "word_count": 913,
+      "line_count": 404,
+      "categories": [
+        "robotics",
+        "software",
+        "analysis",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "architecture",
+        "knowledge",
+        "graph",
+        "cognitive",
+        "apm"
+      ],
+      "integration_priority": "medium",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.421363+00:00"
+    },
+    {
+      "file_path": "Knowledge_Base/KNOWLEDGE_EXPANSION_INDEX.md",
+      "word_count": 271,
+      "line_count": 69,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "analysis",
+        "documentation",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "recent",
+        "knowledge",
+        "future",
+        "pdfs",
+        "expansion",
+        "apm",
+        "documents"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.421694+00:00"
+    },
+    {
+      "file_path": "Knowledge_Base/AI_Agent_Onboarding_Patterns.md",
+      "word_count": 1223,
+      "line_count": 283,
+      "categories": [
+        "robotics",
+        "software",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "agent",
+        "patterns",
+        "productivity",
+        "design",
+        "onboarding",
+        "success",
+        "target"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.422818+00:00"
+    },
+    {
+      "file_path": "Knowledge_Base/stm32_klipper_octopus_tft35_analysis.md",
+      "word_count": 2753,
+      "line_count": 762,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "stm32h723ze",
+        "microcontroller",
+        "stm32",
+        "architecture",
+        "octopus",
+        "hardware",
+        "executive",
+        "max",
+        "klipper",
+        "bigtreetech"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.424917+00:00"
+    },
+    {
+      "file_path": "Knowledge_Base/Case_Studies/bcn3d_moveo_firmware_analysis.md",
+      "word_count": 1321,
+      "line_count": 380,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "analysis",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "arc",
+        "core",
+        "motion",
+        "advanced",
+        "control",
+        "bcn3d",
+        "coordinate",
+        "firmware",
+        "moveo",
+        "overview"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.425759+00:00"
+    },
+    {
+      "file_path": "Knowledge_Base/Case_Studies/ros_arduino_vs_klipper_comparison.md",
+      "word_count": 1079,
+      "line_count": 236,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "analysis",
+        "documentation",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "architecture",
+        "comparison",
+        "advanced",
+        "executive",
+        "bridge",
+        "klipper",
+        "summary",
+        "trajectory"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.426507+00:00"
+    },
+    {
+      "file_path": "Knowledge_Base/Case_Studies/moveo_apm_integration_framework.md",
+      "word_count": 1319,
+      "line_count": 397,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "computer",
+        "architecture",
+        "motion",
+        "robotics",
+        "executive",
+        "vision",
+        "summary",
+        "enhanced",
+        "moveo",
+        "integration"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.427371+00:00"
+    },
+    {
+      "file_path": "Knowledge_Base/Case_Studies/moveo_ros_technical_analysis.md",
+      "word_count": 913,
+      "line_count": 302,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "analysis",
+        "documentation",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "architecture",
+        "planning",
+        "core",
+        "motion",
+        "components",
+        "control",
+        "system",
+        "moveo",
+        "overview",
+        "ros"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.427837+00:00"
+    },
+    {
+      "file_path": "Knowledge_Base/Case_Studies/moveo_robotics_ecosystem_analysis.md",
+      "word_count": 1002,
+      "line_count": 203,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "analysis",
+        "documentation",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "architecture",
+        "analysis",
+        "ecosystem",
+        "robotics",
+        "executive",
+        "summary",
+        "repository",
+        "firmware",
+        "moveo",
+        "stars"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.428349+00:00"
+    },
+    {
+      "file_path": "Knowledge_Base/ROS_Robotics/ROS2_Comprehensive_Guide.md",
+      "word_count": 2150,
+      "line_count": 711,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "purpose",
+        "robotics",
+        "application",
+        "ros2",
+        "scope",
+        "concepts",
+        "package"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.429385+00:00"
+    },
+    {
+      "file_path": "Projects/Advanced_Project_Management_Framework.md",
+      "word_count": 951,
+      "line_count": 438,
+      "categories": [
+        "robotics",
+        "software",
+        "analysis",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "project",
+        "intelligence",
+        "health",
+        "advanced",
+        "portfolio",
+        "apm",
+        "integration"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.430395+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Klipper_3D_Printer/README.md",
+      "word_count": 773,
+      "line_count": 181,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "frame",
+        "project",
+        "model",
+        "mcu",
+        "objective",
+        "drivers",
+        "klipper",
+        "priority",
+        "communication",
+        "key"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.430862+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/README.md",
+      "word_count": 298,
+      "line_count": 72,
+      "categories": [
+        "robotics",
+        "software",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "phase",
+        "setup",
+        "status",
+        "arm",
+        "robotic",
+        "priority",
+        "quick",
+        "progress",
+        "prerequisites",
+        "start"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.431167+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/05_Tips_Tricks.md",
+      "word_count": 1351,
+      "line_count": 331,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "documentation",
+        "integration"
+      ],
+      "key_topics": [
+        "web",
+        "setup",
+        "headless",
+        "tips",
+        "moveit",
+        "control",
+        "expected",
+        "quick",
+        "tricks",
+        "problem"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.431967+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/01_Project_Manual.md",
+      "word_count": 4188,
+      "line_count": 745,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "current",
+        "capability",
+        "baseline",
+        "hardware",
+        "system",
+        "fresh",
+        "status",
+        "snapshot",
+        "ros"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.433882+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/02_Progress_Log.md",
+      "word_count": 1146,
+      "line_count": 78,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "implementation",
+        "blueprint",
+        "note",
+        "where",
+        "alignment",
+        "progress",
+        "are",
+        "log"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.434461+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/README.md",
+      "word_count": 494,
+      "line_count": 100,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "documentation",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "flow",
+        "data",
+        "moonraker",
+        "hardware",
+        "directory",
+        "spec",
+        "klipper",
+        "contents",
+        "joint",
+        "workflow"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.434872+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/HARDWARE_NOTES.md",
+      "word_count": 567,
+      "line_count": 73,
+      "categories": [
+        "robotics",
+        "hardware",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "arm",
+        "hardware",
+        "global",
+        "quick",
+        "summary",
+        "instructions",
+        "joint",
+        "controller",
+        "moveo",
+        "table"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.435271+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/README.md",
+      "word_count": 237,
+      "line_count": 48,
+      "categories": [
+        "robotics",
+        "hardware",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "automation",
+        "parameter",
+        "future",
+        "datasheets",
+        "key",
+        "joint",
+        "workflow",
+        "structure",
+        "contribution",
+        "set"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.435529+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint_datasheet_template.md",
+      "word_count": 190,
+      "line_count": 41,
+      "categories": [
+        "robotics",
+        "hardware",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "source",
+        "specs",
+        "core",
+        "assets",
+        "thermal",
+        "transmission",
+        "reliability",
+        "details",
+        "joint",
+        "datasheet"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.435728+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint4/README.md",
+      "word_count": 15,
+      "line_count": 6,
+      "categories": [
+        "robotics"
+      ],
+      "key_topics": [
+        "datasheets",
+        "joint"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.435829+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint4/joint4.md",
+      "word_count": 98,
+      "line_count": 21,
+      "categories": [
+        "robotics",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "specs",
+        "core",
+        "notes",
+        "joint",
+        "datasheet"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.435968+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint2/joint2.md",
+      "word_count": 256,
+      "line_count": 37,
+      "categories": [
+        "robotics",
+        "hardware",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "data",
+        "specs",
+        "synchronization",
+        "dual",
+        "core",
+        "pending",
+        "torque",
+        "motor",
+        "load",
+        "joint"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.436188+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint2/README.md",
+      "word_count": 29,
+      "line_count": 8,
+      "categories": [
+        "robotics"
+      ],
+      "key_topics": [
+        "datasheets",
+        "joint"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.436287+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint5/README.md",
+      "word_count": 17,
+      "line_count": 6,
+      "categories": [
+        "robotics"
+      ],
+      "key_topics": [
+        "datasheets",
+        "joint"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.436379+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint5/joint5.md",
+      "word_count": 98,
+      "line_count": 21,
+      "categories": [
+        "robotics",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "specs",
+        "core",
+        "notes",
+        "joint",
+        "datasheet"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.436514+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint3/README.md",
+      "word_count": 17,
+      "line_count": 6,
+      "categories": [
+        "robotics"
+      ],
+      "key_topics": [
+        "datasheets",
+        "joint"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.436605+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint3/joint3.md",
+      "word_count": 117,
+      "line_count": 25,
+      "categories": [
+        "robotics",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "specs",
+        "core",
+        "pending",
+        "notes",
+        "joint",
+        "datasheet",
+        "measurements"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.436747+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint1/README.md",
+      "word_count": 20,
+      "line_count": 6,
+      "categories": [
+        "robotics"
+      ],
+      "key_topics": [
+        "datasheets",
+        "joint"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.436848+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint1/joint1.md",
+      "word_count": 201,
+      "line_count": 32,
+      "categories": [
+        "robotics",
+        "hardware",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "specs",
+        "extracted",
+        "core",
+        "pending",
+        "notes",
+        "joint",
+        "datasheet",
+        "measurements"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.437112+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint6/README.md",
+      "word_count": 20,
+      "line_count": 6,
+      "categories": [
+        "robotics"
+      ],
+      "key_topics": [
+        "datasheets",
+        "joint"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.437210+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint6/joint6.md",
+      "word_count": 107,
+      "line_count": 21,
+      "categories": [
+        "robotics",
+        "hardware",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "specs",
+        "core",
+        "notes",
+        "joint",
+        "datasheet"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.437358+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/board/Octopus_Max_EZ.md",
+      "word_count": 515,
+      "line_count": 98,
+      "categories": [
+        "robotics",
+        "hardware",
+        "documentation",
+        "integration"
+      ],
+      "key_topics": [
+        "specs",
+        "fan0",
+        "procedure",
+        "octopus",
+        "core",
+        "max",
+        "fan",
+        "bigtreetech",
+        "mosfet",
+        "key"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.437690+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/Onboarding/04_Hardware_Firmware_Network_Architecture/board/datasheets/README.md",
+      "word_count": 69,
+      "line_count": 16,
+      "categories": [
+        "documentation"
+      ],
+      "key_topics": [
+        "files",
+        "board",
+        "notes",
+        "datasheets",
+        "future",
+        "acquisition"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.437828+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/install/share/moveo_trajectory_bridge/README.md",
+      "word_count": 264,
+      "line_count": 43,
+      "categories": [
+        "robotics",
+        "integration"
+      ],
+      "key_topics": [
+        "launch",
+        "todo",
+        "roadmap",
+        "bridge",
+        "parameters",
+        "configuration",
+        "features",
+        "moveo",
+        "trajectory"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.438034+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/README.md",
+      "word_count": 264,
+      "line_count": 43,
+      "categories": [
+        "robotics",
+        "integration"
+      ],
+      "key_topics": [
+        "launch",
+        "todo",
+        "roadmap",
+        "bridge",
+        "parameters",
+        "configuration",
+        "features",
+        "moveo",
+        "trajectory"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.439164+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/src/moveo_trajectory_bridge/datasheets/README.md",
+      "word_count": 133,
+      "line_count": 28,
+      "categories": [
+        "robotics",
+        "integration"
+      ],
+      "key_topics": [
+        "optional",
+        "files",
+        "automation",
+        "mechanical",
+        "future",
+        "datasheets",
+        "workflow",
+        "supplemental"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.439370+00:00"
+    },
+    {
+      "file_path": "Projects/Active/moveo_bridge_ws/src/moveo_moveit_config/README.md",
+      "word_count": 212,
+      "line_count": 33,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "documentation",
+        "ai_ml",
+        "integration"
+      ],
+      "key_topics": [
+        "steps",
+        "usage",
+        "dual",
+        "motor",
+        "joint",
+        "contents",
+        "next",
+        "package"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.439583+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/Bill_of_Materials.md",
+      "word_count": 1067,
+      "line_count": 317,
+      "categories": [
+        "robotics",
+        "hardware",
+        "documentation",
+        "ai_ml",
+        "engineering"
+      ],
+      "key_topics": [
+        "wall",
+        "revision",
+        "project",
+        "generated",
+        "breakdown",
+        "panel",
+        "mini",
+        "bill",
+        "scale"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.440154+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/Development_Plan.md",
+      "word_count": 1338,
+      "line_count": 286,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "wall",
+        "timeline",
+        "objective",
+        "purpose",
+        "size",
+        "system",
+        "materials",
+        "panel",
+        "mini",
+        "fasteners"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.440831+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/Design_Validation_Checklist.md",
+      "word_count": 970,
+      "line_count": 180,
+      "categories": [
+        "robotics",
+        "hardware",
+        "analysis",
+        "documentation",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "design",
+        "validation"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.442056+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/FINAL_DESIGN_PACKAGE.md",
+      "word_count": 1167,
+      "line_count": 217,
+      "categories": [
+        "robotics",
+        "hardware",
+        "analysis",
+        "documentation",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "wall",
+        "version",
+        "finalization",
+        "design",
+        "final",
+        "mini",
+        "panel",
+        "date",
+        "package"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.442897+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/procurement_plan.md",
+      "word_count": 810,
+      "line_count": 145,
+      "categories": [
+        "robotics",
+        "hardware",
+        "documentation",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "critical",
+        "inc",
+        "week",
+        "prototype",
+        "mini",
+        "schedule",
+        "procurement",
+        "order",
+        "stepperonline"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.443478+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/CAD/working_vs_broken_analysis.md",
+      "word_count": 567,
+      "line_count": 125,
+      "categories": [
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "features",
+        "working",
+        "content",
+        "html",
+        "file",
+        "pdf",
+        "status",
+        "quality"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.443921+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/CAD/AutoLISP_vs_OpenSCAD_Guide.md",
+      "word_count": 800,
+      "line_count": 238,
+      "categories": [
+        "software",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "output",
+        "comparison",
+        "purpose",
+        "language",
+        "openscad",
+        "fundamental",
+        "autolisp",
+        "differences",
+        "syntax"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.444473+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/CAD/FINAL_SYSTEM_DOCUMENTATION.md",
+      "word_count": 603,
+      "line_count": 125,
+      "categories": [
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "shop",
+        "fully",
+        "working",
+        "final",
+        "key",
+        "automation",
+        "drawing",
+        "documentation"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.444930+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/CAD/SUCCESS_SUMMARY.md",
+      "word_count": 385,
+      "line_count": 80,
+      "categories": [
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "what",
+        "complete",
+        "works"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.445268+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/CAD/NEXT_STEPS_ROADMAP.md",
+      "word_count": 1138,
+      "line_count": 204,
+      "categories": [
+        "robotics",
+        "software",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "steps",
+        "workflow",
+        "image",
+        "next",
+        "roadmap"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.445897+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/CAD/QUICK_REFERENCE.md",
+      "word_count": 478,
+      "line_count": 145,
+      "categories": [
+        "software",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "command",
+        "drawings",
+        "for",
+        "reference",
+        "quick",
+        "single",
+        "right",
+        "card",
+        "start",
+        "view"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.446282+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/CAD/test_results.md",
+      "word_count": 515,
+      "line_count": 101,
+      "categories": [
+        "robotics",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "generation",
+        "shop",
+        "drawing"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.446708+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/CAD/LESSONS_LEARNED_HTML_VIEWERS.md",
+      "word_count": 389,
+      "line_count": 86,
+      "categories": [
+        "software",
+        "analysis"
+      ],
+      "key_topics": [
+        "preference",
+        "interactive",
+        "viewer",
+        "html",
+        "create"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.447068+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/CAD/LESSONS_LEARNED.md",
+      "word_count": 3071,
+      "line_count": 629,
+      "categories": [
+        "robotics",
+        "software",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "openscad",
+        "working",
+        "camera",
+        "image",
+        "lessons",
+        "works"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.448463+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/CAD/OpenSCAD_Usage_Guide.md",
+      "word_count": 720,
+      "line_count": 192,
+      "categories": [
+        "robotics",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "export",
+        "viewing",
+        "verify",
+        "install",
+        "model",
+        "openscad",
+        "step",
+        "quick",
+        "start",
+        "installation"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.449134+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/CAD/KNOWLEDGE_TRANSFER_COMPLETE.md",
+      "word_count": 425,
+      "line_count": 83,
+      "categories": [
+        "software",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "transfer",
+        "knowledge"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.449486+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/CAD/3D_to_2D_Shop_Drawings_Guide.md",
+      "word_count": 1059,
+      "line_count": 316,
+      "categories": [
+        "robotics",
+        "software",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "export",
+        "pdf",
+        "png",
+        "openscad",
+        "open",
+        "dxf",
+        "your",
+        "step",
+        "method",
+        "result"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.450045+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/Technical_Specs/Shop_Drawings.md",
+      "word_count": 1655,
+      "line_count": 402,
+      "categories": [
+        "robotics",
+        "analysis",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "wall",
+        "revision",
+        "panel",
+        "mini",
+        "date",
+        "scale"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.450959+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/Technical_Specs/Engineering_Summary.md",
+      "word_count": 392,
+      "line_count": 80,
+      "categories": [
+        "robotics",
+        "hardware",
+        "analysis",
+        "engineering"
+      ],
+      "key_topics": [
+        "wall",
+        "panel",
+        "mini"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.451273+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/Technical_Specs/CAD_Precision_Drawings.md",
+      "word_count": 881,
+      "line_count": 198,
+      "categories": [
+        "robotics",
+        "documentation",
+        "engineering"
+      ],
+      "key_topics": [
+        "rough",
+        "hole",
+        "cad",
+        "operations",
+        "drawing"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.451780+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/Technical_Specs/Technical_Drawings.md",
+      "word_count": 1133,
+      "line_count": 271,
+      "categories": [
+        "robotics",
+        "hardware",
+        "software",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "wall",
+        "layout",
+        "arm",
+        "generated",
+        "panel",
+        "mini",
+        "handling",
+        "scale"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.452565+00:00"
+    },
+    {
+      "file_path": "Projects/Active/Mini_Prototype/Drawings/generation_status_report.md",
+      "word_count": 391,
+      "line_count": 89,
+      "categories": [
+        "analysis",
+        "ai_ml",
+        "engineering"
+      ],
+      "key_topics": [
+        "pdf",
+        "shop",
+        "generation",
+        "working",
+        "viewer",
+        "html",
+        "features",
+        "image",
+        "drawing"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.452914+00:00"
+    },
+    {
+      "file_path": "Research/Advanced_Research_Innovation_Lab.md",
+      "word_count": 1240,
+      "line_count": 554,
+      "categories": [
+        "robotics",
+        "software",
+        "analysis",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "advanced",
+        "experimental",
+        "design",
+        "discovery",
+        "apm",
+        "research"
+      ],
+      "integration_priority": "medium",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.454707+00:00"
+    },
+    {
+      "file_path": "Learning/HTML_CSS_JS_Skill_Development.md",
+      "word_count": 1355,
+      "line_count": 404,
+      "categories": [
+        "software",
+        "analysis",
+        "documentation",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "skill",
+        "strengths",
+        "development",
+        "areas",
+        "for",
+        "existing",
+        "html"
+      ],
+      "integration_priority": "medium",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.455834+00:00"
+    },
+    {
+      "file_path": "Learning/HTML_CSS_JS/ROS_Web_HMI_Setup_Guide.md",
+      "word_count": 1394,
+      "line_count": 331,
+      "categories": [
+        "robotics",
+        "software",
+        "analysis",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "web",
+        "manufacturing",
+        "overview",
+        "ros",
+        "hmi"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.456545+00:00"
+    },
+    {
+      "file_path": "Learning/HTML_CSS_JS/QUICK_REFERENCE.md",
+      "word_count": 202,
+      "line_count": 60,
+      "categories": [
+        "robotics",
+        "software",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "web",
+        "verify",
+        "launch",
+        "source",
+        "running",
+        "system",
+        "environment",
+        "ros",
+        "hmi"
+      ],
+      "integration_priority": "medium",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.456798+00:00"
+    },
+    {
+      "file_path": "Learning/HTML_CSS_JS/Exercise_Summary_Oct_4_2025.md",
+      "word_count": 756,
+      "line_count": 149,
+      "categories": [
+        "robotics",
+        "software",
+        "documentation",
+        "ai_ml",
+        "engineering",
+        "integration"
+      ],
+      "key_topics": [
+        "built",
+        "documented",
+        "learning",
+        "created",
+        "complete",
+        "summary",
+        "exercise"
+      ],
+      "integration_priority": "high",
+      "requires_indexing": true,
+      "timestamp": "2025-10-04T19:54:26.457208+00:00"
+    }
+  ],
+  "integration_status": "completed",
+  "last_push_timestamp": 1759607667.621973,
+  "pending_integrations": [],
+  "auto_workflow_enabled": true
+}

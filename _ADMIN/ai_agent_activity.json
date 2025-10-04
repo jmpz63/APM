@@ -7,10 +7,10 @@
       "file_path": "AI_WORKFLOW_REQUIRED.md",
       "description": "Prominent AI workflow requirement notice",
       "priority": "high",
-      "workflow_triggered": false,
-      "integration_status": "pending"
+      "workflow_triggered": true,
+      "integration_status": "integrated"
     }
   ],
-  "last_workflow_run": 0,
-  "compliance_status": "unknown"
+  "last_workflow_run": 1759607667.637292,
+  "compliance_status": "compliant"
 }
