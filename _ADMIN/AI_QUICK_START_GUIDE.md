@@ -1,6 +1,12 @@
 # 🤖 AI Assistant Quick Start Guide
 ***→ START HERE - New AI Assistant Onboarding ←***
 
+## ⚠️ **SYSTEM UPDATED** - New Workflow Available!
+**This guide has been updated to use the new unified workflow system.**
+- **Also read**: `/APM/QUICK_START.md` for system overview
+- **New workflow**: Uses `ai_agent_interface.py` (consolidated system)
+- **Deprecated**: Old `ai_assistant_automation.py` references removed
+
 ## 🚀 **IMMEDIATE ACTIONS** (First 30 seconds)
 
 ### **Step 1: Navigate to APM**
@@ -14,7 +20,17 @@ git status
 git log --oneline -n 5
 ```
 
-### **Step 3: Check Current Mission & Priorities**
+### **Step 3: MANDATORY Workflow Setup**
+```python
+# REQUIRED: Import and use for ALL knowledge operations
+from _ADMIN.ai_agent_interface import notify_new_document, ensure_compliance
+
+# Use after creating/modifying ANY content:
+notify_new_document("file.md", "description", "priority")
+ensure_compliance()
+```
+
+### **Step 4: Check Current Mission & Priorities**
 - **🎯 CRITICAL**: `_ADMIN/todo.md` - **Current priorities, active missions, and next actions**
 - **📋 Main Guide**: `README.md` - System overview and capabilities
 - **🤖 Handoff Notes**: `_ADMIN/ai_handoff_notes.md` - Complete workflow guide
@@ -88,15 +104,21 @@ Just tell the AI assistant:
 3. **Maintenance Log**: Log activities in `_ADMIN/maintenance_log.md`
 4. **Master Index**: Sync `README.md` and `00_MASTER_KNOWLEDGE_INDEX.md`
 
-### **🚀 Git Workflow**
+### **🚀 Automated Workflow (UPDATED SYSTEM)**
+```python
+# NEW: Use unified AI agent interface
+from _ADMIN.ai_agent_interface import notify_new_document, ensure_compliance
+
+# After ANY knowledge work:
+notify_new_document("path/to/file.md", "description", "priority")
+ensure_compliance()  # Handles git commit/push automatically!
+```
+
+**Alternative Commands:**
 ```bash
-git add .
-git commit -m "🤖 AI Assistant Routine Maintenance
-
-✨ Updates: [describe what was updated]
-📊 Status: ✅ MAINTENANCE COMPLETE" 
-
-# Optional: git push origin master
+# Direct system access:
+python3 _ADMIN/ai_agent_interface.py status     # Check status
+python3 _ADMIN/apm_unified_system.py --mode auto # Full workflow
 ```
 
 ---
@@ -130,7 +152,8 @@ git commit -m "🤖 AI Assistant Routine Maintenance
 - `_ADMIN/changelog.md` - Version history and updates
 - `_ADMIN/todo.md` - Current priorities and tasks
 - `_ADMIN/maintenance_log.md` - System activities log
-- `_ADMIN/ai_assistant_automation.py` - **Automation script**
+- `_ADMIN/apm_unified_system.py` - **New unified automation system**
+- `_ADMIN/ai_agent_interface.py` - **Simple AI agent interface**
 
 ### **🔗 Navigation Files**  
 - `README.md` - **Main system overview**
