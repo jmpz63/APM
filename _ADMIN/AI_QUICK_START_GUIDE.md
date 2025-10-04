@@ -14,10 +14,37 @@ git status
 git log --oneline -n 5
 ```
 
-### **Step 3: Read This File First**
+### **Step 3: Check Current Mission & Priorities**
+- **🎯 CRITICAL**: `_ADMIN/todo.md` - **Current priorities, active missions, and next actions**
 - **📋 Main Guide**: `README.md` - System overview and capabilities
 - **🤖 Handoff Notes**: `_ADMIN/ai_handoff_notes.md` - Complete workflow guide
 - **📊 Master Index**: `00_MASTER_KNOWLEDGE_INDEX.md` - All frameworks and tools
+
+---
+
+## 🎯 **MISSION AWARENESS** (Critical for AI Assistants)
+
+### **📋 Always Check Todo List First**
+```bash
+cat /home/arm1/APM/_ADMIN/todo.md
+```
+
+**What to Look For:**
+- **🚨 High Priority Tasks** - Immediate attention required
+- **🔄 In Progress Items** - Continue existing work
+- **📅 Immediate (Next Session)** - Today's priorities
+- **📈 Short/Medium Term** - Upcoming objectives
+
+### **🎯 Mission-Driven Commands**
+```
+"Check APM todo list and continue the highest priority task"
+```
+```
+"Review todo list, identify urgent items, and execute next steps"
+```
+```
+"What is the current mission in APM and what should I work on next?"
+```
 
 ---
 
@@ -40,10 +67,12 @@ Just tell the AI assistant:
 ## 📋 **ROUTINE WORKFLOW** (Every Session)
 
 ### **🔍 Quick Assessment**
-1. Check git status for uncommitted changes
-2. Scan for new files or modifications  
-3. Review last maintenance date in changelog
-4. Validate all 8 frameworks are accessible
+1. **📋 CHECK TODO LIST FIRST**: Read `_ADMIN/todo.md` for current priorities and active missions
+2. **📊 Review Current Mission**: Check what tasks are marked as high priority or in progress
+3. Check git status for uncommitted changes
+4. Scan for new files or modifications  
+5. Review last maintenance date in changelog
+6. Validate all 8 frameworks are accessible
 
 ### **📊 Update Documentation** 
 1. **Changelog**: Add entry to `_ADMIN/changelog.md`
@@ -132,6 +161,15 @@ git commit -m "🤖 AI Assistant Routine Maintenance
 
 ## 📋 **COPY-PASTE PROMPTS FOR USERS**
 *Ready-to-use commands for any AI assistant*
+
+### **🎯 Mission-Focused Prompts** *(Start Here)*
+```
+Read /home/arm1/APM/_ADMIN/todo.md and continue working on the highest priority tasks, then update the APM system documentation.
+```
+
+```
+Check APM todo list, identify what needs to be done next, and execute the most urgent items while maintaining system documentation.
+```
 
 ### **🚀 Quick Start Prompts**
 ```
