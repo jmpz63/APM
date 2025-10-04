@@ -1,0 +1,58 @@
+{
+  "project_info": {
+    "name": "Mini Wall Panel Manufacturing Prototype",
+    "scale": "1:4 (24-inch panels vs 96-inch full-size)",
+    "footprint": "6' x 4' (72\" x 48\")",
+    "height": "4' maximum (48\")",
+    "design_date": "2025-10-04T09:55:28.018739",
+    "revision": "A"
+  },
+  "performance_targets": {
+    "cycle_time": "< 5 minutes per mini panel",
+    "positioning_accuracy": "\u00b12mm (\u00b10.078\")",
+    "payload_capacity": "10 lbs (scaled lumber pieces)",
+    "safety_rating": "Category 3 (ISO 13849)",
+    "production_rate": "12 panels per hour theoretical"
+  },
+  "system_components": {
+    "robot_arm": {
+      "type": "Modified Moveo 6-DOF",
+      "reach": "24 inches minimum",
+      "payload": "10 lbs",
+      "repeatability": "\u00b10.1mm",
+      "joints": 6,
+      "drive_system": "NEMA 23 stepper motors"
+    },
+    "material_handling": {
+      "feed_system": "Gravity-fed with pneumatic pusher",
+      "capacity": "20 pieces (24\" lumber)",
+      "feed_rate": "1 piece per 15 seconds",
+      "positioning": "\u00b11mm accuracy"
+    },
+    "assembly_station": {
+      "work_surface": "30\" x 20\" aluminum plate",
+      "clamping": "4-point pneumatic clamping",
+      "positioning_stops": "Precision machined blocks",
+      "panel_size": "24\" x 12\" (scaled)"
+    },
+    "fastening_system": {
+      "type": "Pneumatic brad nailer",
+      "fastener_size": "1.5\" brad nails",
+      "positioning": "Linear actuator controlled",
+      "force_feedback": "Pressure sensor monitoring"
+    },
+    "quality_control": {
+      "vision_system": "USB camera with LED ring light",
+      "inspection_points": "Dimensional and visual",
+      "measurement_accuracy": "\u00b10.5mm",
+      "defect_detection": "Surface and alignment"
+    }
+  },
+  "control_system": {
+    "hardware": "BigTreeTech Octopus Max EZ",
+    "firmware": "Klipper-based real-time control",
+    "software": "ROS2 Humble with custom packages",
+    "communication": "USB and Ethernet",
+    "safety": "Hardware emergency stops + software monitoring"
+  }
+}
