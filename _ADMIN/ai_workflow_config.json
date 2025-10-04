@@ -1,0 +1,61 @@
+{
+  "ai_workflow_config": {
+    "version": "1.0",
+    "description": "Enhanced AI Knowledge Workflow Configuration",
+    "auto_workflow_enabled": true,
+    "monitoring_interval": 300,
+    "auto_push_enabled": true,
+    "quality_validation_enabled": true,
+    
+    "knowledge_sources": {
+      "primary_directories": [
+        "Knowledge_Base",
+        "Projects", 
+        "Research",
+        "Learning"
+      ],
+      "file_patterns": [
+        "*.md",
+        "*.json",
+        "*.py",
+        "*.cfg",
+        "*.yaml"
+      ],
+      "excluded_patterns": [
+        "**/.*",
+        "**/__pycache__/**",
+        "**/build/**",
+        "**/install/**"
+      ]
+    },
+    
+    "integration_rules": {
+      "auto_categorization": true,
+      "topic_extraction": true,
+      "priority_assessment": true,
+      "index_updates": true,
+      "git_integration": true
+    },
+    
+    "notification_settings": {
+      "verbose_logging": true,
+      "progress_indicators": true,
+      "error_reporting": true,
+      "success_notifications": true
+    },
+    
+    "git_settings": {
+      "auto_commit": true,
+      "auto_push": true,
+      "commit_message_template": "AI Workflow Auto-Integration: {date}",
+      "branch": "master"
+    },
+    
+    "quality_thresholds": {
+      "minimum_word_count": 10,
+      "require_headers": true,
+      "validate_markdown": true,
+      "check_file_accessibility": true
+    }
+  }
+}
