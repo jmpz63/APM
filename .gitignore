@@ -1,0 +1,77 @@
+# APM Knowledge Base - Git Ignore
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*~
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.orig
+
+# Build artifacts
+build/
+dist/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+
+# IDE files
+.vscode/settings.json
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Language specific
+__pycache__/
+*.py[cod]
+*$py.class
+*.class
+node_modules/
+.npm
+.yarn-integrity
+
+# Log files
+*.log
+logs/
+
+# Personal/sensitive files
+**/personal_notes.md
+**/private_*.md
+**/*_private.*
+**/secrets.*
+**/.env
+
+# Large binary files (prefer external storage)
+*.iso
+*.dmg
+*.zip
+*.tar.gz
+*.7z
+
+# CAD temporary files
+*.dwl
+*.dwl2
+*.bak
+*.$$$
+
+# Documentation builds
+_site/
+.jekyll-cache/
+.sass-cache/
+
+# Backup directories
+*_backup/
+*_old/
