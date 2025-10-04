@@ -54,6 +54,14 @@ cat /home/arm1/APM/_ADMIN/todo.md
 ```bash
 cd /home/arm1/APM/_ADMIN
 python3 ai_assistant_automation.py --interactive
+# Options: 1=Daily, 2=Weekly, 3=Full, 4=Mission Focus
+```
+
+### **Option A+: Mission-Focused Mode** *(NEW)*
+```bash
+cd /home/arm1/APM/_ADMIN  
+python3 ai_assistant_automation.py --task mission
+# Analyzes priorities, updates todo, commits changes
 ```
 
 ### **Option B: Manual AI Commands**
@@ -169,6 +177,10 @@ Read /home/arm1/APM/_ADMIN/todo.md and continue working on the highest priority 
 
 ```
 Check APM todo list, identify what needs to be done next, and execute the most urgent items while maintaining system documentation.
+```
+
+```
+Run mission-focused APM session: analyze todo priorities, update mission status, and commit progress tracking.
 ```
 
 ### **🚀 Quick Start Prompts**
