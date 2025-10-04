@@ -1,0 +1,17 @@
+{
+  "project_name": "Mini_Prototype",
+  "extraction_date": "2025-10-04T13:50:05.761325",
+  "files_analyzed": 29,
+  "knowledge_files": [
+    "Bill_of_Materials.md",
+    "Development_Plan.md",
+    "Design_Validation_Checklist.md",
+    "FINAL_DESIGN_PACKAGE.md",
+    "procurement_plan.md",
+    "CAD/working_vs_broken_analysis.md",
+    "CAD/AutoLISP_vs_OpenSCAD_Guide.md",
+    "CAD/FINAL_SYSTEM_DOCUMENTATION.md",
+    "CAD/SUCCESS_SUMMARY.md",
+    "CAD/NEXT_STEPS_ROADMAP.md"
+  ]
+}

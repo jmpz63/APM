@@ -1,0 +1,17 @@
+{
+  "project_name": "moveo_bridge_ws",
+  "extraction_date": "2025-10-04T13:50:05.754692",
+  "files_analyzed": 102,
+  "knowledge_files": [
+    "README.md",
+    "Onboarding/05_Tips_Tricks.md",
+    "Onboarding/01_Project_Manual.md",
+    "Onboarding/02_Progress_Log.md",
+    "Onboarding/04_Hardware_Firmware_Network_Architecture/README.md",
+    "Onboarding/04_Hardware_Firmware_Network_Architecture/HARDWARE_NOTES.md",
+    "Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/README.md",
+    "Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint_datasheet_template.md",
+    "Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint4/README.md",
+    "Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets/joint4/joint4.md"
+  ]
+}

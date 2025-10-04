@@ -1,0 +1,77 @@
+[
+  {
+    "repo_name": "ros-planning/moveit2",
+    "description": ":robot: MoveIt for ROS 2",
+    "language": "C++",
+    "stars": 1496,
+    "last_updated": "2025-10-03T13:25:32Z",
+    "topics": [],
+    "clone_url": "https://github.com/moveit/moveit2.git"
+  },
+  {
+    "repo_name": "Klipper3d/klipper",
+    "description": "Klipper is a 3d-printer firmware",
+    "language": "C",
+    "stars": 10864,
+    "last_updated": "2025-10-04T18:36:00Z",
+    "topics": [],
+    "clone_url": "https://github.com/Klipper3d/klipper.git"
+  },
+  {
+    "repo_name": "mainsail-crew/mainsail",
+    "description": "Mainsail is the popular web interface for managing and controlling 3D printers with Klipper.",
+    "language": "Vue",
+    "stars": 1979,
+    "last_updated": "2025-10-03T12:32:40Z",
+    "topics": [
+      "3d-printing",
+      "hacktoberfest",
+      "interface",
+      "klipper",
+      "mainsail",
+      "moonraker",
+      "responsive",
+      "vorondesign"
+    ],
+    "clone_url": "https://github.com/mainsail-crew/mainsail.git"
+  },
+  {
+    "repo_name": "stm32duino/Arduino_Core_STM32",
+    "description": "STM32 core support for Arduino",
+    "language": "C",
+    "stars": 3122,
+    "last_updated": "2025-10-04T17:38:28Z",
+    "topics": [
+      "arduino",
+      "nucleo",
+      "stm32core",
+      "stm32f0",
+      "stm32f1",
+      "stm32f2",
+      "stm32f3",
+      "stm32f4",
+      "stm32f7",
+      "stm32g0",
+      "stm32g4",
+      "stm32h7",
+      "stm32l0",
+      "stm32l1",
+      "stm32l4",
+      "stm32l5",
+      "stm32mp1",
+      "stm32u5",
+      "stm32wb",
+      "stm32wl"
+    ],
+    "clone_url": "https://github.com/stm32duino/Arduino_Core_STM32.git"
+  },
+  {
+    "repo_name": "micro-ROS/micro_ros_arduino",
+    "description": "micro-ROS library for Arduino",
+    "language": "C",
+    "stars": 522,
+    "last_updated": "2025-09-30T10:44:18Z",
+    "topics": [],
+    "clone_url": "https://github.com/micro-ROS/micro_ros_arduino.git"
+  }
+]
