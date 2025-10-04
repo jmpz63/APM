@@ -1,0 +1,51 @@
+{
+  "timestamp": "2025-10-04T17:57:48.775191",
+  "date": "2025-10-04",
+  "portfolio_metrics": {
+    "cash_balance": 6499.940771118164,
+    "total_invested": 3496.903294168943,
+    "total_portfolio_value": 9996.844065287107,
+    "total_return": -3.155934712893213,
+    "total_return_pct": -0.03155934712893213,
+    "cash_allocation_pct": 65.01992757582828,
+    "invested_allocation_pct": 34.98007242417172
+  },
+  "positions": {
+    "BTC-USD": {
+      "asset_type": "crypto",
+      "shares": 0.014590676684480853,
+      "avg_cost": 122339.56244410374,
+      "current_price": 122306.234375,
+      "current_value": 1784.530722261963,
+      "cost_basis": 1785.0170013427737,
+      "unrealized_pnl": -0.4862790808106183,
+      "unrealized_pnl_pct": -0.02724226606496276
+    },
+    "BNB-USD": {
+      "asset_type": "crypto",
+      "shares": 1.1148126765604172,
+      "avg_cost": 1152.8504007795473,
+      "current_price": 1150.4556884765625,
+      "current_value": 1282.5425853347142,
+      "cost_basis": 1285.2122409667968,
+      "unrealized_pnl": -2.669655632082595,
+      "unrealized_pnl_pct": -0.2077209932325539
+    },
+    "TSLA": {
+      "asset_type": "stock",
+      "shares": 1,
+      "avg_cost": 429.8299865722656,
+      "current_price": 429.8299865722656,
+      "current_value": 429.8299865722656,
+      "cost_basis": 429.8299865722656,
+      "unrealized_pnl": 0.0,
+      "unrealized_pnl_pct": 0.0
+    }
+  },
+  "daily_stats": {
+    "trades_today": 5,
+    "total_positions": 3,
+    "crypto_positions": 2,
+    "stock_positions": 1
+  }
+}
