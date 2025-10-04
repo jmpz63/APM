@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APM Folder Analysis - Visual Bar Charts</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2E86AB 0%, #A23B72 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #2E86AB;
+        }
+        
+        .summary-card h3 {
+            margin: 0 0 10px 0;
+            color: #2E86AB;
+            font-size: 2em;
+        }
+        
+        .summary-card p {
+            margin: 0;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .charts-section {
+            padding: 30px;
+        }
+        
+        .chart-container {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .chart-header {
+            background: #2E86AB;
+            color: white;
+            padding: 20px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        
+        .chart-content {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .chart-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .data-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2E86AB;
+        }
+        
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .percentage-bar {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        
+        .percentage-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2E86AB, #A23B72);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 APM Folder Analysis</h1>
+            <p>Visual breakdown of your APM workspace structure</p>
+        </div>
+        
+        <div class="summary-cards">
+            <div class="summary-card">
+                <h3>11</h3>
+                <p>Total Directories</p>
+            </div>
+            <div class="summary-card">
+                <h3>48 MB</h3>
+                <p>Total Size</p>
+            </div>
+            <div class="summary-card">
+                <h3>963</h3>
+                <p>Total Files</p>
+            </div>
+            <div class="summary-card">
+                <h3>Projects</h3>
+                <p>Largest Folder</p>
+            </div>
+        </div>
+        
+        <div class="charts-section">
+            <div class="chart-container">
+                <div class="chart-header">
+                    📊 Folder Sizes (MB) - Storage Usage
+                </div>
+                <div class="chart-content">
+                    <img src="apm_folder_sizes.png" alt="APM Folder Sizes Bar Chart">
+                    <p><strong>Visual representation of storage space used by each APM subfolder</strong></p>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-header">
+                    📈 File Counts - Number of Files per Directory
+                </div>
+                <div class="chart-content">
+                    <img src="apm_file_counts.png" alt="APM File Counts Bar Chart">
+                    <p><strong>Shows how many files are in each directory</strong></p>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-header">
+                    📋 Detailed Breakdown
+                </div>
+                <div class="chart-content">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Folder</th>
+                                <th>Size (MB)</th>
+                                <th>Percentage</th>
+                                <th>Files</th>
+                                <th>Visual</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><strong>Projects</strong></td>
+                                <td>23 MB</td>
+                                <td>47.9%</td>
+                                <td>739</td>
+                                <td>
+                                    <div class="percentage-bar">
+                                        <div class="percentage-fill" style="width: 47.9%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>.git</td>
+                                <td>9 MB</td>
+                                <td>18.8%</td>
+                                <td>190</td>
+                                <td>
+                                    <div class="percentage-bar">
+                                        <div class="percentage-fill" style="width: 18.8%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Knowledge_Base</td>
+                                <td>8 MB</td>
+                                <td>16.7%</td>
+                                <td>3</td>
+                                <td>
+                                    <div class="percentage-bar">
+                                        <div class="percentage-fill" style="width: 16.7%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Tools_and_Resources</td>
+                                <td>1 MB</td>
+                                <td>2.1%</td>
+                                <td>3</td>
+                                <td>
+                                    <div class="percentage-bar">
+                                        <div class="percentage-fill" style="width: 2.1%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Business_Intelligence</td>
+                                <td>1 MB</td>
+                                <td>2.1%</td>
+                                <td>1</td>
+                                <td>
+                                    <div class="percentage-bar">
+                                        <div class="percentage-fill" style="width: 2.1%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>6-11</td>
+                                <td><em>Other folders</em></td>
+                                <td>6 MB</td>
+                                <td>12.5%</td>
+                                <td>27</td>
+                                <td>
+                                    <div class="percentage-bar">
+                                        <div class="percentage-fill" style="width: 12.5%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-header">
+                    🔍 Key Insights
+                </div>
+                <div class="chart-content" style="text-align: left;">
+                    <ul style="font-size: 1.1em; line-height: 1.8;">
+                        <li><strong>Projects folder dominates</strong> - Contains 47.9% of all data (23MB) and 76.7% of all files (739)</li>
+                        <li><strong>Git repository</strong> - Takes 9MB (18.8%) for version control</li>
+                        <li><strong>Knowledge_Base</strong> - 8MB but only 3 files (likely large documents/media)</li>
+                        <li><strong>Most folders are small</strong> - 8 out of 11 folders are just 1MB each</li>
+                        <li><strong>File distribution is uneven</strong> - Projects has 25x more files than the next largest</li>
+                        <li><strong>Efficient organization</strong> - Total workspace is compact at 48MB</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
