@@ -40,7 +40,14 @@ APM/
 │   ├── Electrical/ 
 │   ├── Civil/
 │   └── Computer_Science/
-├── 📚 Knowledge_Base/
+├── � Business/
+│   ├── Contacts_Network/
+│   ├── Templates_Documents/
+│   ├── Bids_Proposals/
+│   ├── Contracts_Legal/
+│   ├── Marketing_Sales/
+│   └── Project_Management/
+├── �📚 Knowledge_Base/
 │   ├── Learning_Materials/
 │   ├── References/
 │   ├── Tutorials/
@@ -112,11 +119,22 @@ This knowledge base is successful when:
 ## 🔗 QUICK ACCESS LINKS
 
 - [Engineering Projects](./Engineering/) - Technical engineering work
+- [Business Intelligence](./Business/) - 🆕 Contacts, bids, proposals, automation
 - [Active Projects](./Projects/Active/) - Currently in progress
 - [Knowledge Base](./Knowledge_Base/) - Learning and reference materials
 - [Research](./Research/) - Research papers and experiments
-- [Tools & Resources](./Tools_and_Resources/) - Utilities and templates
+- [Tools & Resources](./Tools_and_Resources/) - Utilities, templates, and automation scripts
 - [Admin Section](./_ADMIN/) - Management and maintenance files
+
+## 🤖 AI BUSINESS AUTOMATION
+
+**New Capability**: Generate professional documents on demand!
+
+**Example Commands**:
+- *"Create a drywall bid for 2,500 sq ft commercial space"*
+- *"Email me all painters with 4+ star ratings"*
+- *"Generate a concrete proposal for residential foundation"*
+- *"Find electrical contractors within 25 miles"*
 
 ---
 
