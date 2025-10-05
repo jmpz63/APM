@@ -1,0 +1,27 @@
+{
+  "document": {
+    "filename": "TMC5160A_datasheet_rev1.18.pdf",
+    "processed_at": "2025-10-05T16:25:33.045382",
+    "capabilities": {
+      "pdfplumber": true,
+      "pymupdf": true,
+      "tesseract_ocr": true,
+      "poppler_utils": true,
+      "ocrmypdf": true,
+      "qpdf": true
+    }
+  },
+  "content": {
+    "text": {
+      "pymupdf": {
+        "pages": 134,
+        "sample_text": " \n \nPOWER DRIVER FOR STEPPER MOTORS \n \n  INTEGRATED CIRCUITS \n \nTRINAMIC Motion Control GmbH & Co. KG \n \nHamburg, Germany \nTMC5160 / TMC5160A DATASHEET \n \n \n \n \n \n \n  \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n   \n \n \n \n \n    \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nFEATURES AND BENEFITS \n2-phase stepper motors from 1 to several 10A coil current \nMotion Controller with SixPoint\u2122 ramp  \nStep/Dir Interface with microstep interpolation MicroPlyer\u2122 \nVoltage Range 8 \u2026 60V DC  \nSPI & Single Wire UART  \nEncoder In..."
+      },
+      "poppler": {
+        "sample_text": "POWER DRIVER FOR STEPPER MOTORS\n\nINTEGRATED CIRCUITS\n\nTMC5160 / TMC5160A DATASHEET\nUniversal high voltage controller/driver for two-phase bipolar stepper motor. StealthChop\u2122 for quiet\nmovement. External MOSFETs for 1A to several 10A coil current. With Step/Dir Interface and SPI.\n\nAPPLICATIONS\nRobotics & Industrial Drives\nTextile, Sewing Machines\nPacking Machines\nFactory & Lab Automation\nHigh-speed 3D Printers\nLiquid Handling\nMedical\nOffice Automation\nCCTV\nATM, Cash Recycler\nPumps and Valves\n\nFEA...",
+        "status": "success"
+      }
+    },
+    "metadata": {}
+  }
+}

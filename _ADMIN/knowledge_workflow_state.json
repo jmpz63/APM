@@ -1,5 +1,5 @@
 {
-  "last_scan_timestamp": 1759693440.475889,
+  "last_scan_timestamp": 1759695596.098428,
   "file_checksums": {
     "Knowledge_Base/universal_robots_6dof_ros_analysis.md": {
       "checksum": "570e704ccb02a74532a00669863b27af",
@@ -12,8 +12,8 @@
       "size": 16119
     },
     "Knowledge_Base/KNOWLEDGE_EXPANSION_INDEX.md": {
-      "checksum": "2bdbe0d5010997cc4d1a1fb40d8dde2e",
-      "timestamp": 1759692486.3502607,
+      "checksum": "7ebc6014e8c9b6e712289cc99cafda4d",
+      "timestamp": 1759693439.7635415,
       "size": 1989
     },
     "Knowledge_Base/AI_Agent_Onboarding_Patterns.md": {
@@ -2057,10 +2057,33 @@
       "integration_priority": "high",
       "requires_indexing": true,
       "timestamp": "2025-10-05T19:43:59.764382+00:00"
+    },
+    {
+      "file_path": "Knowledge_Base/KNOWLEDGE_EXPANSION_INDEX.md",
+      "word_count": 224,
+      "line_count": 48,
+      "categories": [
+        "robotics",
+        "software",
+        "analysis",
+        "documentation",
+        "integration"
+      ],
+      "key_topics": [
+        "workflow",
+        "documents",
+        "apm",
+        "expansion",
+        "knowledge",
+        "recent"
+      ],
+      "integration_priority": "medium",
+      "requires_indexing": true,
+      "timestamp": "2025-10-05T20:19:55.423307+00:00"
     }
   ],
   "integration_status": "completed",
-  "last_push_timestamp": 1759693440.47584,
+  "last_push_timestamp": 1759695596.098342,
   "pending_integrations": [],
   "auto_workflow_enabled": true
 }
