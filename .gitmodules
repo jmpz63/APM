@@ -1,0 +1,3 @@
+[submodule "PROJECTS/Active/WallPanelization/repo"]
+	path = PROJECTS/Active/WallPanelization/repo
+	url = https://github.com/jmpz63/WallPanelization.git
