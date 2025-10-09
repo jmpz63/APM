@@ -1,8 +1,8 @@
-# Automatic Saw with Auto Feeder — Spec
+# Auto Saw with Feeder — Spec
 
-- Cut types: crosscut / miter / bevel ranges
-- Throughput target (boards/min)
-- Stock sizes supported (min/max L×W×T)
-- Feeder: roller vs belt, sensor feedback
-- Guards and safety interlocks
-- Dust collection provisions
+- Saw type, cut envelope, accuracy
+- Feeder capacity, feed speed, alignment
+- Safety interlocks and guarding
+- Interface to PLC/ROS 2
+
+Image reference: Images/auto_saw_reference.jpg (add actual file here)
