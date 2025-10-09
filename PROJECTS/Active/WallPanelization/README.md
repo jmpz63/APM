@@ -12,6 +12,12 @@ Quick links
 - JSON contract (in submodule): repo/docs/JSON_CONTRACT.md
 - Schema: repo/schema/fabrication.schema.json
 - Samples: repo/samples/
+- Working repo (local): C:\Users\jmpz6\OneDrive\Moveo\WallPanelization
+- Working repo (remote): https://github.com/jmpz63/WallPanelization
+
+Roles
+- APM: knowledge base, planning, and high-level management (this folder).
+- WallPanelization repo: day-to-day development and artifacts; this APM folder references it as a submodule under `repo/`.
 
 Generate synthetic data (no Rhino)
 - python Software/synthetic_generator.py
