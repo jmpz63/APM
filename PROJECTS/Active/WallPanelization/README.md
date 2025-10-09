@@ -6,11 +6,15 @@ Contents
 - repo/ — Git submodule to https://github.com/jmpz63/WallPanelization (JSON contract, GhPython exporter, CI)
 - Components/ — subsystem catalogs and templates (specs, interfaces, power, risks, BOM)
 - Power/ — power budget, generator sizing notes, single-line/layout placeholders, compute_power.py
+- Software/ — structure notes and a synthetic JSON generator (no Rhino required)
 
 Quick links
 - JSON contract (in submodule): repo/docs/JSON_CONTRACT.md
 - Schema: repo/schema/fabrication.schema.json
 - Samples: repo/samples/
+
+Generate synthetic data (no Rhino)
+- python Software/synthetic_generator.py
 
 Next steps
 - Fill in Components/* specs per subsystem
