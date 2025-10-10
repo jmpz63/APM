@@ -126,7 +126,7 @@
 4. Update cross-references and imports
 
 ### **Phase 3: Documentation Updates**
-1. Update `QUICK_START.md` navigation table
+1. Navigation table lives in README.md (Quick Start consolidated)
 2. Update `README.md` folder descriptions
 3. Update any internal links
 4. Regenerate indexes

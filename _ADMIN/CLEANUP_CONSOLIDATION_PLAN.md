@@ -32,8 +32,8 @@
 ### **Phase 1: Python Script Consolidation**
 
 #### **Keep as Primary:**
-- **`ai_knowledge_workflow.py`** - Most comprehensive, newest system
-- **`ai_agent_helper.py`** - Simple interface for AI agents
+- **`apm_unified_system.py`** - Unified system (replaces ai_knowledge_workflow/assistant_automation)
+- **`ai_agent_interface.py`** - Canonical interface for AI agents (replaces helper)
 
 #### **Merge and Retire:**
 - Merge useful functions from `ai_assistant_automation.py` into `ai_knowledge_workflow.py`
@@ -41,7 +41,7 @@
 - Create single comprehensive automation system
 
 #### **Result: 2 Clean Scripts**
-1. **`ai_workflow_system.py`** - Complete automation engine
+1. **`apm_unified_system.py`** - Complete automation engine
 2. **`ai_agent_interface.py`** - Simple helper for AI agents
 
 ### **Phase 2: Index Consolidation**

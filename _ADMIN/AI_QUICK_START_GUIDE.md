@@ -3,7 +3,7 @@
 
 ## ⚠️ **SYSTEM UPDATED** - New Workflow Available!
 **This guide has been updated to use the new unified workflow system.**
-- **Also read**: `/APM/QUICK_START.md` for system overview
+- **Also read**: `/APM/README.md` for the system overview and current status
 - **New workflow**: Uses `ai_agent_interface.py` (consolidated system)
 - **Deprecated**: Old `ai_assistant_automation.py` references removed
 

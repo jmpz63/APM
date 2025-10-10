@@ -6,6 +6,12 @@
 **Priority**: Medium  
 **Last Updated**: 2025-10-04  
 
+## Roles & Cross-links
+- Role of this APM folder: knowledge base, planning, and high-level management of the printer project (specs, procedures, logs).
+- Working area: day-to-day configs and firmware live on the printer host (Mainsail/Fluidd). If you maintain a local workspace, keep it under `C:\Users\jmpz6\OneDrive\Moveo\Klipper_3D_Printer`.
+- Live config reference (update if different): `printer_data/config/printer.cfg` on the host.
+- Related active project hub: `APM/PROJECTS/Active/moveo_bridge_ws` (shared Klipper/TMC tuning learnings).
+
 ## 📋 Project Overview
 
 ### Objective

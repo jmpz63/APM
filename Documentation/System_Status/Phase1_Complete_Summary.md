@@ -30,7 +30,7 @@
 
 ### **Find Information Instantly**
 - Navigate to `/home/arm1/APM/` 
-- Read `QUICK_START.md` for fast navigation
+- Read `README.md` for fast navigation
 - Check `Projects/Active/` for your current work
 - Browse `Knowledge_Base/References/Datasheets/` for technical specs
 

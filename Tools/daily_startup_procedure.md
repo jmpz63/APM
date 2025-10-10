@@ -31,7 +31,7 @@ ssh arm1@192.168.50.11
 ```bash
 # On robot - check APM status
 cd /home/arm1/APM
-python3 _ADMIN/ai_agent_helper.py status
+python3 _ADMIN/ai_agent_interface.py status
 
 # Expected output:
 # 🤖 AI Agent Compliance Report
@@ -81,7 +81,7 @@ if (Test-Connection -ComputerName 192.168.50.11 -Count 1 -Quiet) {
         
         # 3. Check APM system
         Write-Host "Checking APM system status..." -ForegroundColor Yellow
-        ssh arm1@192.168.50.11 "cd /home/arm1/APM && python3 _ADMIN/ai_agent_helper.py status"
+    ssh arm1@192.168.50.11 "cd /home/arm1/APM && python3 _ADMIN/ai_agent_interface.py status"
         
     } else {
         Write-Host "❌ SSH connection failed" -ForegroundColor Red
@@ -126,7 +126,7 @@ if ping -c 1 192.168.50.11 >/dev/null 2>&1; then
         
         # 3. Check APM system
         echo "Checking APM system status..."
-        ssh arm1@192.168.50.11 "cd /home/arm1/APM && python3 _ADMIN/ai_agent_helper.py status"
+    ssh arm1@192.168.50.11 "cd /home/arm1/APM && python3 _ADMIN/ai_agent_interface.py status"
         
     else
         echo "❌ SSH connection failed"

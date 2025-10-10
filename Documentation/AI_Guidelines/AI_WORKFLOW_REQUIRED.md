@@ -7,8 +7,8 @@
 ### 🚨 **REQUIRED AFTER ANY KNOWLEDGE OPERATION:**
 
 ```python
-# Import the workflow helper
-from _ADMIN.ai_agent_helper import notify_new_document, ensure_compliance
+# Import the workflow interface
+from _ADMIN.ai_agent_interface import notify_new_document, ensure_compliance
 
 # After creating/modifying ANY file:
 notify_new_document("path/to/your/file.md", "brief description", "priority")
@@ -26,7 +26,7 @@ ensure_compliance()
 ### 📖 **Complete Documentation:**
 - **Full Guide**: `_ADMIN/README_AI_WORKFLOW.md`
 - **Interactive Menu**: `bash _ADMIN/workflow.sh`
-- **Status Check**: `python3 _ADMIN/ai_agent_helper.py status`
+- **Status Check**: `python3 _ADMIN/ai_agent_interface.py status`
 
 ---
 

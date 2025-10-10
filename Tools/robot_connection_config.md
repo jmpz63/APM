@@ -22,10 +22,10 @@ The robot system is running the full APM Knowledge Base with AI workflow automat
 
 ```bash
 # Check APM status on robot
-cd /home/arm1/APM && python3 _ADMIN/ai_agent_helper.py status
+cd /home/arm1/APM && python3 _ADMIN/ai_agent_interface.py status
 
 # Activate workflow
-python3 _ADMIN/ai_agent_helper.py integrate
+python3 _ADMIN/ai_agent_interface.py integrate
 
 # Interactive menu
 bash _ADMIN/workflow.sh

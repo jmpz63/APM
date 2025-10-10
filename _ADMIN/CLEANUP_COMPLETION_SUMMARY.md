@@ -23,14 +23,11 @@ You were absolutely right about the redundant files and poor organization! Here'
 #### **For AI Agents - Now Ultra Simple:**
 ```python
 # OLD (confusing multiple options):
-from ai_agent_helper import notify_new_document, ensure_compliance
-# or from ai_knowledge_workflow import ...
-# or from ai_assistant_automation import ...
+from _ADMIN.ai_agent_interface import notify_new_document, ensure_compliance
+# (interface replaces helper/knowledge_workflow/assistant_automation)
 
 # NEW (single, clear interface):  
 from _ADMIN.ai_agent_interface import notify_new_document, ensure_compliance
-
-# Same usage, much cleaner backend!
 notify_new_document("file.md", "description", "priority")
 ensure_compliance()
 ```

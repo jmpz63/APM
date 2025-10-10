@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """
+DEPRECATED: Use ai_agent_interface.py instead.
+
 AI Agent Integration Helper
 Ensures AI agents always follow the proper workflow when acquiring new knowledge
 
@@ -9,7 +11,7 @@ This script should be called by AI agents whenever they:
 3. Update existing content
 4. Complete analysis or research
 
-Usage:
+Usage (legacy, prefer ai_agent_interface):
     from ai_agent_helper import AIAgentHelper
     
     helper = AIAgentHelper()

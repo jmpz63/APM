@@ -258,7 +258,6 @@ class APMWorkflowSystem:
         # Check critical files exist
         critical_files = [
             "README.md",
-            "QUICK_START.md", 
             "00_MASTER_KNOWLEDGE_INDEX.md"
         ]
         

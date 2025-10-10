@@ -1,5 +1,86 @@
 # APM Knowledge Base - Mission Statement & Management Guide
 
+## 🤖 AI Assistants: Start here
+1) Workflow/Operations Guide: Read `_ADMIN/README_AI_WORKFLOW.md` (this is the operations guide). After any knowledge change, call:
+    - `from _ADMIN.ai_agent_interface import notify_new_document, ensure_compliance`
+    - `notify_new_document("path/to/file.md", "description", "priority")` then `ensure_compliance()`
+2) Skim this README (Quick Start below, mission, structure) and `00_MASTER_KNOWLEDGE_INDEX.md`.
+3) For Active projects, enforce the Roles pattern: APM is the hub/KB; working files stay in their working folder. Add cross-links both ways.
+4) Before you commit, run the compliance helper via `ai_agent_interface.py` (see Quick Start). If you create or edit an Active project hub, include a Roles & Cross-links section (template in `Tools/Templates/PROJECT_HUB_README_TEMPLATE.md`).
+
+---
+
+## 🚀 Quick Start (Read this first)
+
+What is APM? Your centralized, AI-managed repository for engineering and project knowledge.
+
+Quick navigation
+- Main README (this file): start here for overview, workflow, and links
+- Engineering/: technical work by discipline
+- Knowledge_Base/: learning materials, references
+- Projects/: active/completed/archived projects
+- Tools/: templates, scripts, utilities
+- _ADMIN/: system maintenance and AI workflow docs
+
+For AI assistants (mandatory)
+- First action:
+```python
+from _ADMIN.ai_agent_interface import notify_new_document, ensure_compliance
+notify_new_document("path/to/file.md", "description", "priority")
+ensure_compliance()  # Learn → Document → Index → Push
+```
+- Workflow commands:
+```bash
+python3 _ADMIN/ai_agent_interface.py status     # Check system status
+python3 _ADMIN/ai_agent_interface.py integrate  # Auto-integrate changes
+bash _ADMIN/workflow.sh                         # Legacy menu (optional)
+```
+
+Common tasks
+- Find something: read this README, then go to the relevant section
+- Add new content: place in the right folder, use a template if available, then notify + ensure_compliance()
+- Project management: use Projects/Active/, keep hub READMEs updated with Roles & Cross-links; move to Completed/Archive when done
+
+System health
+- Healthy: all major sections have READMEs, Active projects have status, `_ADMIN/todo.md` updated, no orphan files
+- Needs attention: missing READMEs, outdated statuses, broken links, growing unorganized files
+
+Emergency procedures
+- Disorganized? Use templates in Tools/Templates/, see `_ADMIN/maintenance_log.md`, and create/refresh READMEs
+- Handoff fails? Read `_ADMIN/ai_handoff_notes.md`, review `_ADMIN/changelog.md` and `_ADMIN/todo.md`, then update notes
+
+Key principles
+1) Workflow compliance via ai_agent_interface is mandatory
+2) Documentation-first; if it’s not documented, it doesn’t exist
+3) Consistent organization and cross-linking
+4) Enable continuity for the next AI/user
+5) Optimize for findability and scalable growth
+
+---
+
+## 📌 Current project status (snapshot — 2025-10-09)
+
+WallPanelization (Active)
+- Status: In progress; working repo scaffolded and linked. JSON schema + samples + GhPython exporter and validation tools in place. Bridges catalog created under Software/Bridges in the APM hub. Repo integrated as a submodule in the project hub.
+- Working repo: `C:\Users\jmpz6\OneDrive\Moveo\WallPanelization` | Remote: https://github.com/jmpz63/WallPanelization (main)
+- Next focus: JSON→ROS 2 bridge node spec/impl; ROS 2→Robot Arm bridge interface; end-to-end smoke test from sample JSON to ROS 2 topic.
+
+moveo_bridge_ws (Active)
+- Status: Hub README added with roles/cross-links; pointers to ARM1 live paths; links to TMC KB and WallPanelization.
+- Next focus: formalize message contract for JSON→ROS 2; align ROS 2 topics/actions for robot control; minimal demo path planning with MoveIt config.
+
+Klipper_3D_Printer (Active)
+- Status: TMC knowledge base enriched (SpreadCycle vs StealthChop, StallGuard basics, TMC5160 tuning cheat sheet). Hub README includes roles & cross-links.
+- Next focus: verify live configs on ARM1; capture DUMP_TMC baselines; finalize per-joint current and toff/hstrt/hend tuning; document safety checks.
+
+Mini_Prototype (Active)
+- Status: Hub README created with roles; CAD assets and analysis tools documented.
+- Next focus: confirm BOM updates and CAD pipeline outputs; keep hub status current.
+
+Housekeeping
+- AI workflow consolidated: README is the single Quick Start/Operations guide; `_ADMIN/ai_agent_interface.py` is canonical (helper remains for legacy).
+- All Active hubs now include Roles & Cross-links blocks; bidirectional links with working repos are in place.
+
 ## 🎯 MISSION STATEMENT
 
 The **APM Knowledge Base** (Artificial Project Manager) is a comprehensive, AI-managed repository designed to serve as the ultimate centralized database for all engineering, technical, and project knowledge. This system is designed to be:
@@ -45,10 +126,10 @@ The **APM Knowledge Base** (Artificial Project Manager) is a comprehensive, AI-m
 ### 🔧 **STEP 0: ACTIVATE WORKFLOW SYSTEM (REQUIRED)**
 ```python
 # MANDATORY: Import and use for ALL knowledge operations
-from _ADMIN.ai_agent_helper import notify_new_document, ensure_compliance
+from _ADMIN.ai_agent_interface import notify_new_document, ensure_compliance
 
 # After creating/modifying ANY knowledge:
-notify_new_document("path/to/file.md", "description", "priority") 
+notify_new_document("path/to/file.md", "description", "priority")
 ensure_compliance()  # Triggers automated Learn→Document→Index→Push cycle
 ```
 
@@ -63,9 +144,12 @@ ensure_compliance()  # Triggers automated Learn→Document→Index→Push cycle
 ### 2. **ASSESS CURRENT STATE WITH WORKFLOW**
 ```bash
 # Check workflow compliance status
-python3 _ADMIN/ai_agent_helper.py status
+python3 _ADMIN/ai_agent_interface.py status
 
-# Review system with interactive menu  
+# Auto-integrate changes
+python3 _ADMIN/ai_agent_interface.py integrate
+
+# Review system with interactive menu (legacy)
 bash _ADMIN/workflow.sh
 ```
 

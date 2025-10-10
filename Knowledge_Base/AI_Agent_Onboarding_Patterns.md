@@ -224,7 +224,7 @@ improvement_triggers:
 ```bash
 # 1. Standardize Knowledge Entry Points
 APM/Knowledge_Base/
-├── 00_QUICK_START.md          # 30-minute productivity guide
+├── 00_QUICK_START.md          # Example structure (authoritative quick start lives in /APM/README.md)
 ├── 01_SYSTEM_STATUS.md        # Current capability snapshot  
 ├── 02_TROUBLESHOOTING.json    # Structured issue database
 ├── 03_ARCHITECTURE.md         # Technical system overview

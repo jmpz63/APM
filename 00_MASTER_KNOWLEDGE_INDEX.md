@@ -4,7 +4,7 @@
 ## 🤖 **AI AGENTS: MANDATORY WORKFLOW SYSTEM ACTIVE** ⚠️
 **All AI agents MUST use automated Learn→Document→Index→Push workflow!**
 ```python
-from _ADMIN.ai_agent_helper import notify_new_document, ensure_compliance
+from _ADMIN.ai_agent_interface import notify_new_document, ensure_compliance
 notify_new_document("file.md", "description", "priority")
 ensure_compliance()  # Required after ANY knowledge operation!
 ```

@@ -2,7 +2,7 @@
 
 ## 🔍 **Current Situation:**
 
-### **File #1: `/APM/QUICK_START.md`**
+### **File #1: `/APM/README.md` (Consolidated Quick Start)**
 - **Target Audience**: General users + AI assistants
 - **Content**: System overview, navigation guide, basic AI workflow
 - **Status**: ✅ **UPDATED** with new unified workflow system
@@ -19,7 +19,7 @@
 ## ⚠️ **Problems Identified:**
 
 1. **Conflicting Workflow Instructions**:
-   - `QUICK_START.md` → Use `ai_agent_interface.py` (correct)
+   - `README.md` → Use `ai_agent_interface.py` (correct)
    - `AI_QUICK_START_GUIDE.md` → Use `ai_assistant_automation.py` (DEPRECATED!)
 
 2. **Redundant AI Sections**:
@@ -35,7 +35,7 @@
 ## 🎯 **Recommended Solution:**
 
 ### **Option A: Consolidate into Single Enhanced File**
-**Merge both into an enhanced `/APM/QUICK_START.md`**
+**Consolidate both into the root `/APM/README.md` (authoritative)**
 
 **Benefits:**
 - Single source of truth
@@ -62,7 +62,7 @@
 ### **Option B: Clear Separation with Updated Content**
 **Keep separate but fix and clarify:**
 
-1. **`/APM/QUICK_START.md`** → General system introduction + basic AI workflow
+1. **`/APM/README.md`** → General system introduction + basic AI workflow
 2. **`/APM/_ADMIN/AI_DETAILED_PROCEDURES.md`** → Comprehensive AI procedures (updated)
 
 **Benefits:**
@@ -88,8 +88,8 @@ ensure_compliance()
 ```
 
 ### **Priority 3: Add Cross-References**
-- `QUICK_START.md` → "For detailed AI procedures, see `_ADMIN/AI_DETAILED_PROCEDURES.md`"
-- `AI_DETAILED_PROCEDURES.md` → "For system overview, see `/APM/QUICK_START.md`"
+- `README.md` → "For detailed AI procedures, see `_ADMIN/AI_DETAILED_PROCEDURES.md`"
+- `AI_DETAILED_PROCEDURES.md` → "For system overview, see `/APM/README.md`"
 
 ## 📋 **Implementation Plan:**
 

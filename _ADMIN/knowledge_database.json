@@ -31,18 +31,7 @@
         "size": 5806,
         "modified": "2025-10-04T09:30:17.114204"
       },
-      {
-        "path": "QUICK_START.md",
-        "full_path": "/home/arm1/APM/QUICK_START.md",
-        "name": "QUICK_START.md",
-        "type": "documentation",
-        "doc_type": "technical_documentation",
-        "topics": [
-          "software"
-        ],
-        "size": 3944,
-        "modified": "2025-10-04T09:06:40.898465"
-      },
+      
       {
         "path": "00_MASTER_KNOWLEDGE_INDEX.md",
         "full_path": "/home/arm1/APM/00_MASTER_KNOWLEDGE_INDEX.md",
