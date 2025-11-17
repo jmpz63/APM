@@ -1,9 +1,12 @@
 # APM Knowledge Base - Mission Statement & Management Guide
 
 ## 🤖 AI Assistants: Start here
-1) Workflow/Operations Guide: Read `_ADMIN/README_AI_WORKFLOW.md` (this is the operations guide). After any knowledge change, call:
-    - `from _ADMIN.ai_agent_interface import notify_new_document, ensure_compliance`
-    - `notify_new_document("path/to/file.md", "description", "priority")` then `ensure_compliance()`
+1) **AI Workflow System (MANDATORY)**: Read `_ADMIN/README_AI_WORKFLOW.md` for the **Learn → Document → Index → Push** automation system. After any knowledge change, you MUST call:
+    ```python
+    from _ADMIN.ai_agent_interface import notify_new_document, ensure_compliance
+    notify_new_document("path/to/file.md", "description", "priority")
+    ensure_compliance()  # Required - triggers full workflow
+    ```
 2) Skim this README (Quick Start below, mission, structure) and `00_MASTER_KNOWLEDGE_INDEX.md`.
 3) For Active projects, enforce the Roles pattern: APM is the hub/KB; working files stay in their working folder. Add cross-links both ways.
 4) Before you commit, run the compliance helper via `ai_agent_interface.py` (see Quick Start). If you create or edit an Active project hub, include a Roles & Cross-links section (template in `Tools/Templates/PROJECT_HUB_README_TEMPLATE.md`).
@@ -12,29 +15,33 @@
 
 ## 🚀 Quick Start (Read this first)
 
-What is APM? Your centralized, AI-managed repository for engineering and project knowledge.
+**What is APM?** Your centralized, AI-managed repository for engineering and project knowledge with automated workflow system.
 
-Quick navigation
-- Main README (this file): start here for overview, workflow, and links
-- Engineering/: technical work by discipline
-- Knowledge_Base/: learning materials, references
-- Projects/: active/completed/archived projects
-- Tools/: templates, scripts, utilities
-- _ADMIN/: system maintenance and AI workflow docs
+### Quick navigation
+- **Main README** (this file): overview, workflow, and getting started
+- **[00_MASTER_KNOWLEDGE_INDEX.md](00_MASTER_KNOWLEDGE_INDEX.md)**: Complete catalog of all knowledge
+- **[Projects/Active/](Projects/Active/)**: Current projects (see [portfolio overview](Projects/Active/README.md))
+- **Engineering/**: technical work by discipline
+- **Knowledge_Base/**: learning materials, references
+- **Tools/**: templates, scripts, utilities
+- **_ADMIN/**: **AI workflow system and maintenance** ⚠️ CRITICAL
 
-For AI assistants (mandatory)
-- First action:
+### For AI assistants (MANDATORY WORKFLOW)
+**ALWAYS use the automated knowledge workflow!**
 ```python
 from _ADMIN.ai_agent_interface import notify_new_document, ensure_compliance
 notify_new_document("path/to/file.md", "description", "priority")
 ensure_compliance()  # Learn → Document → Index → Push
 ```
-- Workflow commands:
+
+**Workflow commands:**
 ```bash
 python3 _ADMIN/ai_agent_interface.py status     # Check system status
 python3 _ADMIN/ai_agent_interface.py integrate  # Auto-integrate changes
-bash _ADMIN/workflow.sh                         # Legacy menu (optional)
+bash _ADMIN/workflow.sh                         # Interactive menu
 ```
+
+📖 **Read the full guide**: `_ADMIN/README_AI_WORKFLOW.md` - This explains the complete automated workflow system!
 
 Common tasks
 - Find something: read this README, then go to the relevant section
