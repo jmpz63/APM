@@ -1,0 +1,15 @@
+moveit_simple_controller_manager:
+  controller_names:
+    - manipulator_controller
+  # Real execution via FollowJointTrajectory action server (fjt_adapter node)
+  manipulator_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6

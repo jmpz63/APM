@@ -1,0 +1,5 @@
+[33m0f25fc9[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m git status git commit --no-edit echo "Checking git status..." printf "\033:wq\n" echo -e '\x1b:wq\r' printf '\003' cd /home/arm1/moveo_bridge_ws pkill -f git pwd echo -ne '\r\x1b:wq!\r' printf ':q!\n' echo -ne '\e:q!\n' printf 'ZZ' echo -ne '\x1B:wq\r' echo Merge branch 'master' of github.com:jmpz63/moveo-bridge-project
+[33m4bd435e[m 🤖 Joint2 TMC5160 Implementation Complete
+[33m5aef5c7[m[33m ([m[1;31morigin/master[m[33m)[m Correct Joint 1 specifications: Motor-2 slot, 99:10 gear ratio, verified from printer.cfg
+[33m328147b[m Update documentation - integrated into APM comprehensive engineering system
+[33m6d10a1c[m Initial commit: Moveo robotic arm control project with ROS2 and MoveIt

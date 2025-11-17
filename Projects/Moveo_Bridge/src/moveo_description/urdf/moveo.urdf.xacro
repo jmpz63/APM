@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<robot name="moveo" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Clean 6-DOF chain. Dual-motor joint2 handled in hardware. -->
+
+  <!-- Base link (assumed fixed) -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.08 0.08 0.02"/></geometry>
+      <material name="grey"><color rgba="0.5 0.5 0.5 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.08 0.08 0.02"/></geometry>
+    </collision>
+  </link>
+
+  <!-- Link1 -->
+  <link name="link1">
+    <inertial>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <mass value="0.18"/>
+      <inertia ixx="0.00025" ixy="0" ixz="0" iyy="0.00022" iyz="0" izz="0.00030"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.025" length="0.05"/></geometry>
+      <material name="blue"><color rgba="0.2 0.4 0.8 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <!-- Slightly shorter collision length (0.048 vs 0.05) to create a 1mm clearance to adjacent link and prevent constant contact reports. -->
+      <geometry><cylinder radius="0.025" length="0.048"/></geometry>
+    </collision>
+  </link>
+  <joint name="joint1" type="revolute">
+    <parent link="base_link"/>
+    <child link="link1"/>
+    <origin xyz="0 0 0.025" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <!-- Physical calibrated travel ~±62° (1.0821 rad). Adjust if mechanical range increases. -->
+    <limit effort="5" velocity="1.05" lower="-1.0821" upper="1.0821"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+  <!-- Link2 -->
+  <link name="link2">
+    <inertial>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <mass value="0.20"/>
+      <inertia ixx="0.00030" ixy="0" ixz="0" iyy="0.00028" iyz="0" izz="0.00035"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <geometry><box size="0.04 0.04 0.05"/></geometry>
+      <material name="green"><color rgba="0.2 0.8 0.4 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <!-- Shrink collision length to 0.048 for clearance -->
+      <geometry><box size="0.04 0.04 0.048"/></geometry>
+    </collision>
+  </link>
+  <joint name="joint2" type="revolute">
+    <parent link="link1"/>
+    <child link="link2"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="5" velocity="1.0" lower="-1.5708" upper="1.5708"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+  <!-- Link3 -->
+  <link name="link3">
+    <inertial>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <mass value="0.16"/>
+      <inertia ixx="0.00020" ixy="0" ixz="0" iyy="0.00018" iyz="0" izz="0.00025"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <geometry><box size="0.035 0.035 0.05"/></geometry>
+      <material name="orange"><color rgba="0.9 0.5 0.2 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <!-- Clearance adjusted -->
+      <geometry><box size="0.035 0.035 0.048"/></geometry>
+    </collision>
+  </link>
+  <joint name="joint3" type="revolute">
+    <parent link="link2"/>
+    <child link="link3"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="5" velocity="1.0" lower="-2.0" upper="2.0"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+  <!-- Link4 -->
+  <link name="link4">
+    <inertial>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <mass value="0.12"/>
+      <inertia ixx="0.00012" ixy="0" ixz="0" iyy="0.00010" iyz="0" izz="0.00015"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <geometry><box size="0.03 0.03 0.04"/></geometry>
+      <material name="purple"><color rgba="0.6 0.3 0.7 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <!-- Clearance adjusted -->
+      <geometry><box size="0.03 0.03 0.038"/></geometry>
+    </collision>
+  </link>
+  <joint name="joint4" type="revolute">
+    <parent link="link3"/>
+    <child link="link4"/>
+    <!-- Raised joint4 origin from 0.04 -> 0.05 to remove overlap between link3 (0–0.05 span) and link4 (0–0.04 span relative to its own frame). -->
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="5" velocity="1.5" lower="-2.0" upper="2.0"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+  <!-- Link5 -->
+  <link name="link5">
+    <inertial>
+      <origin xyz="0 0 0.015" rpy="0 0 0"/>
+      <mass value="0.10"/>
+      <inertia ixx="0.00009" ixy="0" ixz="0" iyy="0.00008" iyz="0" izz="0.00011"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.015" rpy="0 0 0"/>
+      <geometry><box size="0.025 0.025 0.03"/></geometry>
+      <material name="red"><color rgba="0.85 0.2 0.2 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.015" rpy="0 0 0"/>
+      <!-- Clearance adjusted -->
+      <geometry><box size="0.025 0.025 0.028"/></geometry>
+    </collision>
+  </link>
+  <joint name="joint5" type="revolute">
+    <parent link="link4"/>
+    <child link="link5"/>
+    <!-- Raised joint5 origin from 0.03 -> 0.04 to create ~2mm clearance between link4 top (≈0.039) and link5 bottom (≈0.041). -->
+    <origin xyz="0 0 0.04" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="5" velocity="2.0" lower="-3.14159" upper="3.14159"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+  <!-- Tool link (link6) -->
+  <link name="tool_link">
+    <inertial>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <mass value="0.05"/>
+      <inertia ixx="0.00003" ixy="0" ixz="0" iyy="0.00003" iyz="0" izz="0.00004"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.01" length="0.02"/></geometry>
+      <material name="yellow"><color rgba="0.95 0.85 0.2 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+      <!-- Clearance adjusted -->
+      <geometry><cylinder radius="0.01" length="0.018"/></geometry>
+    </collision>
+  </link>
+  <joint name="joint6" type="revolute">
+    <parent link="link5"/>
+    <child link="tool_link"/>
+    <!-- Raised joint6 from 0.02 -> 0.03 to eliminate collision overlap with link5. -->
+    <origin xyz="0 0 0.03" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="5" velocity="2.0" lower="-2.0" upper="2.0"/>
+    <dynamics damping="0.1" friction="0.0"/>
+  </joint>
+
+</robot>

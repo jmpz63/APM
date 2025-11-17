@@ -1,0 +1,98 @@
+[
+  {
+    "topic": "ROS Environment Sourcing",
+    "issue": "ros2: command not found in terminals",
+    "cause": "Terminal not sourced with /opt/ros/humble/setup.bash and workspace setup.bash",
+    "resolution": "Always run both source lines or add them to ~/.bashrc",
+    "category": "Environment",
+    "severity": "medium"
+  },
+  {
+    "topic": "MoveIt Planning Error -2",
+    "issue": "GetMotionPlan returns error code -2",
+    "cause": "Incomplete start_state (only joint1 specified)",
+    "resolution": "Populate RobotState with all group joints",
+    "category": "Planning",
+    "severity": "high"
+  },
+  {
+    "topic": "Trajectory Not Accepted",
+    "issue": "Bridge shows no 'Loaded trajectory' after publish",
+    "cause": "Wrong topic or message had no points",
+    "resolution": "Publish to /joint_trajectory with ≥2 points (positions + time_from_start)",
+    "category": "Integration",
+    "severity": "high"
+  },
+  {
+    "topic": "RViz MoveIt Panel Missing",
+    "issue": "MotionPlanning panel class not found",
+    "cause": "env -i stripped plugin path or missing moveit_ros_visualization",
+    "resolution": "Avoid wiping env; ensure package installed",
+    "category": "Visualization",
+    "severity": "low"
+  },
+  {
+    "topic": "No Physical Motion After Plan",
+    "issue": "Plan succeeded but arm didn't move",
+    "cause": "Joint delta effectively 0 (start==goal)",
+    "resolution": "Increase target angle; verify delta > 0.01 rad",
+    "category": "Execution",
+    "severity": "medium"
+  },
+  {
+    "topic": "Hardware Spec Duplication Risk",
+    "issue": "Divergent copies of hardware notes across packages",
+    "cause": "Original HARDWARE_NOTES.md lived in bridge package only",
+    "resolution": "Centralize in Onboarding and reference; avoid editing source copy",
+    "category": "Documentation",
+    "severity": "low"
+  },
+  {
+    "topic": "Binary Datasheet Bloat Prevention",
+    "issue": "Risk of repo size growth & duplicate PDFs",
+    "cause": "Potential copying of large assets into multiple trees",
+    "resolution": "Single authoritative location, link from onboarding markdown",
+    "category": "Documentation",
+    "severity": "low"
+  },
+  {
+    "topic": "Duplicate RViz MotionPlanning Panels",
+    "issue": "Multiple MotionPlanning entries in RViz config causing conflicts",
+    "cause": "Both Panel and Display entries for same plugin type",
+    "resolution": "Keep only Display entry, remove redundant Panel declaration",
+    "category": "Visualization",
+    "severity": "medium"
+  },
+  {
+    "topic": "Optimistic Execution Feedback",
+    "issue": "FollowJointTrajectory returning success immediately without waiting",
+    "cause": "No timing logic in execute_cb, immediate goal.succeed() call",
+    "resolution": "Added trajectory duration waiting, periodic feedback, configurable timing behavior",
+    "category": "Execution",
+    "severity": "high"
+  },
+  {
+    "topic": "Headless MoveIt Control Methods",
+    "issue": "Not all MoveIt control methods work reliably for hardware execution",
+    "cause": "MoveGroup actions require complete robot state setup; service calls only plan",
+    "resolution": "Use direct FollowJointTrajectory actions for reliable hardware control",
+    "category": "Control",
+    "severity": "medium"
+  },
+  {
+    "topic": "4-Terminal System Architecture",
+    "issue": "Missing trajectory bridge prevented hardware motion despite successful planning",
+    "cause": "Incomplete understanding of data flow: MoveIt → FJT Adapter → Trajectory Bridge → Klipper",
+    "resolution": "Document complete 4-terminal setup: demo.launch + fjt_adapter + trajectory_bridge + control commands",
+    "category": "Architecture",
+    "severity": "high"
+  },
+  {
+    "topic": "Trajectory Bridge 2-Point Requirement",
+    "issue": "Single-point ROS2 trajectories don't trigger physical motion",
+    "cause": "Trajectory bridge requires multi-point trajectories for motion calculation",
+    "resolution": "Use 2-point trajectories in ROS2 commands; Python scripts naturally create multi-point paths",
+    "category": "Execution",
+    "severity": "medium"
+  }
+]

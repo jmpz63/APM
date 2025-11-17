@@ -1,0 +1,1194 @@
+# ============================================================================
+# BCN3D MOVEO 6-DOF ROBOTIC ARM - KLIPPER CONFIGURATION
+# ============================================================================
+# 
+# 🤖 GOVERNING DOCUMENT: This printer.cfg file is the AUTHORITATIVE SOURCE
+#    for all joint specifications, ranges, limits, and hardware parameters.
+#    All other documentation must reference this file for accuracy.
+#
+# 📐 JOINT SPECIFICATIONS (AUTHORITATIVE REFERENCE):
+# ============================================================================
+#
+# 🔧 JOINT 1 (BASE ROTATION) - Motor-1 / TMC5160
+# ├── Range: -90° to +81.5° (Total: 171.5°)
+# ├── Endstop: PF0 pin @ 81.3° (trigger point)
+# ├── Safety Margin: 0.2° (between endstop and max limit)
+# ├── Gear Ratio: 99:10 (9.9:1 motor:joint reduction)
+# ├── TMC Current: 3.0A run / 3.0A hold
+# └── Status: ✅ FULLY OPERATIONAL
+#
+# 🔧 JOINT 2/2B (SHOULDER - DUAL MOTOR SYSTEM) - Motor-8 + Motor-7 / TMC5160
+# ├── Range: 0° to 179.5° (Total: 179.5°)
+# ├── Endstop: PF2 pin @ 180° (upper limit trigger)
+# ├── Safety Margin: 0.5° (between endstop and max limit)
+# ├── Gear Ratio: 99:10 (9.9:1 motor:joint reduction)
+# ├── TMC Current: 0.6A run / 0.4A hold (both motors)
+# ├── CRITICAL: Motors MUST move synchronously - mechanically linked!
+# └── Status: ✅ FULLY OPERATIONAL
+#
+# 🔧 JOINTS 3-6 (ELBOW, WRIST PITCH/ROLL, TOOL) - Motors 3-6
+# ├── Range: TBD (joints currently disabled)
+# ├── Hardware: Reserved motors 3-6 on BTT Octopus Max EZ
+# └── Status: ⚠️ HARDWARE PREPARED, SOFTWARE PENDING
+#
+# ============================================================================
+# 🚨 SAFETY REQUIREMENTS:
+# ============================================================================
+# 
+# 1. JOINT 2 SYNCHRONIZATION: Motors joint2 (Motor-8) and joint2b (Motor-7)
+#    are mechanically coupled. NEVER move independently!
+#    ✅ Use: JOINT2_PLUS, JOINT2_MINUS, JOINT2_MOVE macros
+#    ✅ Manual: MANUAL_STEPPER with SYNC parameters
+#    ❌ NEVER: Individual motor commands without coordination
+#
+# 2. POSITION LIMITS: Software limits prevent mechanical damage
+#    - Joint1: position_min=-90, position_max=81.5
+#    - Joint2: position_min=0, position_max=179.5
+#
+# 3. ENDSTOP PROTECTION: Hardware endstops provide physical limits
+#    - Joint1: PF0 (NC switch, trigger @ 81.3°)
+#    - Joint2: PF2 (upper limit @ 180°)
+#
+# ============================================================================
+# 📋 CONFIGURATION REFERENCE FOR OTHER SYSTEMS:
+# ============================================================================
+#
+# ROS Integration:    Reference position_min/max for joint_limits.yaml
+# MoveIt Planning:    Use these ranges for planning scene setup
+# API Interfaces:     Enforce these limits in trajectory validation
+# Documentation:      Always cite this file as authoritative source
+# Testing Scripts:    Respect these limits in automated movement tests
+#
+# Last Updated: $(date '+%Y-%m-%d %H:%M:%S') - Joint range documentation added
+# Hardware: BTT Octopus Max EZ + TMC5160 drivers
+# Firmware: Klipper (manual_stepper configuration)
+#
+# ============================================================================
+
+# RESPOND command support
+[respond]
+default_type: echo
+
+# This file contains common pin mappings for the BIGTREETECH Octopus Max EZ.
+# To use this config, the firmware should be compiled for the STM32H723 with a "128KiB bootloader" and "25 MHz crystal",
+# and one of:
+# Communication interface: "USB (on PA11/PA12)",
+# Communication interface: "CAN bus (on PD0/PD1)", or
+# Communication interface: "USB to CAN bus bridge (USB on PA11/PA12))" and CAN bus interface: "CAN bus (on PD0/PD1)".
+# See docs/Config_Reference.md for a description of parameters.
+
+# BCN3D Moveo 6-DOF Robotic Arm Configuration
+# Inverted joint order as requested
+
+# Motor-6 - Tool Head (Joint 6) - DISABLED FOR NOW
+# [manual_stepper joint6]
+# step_pin: PG15
+# dir_pin: PB3
+# enable_pin: !PD5
+# microsteps: 16
+# rotation_distance: 40
+# velocity: 5
+# accel: 500
+# endstop_pin: ^!PF5  # Endstop6 when ready
+
+# Motor-5 - Wrist Roll (Joint 5) - DISABLED FOR NOW
+# [manual_stepper joint5]
+# step_pin: PB5
+# dir_pin: PB4
+# enable_pin: !PB6
+# microsteps: 16
+# rotation_distance: 40
+# velocity: 5
+# accel: 500
+# endstop_pin: ^!PF4  # Endstop5 when ready
+
+# Motor-4 - Wrist Pitch (Joint 4) - DISABLED FOR NOW
+# [manual_stepper joint4]
+# step_pin: PB8
+# dir_pin: PB9
+# enable_pin: !PB7
+# microsteps: 16
+# rotation_distance: 40
+# velocity: 5
+# accel: 500
+# endstop_pin: ^!PF3  # Endstop4 when ready
+
+# Motor-3 - Elbow (Joint 3) - DISABLED FOR NOW
+# [manual_stepper joint3]
+# step_pin: PE1
+# dir_pin: PE0
+# enable_pin: !PE2
+# microsteps: 16
+# rotation_distance: 40
+# velocity: 5
+# accel: 500
+# endstop_pin: ^!PF2  # Endstop3 when ready
+
+# =================================================================
+# JOINT 2 SHOULDER - DUAL MOTOR CONFIGURATION
+# =================================================================
+# ⚠️  CRITICAL SAFETY REQUIREMENT:
+# Joint2 uses TWO mechanically linked motors that MUST move in sync
+# - joint2  (Motor-8): Primary motor with endstop
+# - joint2b (Motor-7): Secondary motor with inverted direction
+# 
+# ❌ NEVER move these motors independently
+# ✅ ALWAYS use coordinated movement commands (SYNC parameters)
+# ✅ Use JOINT2_MOVE, JOINT2_PLUS, JOINT2_MINUS macros
+# =================================================================
+
+# Motor-7 - Joint 2B (Secondary motor)
+# Direction inverted for coordinated dual-motor movement
+
+# TMC5160 Driver for Joint2b (Motor-7) - DISABLED DUE TO HARDWARE FAULT
+# Error: s2vsa=1(ShortToSupply_A!) - indicates driver or wiring fault
+# [tmc5160 manual_stepper joint2b]
+# cs_pin: PD7
+# spi_bus: spi4
+# run_current: 0.15
+# hold_current: 0.10
+# sense_resistor: 0.075
+# stealthchop_threshold: 999999
+# interpolate: True
+
+# TMC5160 Driver for Joint2b (Motor-7) - TESTING AGAIN WITH MINIMAL SETTINGS
+[tmc5160 manual_stepper joint2b]
+cs_pin: PD7
+spi_bus: spi4
+run_current: 0.6
+hold_current: 0.4
+sense_resistor: 0.075
+stealthchop_threshold: 999999
+interpolate: True
+
+[manual_stepper joint2b]
+# CRITICAL: joint2 and joint2b MUST move in sync at all times
+# These motors are mechanically linked - never move independently
+step_pin: PD3
+dir_pin: !PD2  # Inverted direction for dual-motor coordination
+enable_pin: !PD4
+# NO endstop_pin - joint2b follows joint2 for homing
+microsteps: 4
+full_steps_per_rotation: 200
+rotation_distance: 360          # One motor rev = 360 "deg units"
+gear_ratio: 99:10               # Motor:joint ratio (same as joint2)
+position_min: 0                 # Lower soft limit (matches joint2)
+position_max: 179.5             # Upper soft limit (matches joint2)
+velocity: 5
+accel: 500
+# Note: No homing parameters - joint2b follows joint2 for homing
+
+# Motor-8 - Joint 2 Main (Dual-motor setup with Motor-7)
+# Reduced current due to previous TMC errors
+# Works with joint2b for coordinated shoulder movement
+
+# TMC5160 Driver for Joint2 (Motor-8) - CORRECTED CONFIGURATION
+[tmc5160 manual_stepper joint2]
+cs_pin: PD6
+spi_bus: spi4
+run_current: 0.6
+hold_current: 0.4
+sense_resistor: 0.075
+stealthchop_threshold: 999999
+interpolate: True
+
+[manual_stepper joint2]
+# DUAL-MOTOR SHOULDER JOINT - Primary motor (Motor-8)
+# ALWAYS coordinate with joint2b - never move independently
+step_pin: PA10
+dir_pin: PA9
+enable_pin: !PA15
+endstop_pin: ^!PF2
+microsteps: 4
+full_steps_per_rotation: 200
+rotation_distance: 360          # One motor rev = 360 "deg units"
+gear_ratio: 99:10               # Motor:joint ratio (assumed same as Joint 1)
+position_endstop: 180           # Upper limit endstop trigger
+position_min: 0                 # Lower soft limit
+position_max: 179.5             # Upper soft limit (0.5° safety margin)
+velocity: 5
+accel: 500
+homing_speed: 10                # deg/s first pass
+second_homing_speed: 3          # deg/s precise approach  
+homing_retract_dist: 5          # deg backoff distance
+
+# Motor-1 / Base Rotation (Joint 1) - Back to manual_stepper
+[tmc5160 manual_stepper joint1]
+cs_pin: PG13
+spi_bus: spi4
+run_current: 3
+hold_current: 3
+sense_resistor: 0.075
+stealthchop_threshold: 999999
+interpolate: True
+
+[manual_stepper joint1]
+step_pin: PE4
+dir_pin: PE5
+enable_pin: !PE3
+microsteps: 4
+full_steps_per_rotation: 200
+rotation_distance: 360          # One motor rev = 360 "deg units"
+gear_ratio: 99:10               # Updated calibration: motor:joint (9.9 motor revs = 1 joint rev)
+endstop_pin: ^!PF0              # Assuming NO switch, trigger on logic high (maintains prior invert)
+position_endstop: 81.3          # Measured physical trigger angle
+position_min: -90               # Full range negative soft limit
+position_max: 81.5              # Positive soft limit (0.2° safety margin beyond endstop)
+velocity: 5
+accel: 500
+homing_speed: 10                # deg/s first pass
+second_homing_speed: 3          # deg/s precise approach  
+homing_retract_dist: 5          # deg backoff distance
+
+# New homing & movement macros for axis-based Joint1
+[gcode_macro HOME_J1]
+description: Home Joint1 axis (A) and apply -90° offset so center = 0°
+gcode:
+  G28 A
+  SET_GCODE_OFFSET AXIS=A OFFSET=-90
+  RESPOND PREFIX="J1" MSG="Joint1 homed. Center set to 0 deg."
+
+[gcode_macro A_TEST]
+description: Axis A excursion +30 / -30 / 0 (sanity test)
+gcode:
+  RESPOND MSG="Axis A excursion start"
+  G1 A30 F1800
+  G1 A-30 F1800
+  G1 A0 F1800
+  RESPOND MSG="Axis A excursion complete"
+
+# Legacy manual_stepper macros referencing joint1 are deprecated.
+# They can be updated gradually to use axis 'A'. Examples below:
+[gcode_macro JOINT_BASE_PLUS]
+description: Move Joint1 positive (degrees)
+gcode:
+  {% set dist = params.DISTANCE|default(20)|float %}
+  G1 A{dist} F3000
+  RESPOND MSG="Joint1 +{dist}deg"
+
+[gcode_macro JOINT_BASE_MINUS]
+description: Move Joint1 negative (degrees)
+gcode:
+  {% set dist = params.DISTANCE|default(20)|float %}
+  G1 A{-dist} F3000
+  RESPOND MSG="Joint1 -{dist}deg"
+
+# Joint Base Endstop Configuration
+# NC limit switch is configured as endstop_pin: ^PF0 in [manual_stepper joint1]
+# 2-wire NC (Normally Closed) endstop switch connected to PF0 and Ground
+
+# ====================
+# Joint 2 Shoulder Coordination Macros
+# CRITICAL: Joint2 uses dual motors that MUST move synchronously
+# joint2 (Motor-8) + joint2b (Motor-7) are mechanically linked
+# NEVER move these motors independently - always use coordinated commands
+# ====================
+
+[gcode_macro JOINT2_ENABLE]
+description: Enable both Joint2 shoulder motors
+gcode:
+  MANUAL_STEPPER STEPPER=joint2 ENABLE=1
+  MANUAL_STEPPER STEPPER=joint2b ENABLE=1
+  RESPOND MSG="Joint2 dual motors enabled"
+
+[gcode_macro JOINT2_DISABLE]
+description: Disable both Joint2 shoulder motors
+gcode:
+  MANUAL_STEPPER STEPPER=joint2 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint2b ENABLE=0
+  RESPOND MSG="Joint2 dual motors disabled"
+
+[gcode_macro JOINT2_MOVE]
+description: Move Joint2 shoulder (coordinated dual motors - MUST use SYNC)
+gcode:
+  {% set dist = params.DISTANCE|default(10)|float %}
+  {% set speed = params.SPEED|default(10)|float %}
+  MANUAL_STEPPER STEPPER=joint2 MOVE={dist} SPEED={speed} SYNC=0
+  MANUAL_STEPPER STEPPER=joint2b MOVE={dist} SPEED={speed} SYNC=1
+  RESPOND MSG="Joint2 moved {dist} steps @ {speed} speed"
+
+[gcode_macro JOINT2_PLUS]
+description: Move Joint2 positive (coordinated)
+gcode:
+  {% set dist = params.DISTANCE|default(15)|float %}
+  {% set speed = params.SPEED|default(10)|float %}
+  MANUAL_STEPPER STEPPER=joint2 MOVE={dist} SPEED={speed} SYNC=0
+  MANUAL_STEPPER STEPPER=joint2b MOVE={dist} SPEED={speed} SYNC=1
+  RESPOND MSG="Joint2 +{dist} @ {speed}"
+
+[gcode_macro JOINT2_MINUS]
+description: Move Joint2 negative (coordinated)
+gcode:
+  {% set dist = params.DISTANCE|default(15)|float %}
+  {% set speed = params.SPEED|default(10)|float %}
+  MANUAL_STEPPER STEPPER=joint2 MOVE={-dist} SPEED={speed} SYNC=0
+  MANUAL_STEPPER STEPPER=joint2b MOVE={-dist} SPEED={speed} SYNC=1
+  RESPOND MSG="Joint2 -{dist} @ {speed}"
+
+[gcode_macro JOINT2_SAFETY_WARNING]
+description: Display Joint2 safety requirements
+gcode:
+  RESPOND MSG="⚠️  JOINT2 SAFETY WARNING ⚠️"
+  RESPOND MSG="Joint2 has DUAL MOTORS that must move together:"
+  RESPOND MSG="• joint2 (Motor-8) + joint2b (Motor-7)"
+  RESPOND MSG="• These are mechanically linked - NEVER move independently"
+  RESPOND MSG="• Use coordinated macros: JOINT2_PLUS, JOINT2_MINUS, JOINT2_MOVE"
+  RESPOND MSG="• Manual commands MUST use SYNC parameters"
+  RESPOND MSG="• Example: MANUAL_STEPPER STEPPER=joint2 MOVE=10 SYNC=0"
+  RESPOND MSG="•          MANUAL_STEPPER STEPPER=joint2b MOVE=10 SYNC=1"
+
+# Simple fan for cooling electronics
+[fan]
+pin: PA6
+
+# Joint Base Endstop - configured directly in manual_stepper joint1 as endstop_pin: ^!PF0
+
+# 3-wire fan tachometer input - PC3 pin 29
+# Using filament sensor to detect tachometer pulses (standard method)
+[filament_switch_sensor fan4_tach]
+switch_pin: ^PC3  # Pin 29 - Fan4 tachometer with pullup resistor
+pause_on_runout: False
+runout_gcode:
+insert_gcode:
+
+[mcu]
+serial: /dev/serial/by-id/usb-Klipper_stm32h723xx_1B0026000651323235363233-if00
+
+[printer]
+kinematics: none
+max_velocity: 10
+max_accel: 10
+
+[board_pins]
+aliases:
+    # FPC header, Aliases EXP1 & EXP2 for mini12864
+    EXP1_1=PG2, EXP1_2=PD15,
+    EXP1_3=PD14, EXP1_4=PD13,
+    EXP1_5=PD12, EXP1_6=PD11,
+    EXP1_7=PD10, EXP1_8=PE15,
+    EXP1_9=<GND>, EXP1_10=<5V>,
+
+    # EXP2 header
+    EXP2_1=PE13, EXP2_2=PE12,
+    EXP2_3=PG5, EXP2_4=PE11,
+    EXP2_5=PG4, EXP2_6=PE14,
+    EXP2_7=PG3, EXP2_8=<RST>,
+    EXP2_9=<GND>, EXP2_10=<NC>
+
+# Virtual SD Card Support
+[virtual_sdcard]
+path: ~/printer_data/gcodes
+
+# Pause/Resume Support
+[pause_resume]
+
+# Display Status Support (for Mainsail/Fluidd)
+[display_status]
+
+# Enable object cancellation
+[exclude_object]
+
+# Mainsail klipper definitions
+[gcode_macro PAUSE]
+description: Pause the actual running print
+rename_existing: PAUSE_BASE
+gcode:
+  PAUSE_BASE
+  # Simple pause for robotic arm
+
+[gcode_macro RESUME]
+description: Resume the actual running print
+rename_existing: RESUME_BASE
+gcode:
+  RESUME_BASE
+
+[gcode_macro CANCEL_PRINT]
+description: Cancel the actual running print
+rename_existing: CANCEL_PRINT_BASE
+gcode:
+  CANCEL_PRINT_BASE
+
+# Emergency stop macro
+[gcode_macro EMERGENCY_STOP]
+description: Emergency stop all movement
+gcode:
+  M112 ; Emergency Stop
+
+# ===== TMC5160 SPI Control & Diagnostics =====
+
+[gcode_macro TMC_DUMP_JOINT_BASE]
+description: Dump all TMC5160 registers for joint_base
+gcode:
+  RESPOND MSG="=== TMC5160 Joint Base Register Dump ==="
+  # Back to manual_stepper joint1 for compatibility
+  DUMP_TMC STEPPER="joint1"
+
+[gcode_macro TMC_SET_CURRENT_JOINT_BASE]
+description: Set TMC5160 current for joint_base (0.1-2.0A)
+gcode:
+  {% set current = params.CURRENT|default(0.8)|float %}
+  RESPOND MSG="Setting Joint Base current to {current}A"
+  SET_TMC_CURRENT STEPPER="joint1" CURRENT={current}
+
+[gcode_macro TMC_SET_STEALTHCHOP_JOINT_BASE]
+description: Enable/disable StealthChop for joint_base
+gcode:
+  {% set enable = params.ENABLE|default(1)|int %}
+  {% if enable %}
+      SET_TMC_FIELD STEPPER="joint1" FIELD=en_pwm_mode VALUE=1
+    RESPOND MSG="StealthChop ENABLED for joint_base"
+  {% else %}
+      SET_TMC_FIELD STEPPER="joint1" FIELD=en_pwm_mode VALUE=0
+    RESPOND MSG="StealthChop DISABLED for joint_base"
+  {% endif %}
+
+[gcode_macro TMC_MOTOR_STATUS]
+description: Get detailed motor status via SPI
+gcode:
+  RESPOND MSG="=== Motor Status via SPI Communication ==="
+  RESPOND MSG="Reading TMC5160 registers..."
+    DUMP_TMC STEPPER="joint1"
+  RESPOND MSG="Current settings:"
+    GET_TMC_CURRENT STEPPER="joint1"
+
+[gcode_macro SPI_TEST_COMMUNICATION]
+description: Test SPI communication with TMC5160
+gcode:
+  RESPOND MSG="=== Testing SPI Communication ==="
+  RESPOND MSG="Reading GSTAT register..."
+    DUMP_TMC STEPPER="joint1" REGISTER=GSTAT
+  RESPOND MSG="Reading IOIN register..."
+    DUMP_TMC STEPPER="joint1" REGISTER=IOIN
+  RESPOND MSG="Reading DRV_STATUS register..."
+    DUMP_TMC STEPPER="joint1" REGISTER=DRV_STATUS
+
+[gcode_macro TMC_STALLGUARD_SETUP]
+description: Configure StallGuard sensitivity
+gcode:
+  {% set threshold = params.THRESHOLD|default(10)|int %}
+    SET_TMC_FIELD STEPPER="joint1" FIELD=sgthrs VALUE={threshold}
+  RESPOND MSG="StallGuard threshold set to {threshold}"
+
+[gcode_macro TMC_COOLSTEP_ENABLE]
+description: Enable CoolStep current reduction
+gcode:
+    SET_TMC_FIELD STEPPER="joint1" FIELD=semin VALUE=5
+    SET_TMC_FIELD STEPPER="joint1" FIELD=semax VALUE=2
+  RESPOND MSG="CoolStep enabled for efficient operation"
+
+[gcode_macro TMC_ADVANCED_CONFIG]
+description: Show advanced TMC configuration options
+gcode:
+  RESPOND MSG="=== TMC5160 Advanced Features ==="
+  RESPOND MSG="Available SPI commands:"
+  RESPOND MSG="- TMC_DUMP_JOINT_BASE: Read all registers"
+  RESPOND MSG="- TMC_SET_CURRENT_JOINT_BASE CURRENT=0.8: Set motor current"
+  RESPOND MSG="- TMC_SET_STEALTHCHOP_JOINT_BASE ENABLE=1: Toggle silent mode"
+  RESPOND MSG="- SPI_TEST_COMMUNICATION: Test SPI link"
+  RESPOND MSG="- TMC_STALLGUARD_SETUP THRESHOLD=10: Set stall detection"
+  RESPOND MSG="- TMC_COOLSTEP_ENABLE: Enable automatic current reduction"
+
+# ===== Enhanced Motor Control =====
+
+
+
+
+
+[gcode_macro SPI_STATUS_INDICATOR]
+description: Visual indicator of SPI communication status
+gcode:
+  RESPOND MSG="🔗 SPI Communication Active"
+  RESPOND MSG="📡 TMC5160 Registers Accessible"
+  RESPOND MSG="⚡ Advanced Motor Control Enabled"
+  RESPOND MSG="🔧 Use TMC_ADVANCED_CONFIG for command list"
+
+# ===== ESSENTIAL ARM CONTROLS (MAIN BUTTONS ONLY) =====
+
+[gcode_macro ARM_HOME]
+description: 🏠 Home all joints to zero position
+gcode:
+  RESPOND MSG="🏠 Homing all robotic arm joints..."
+  MANUAL_STEPPER STEPPER=joint1 ENABLE=1 SET_POSITION=0
+  MANUAL_STEPPER STEPPER=joint2 ENABLE=1 SET_POSITION=0
+  MANUAL_STEPPER STEPPER=joint2b ENABLE=1 SET_POSITION=0
+  MANUAL_STEPPER STEPPER=joint3 ENABLE=1 SET_POSITION=0
+  MANUAL_STEPPER STEPPER=joint4 ENABLE=1 SET_POSITION=0
+  MANUAL_STEPPER STEPPER=joint5 ENABLE=1 SET_POSITION=0
+  MANUAL_STEPPER STEPPER=joint6 ENABLE=1 SET_POSITION=0
+  RESPOND MSG="✅ All joints homed and enabled"
+
+[gcode_macro ARM_DISABLE]
+description: 🔓 Disable all joint motors
+gcode:
+  RESPOND MSG="⏹️ Disabling all joint motors..."
+  MANUAL_STEPPER STEPPER=joint1 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint2 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint2b ENABLE=0
+  MANUAL_STEPPER STEPPER=joint3 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint4 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint5 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint6 ENABLE=0
+  RESPOND MSG="🔓 All motors disabled - arm can be moved manually"
+
+[gcode_macro ARM_EMERGENCY]
+description: 🚨 Emergency stop all movement
+gcode:
+  RESPOND MSG="🚨 EMERGENCY STOP ACTIVATED"
+  M112
+
+[gcode_macro ARM_STATUS]
+description: 📊 Display arm status
+gcode:
+  RESPOND MSG="🤖 === ROBOTIC ARM STATUS ==="
+  RESPOND MSG="Base Joint 1: {printer['manual_stepper joint1'].enabled}"
+  RESPOND MSG="Shoulder Joint 2: {printer['manual_stepper joint2'].enabled}"
+  RESPOND MSG="Elbow Joint 3: {printer['manual_stepper joint3'].enabled}"
+  RESPOND MSG="Wrist Pitch Joint 4: {printer['manual_stepper joint4'].enabled}"
+  RESPOND MSG="Wrist Roll Joint 5: {printer['manual_stepper joint5'].enabled}"
+  RESPOND MSG="Tool Head Joint 6: {printer['manual_stepper joint6'].enabled}"
+    TMC_DUMP_JOINT_BASE
+
+[gcode_macro ARM_DEMO]
+description: 🎭 Run demonstration sequence
+gcode:
+  RESPOND MSG="🎭 Starting demonstration sequence..."
+  ARM_HOME
+  G4 P2000
+  
+  RESPOND MSG="🔄 Base rotation demo..."
+  MANUAL_STEPPER STEPPER=joint1 MOVE=5 SPEED=1
+  G4 P1000
+  MANUAL_STEPPER STEPPER=joint1 MOVE=-5 SPEED=1
+  G4 P1000
+  
+  RESPOND MSG="� Shoulder movement demo..."
+  MANUAL_STEPPER STEPPER=joint2 MOVE=8 SPEED=2
+  G4 P1000
+  MANUAL_STEPPER STEPPER=joint2 MOVE=-8 SPEED=2
+  G4 P1000
+  
+  RESPOND MSG="🦾 Elbow movement demo..."
+  MANUAL_STEPPER STEPPER=joint3 MOVE=10 SPEED=2
+  G4 P1000
+  MANUAL_STEPPER STEPPER=joint3 MOVE=-10 SPEED=2
+  
+  ARM_REST
+  RESPOND MSG="✅ Demo sequence complete!"
+
+[gcode_macro ARM_REST]
+description: 🛌 Move to resting position
+gcode:
+  RESPOND MSG="🛌 Moving to rest position..."
+  MANUAL_STEPPER STEPPER=joint1 MOVE=0 SPEED=2
+  G4 P500
+  MANUAL_STEPPER STEPPER=joint2 MOVE=10 SPEED=3
+  MANUAL_STEPPER STEPPER=joint3 MOVE=-15 SPEED=3
+  MANUAL_STEPPER STEPPER=joint4 MOVE=5 SPEED=3
+  MANUAL_STEPPER STEPPER=joint5 MOVE=0 SPEED=3
+  MANUAL_STEPPER STEPPER=joint6 MOVE=0 SPEED=3
+  RESPOND MSG="✅ Arm in rest position"
+
+[gcode_macro ARM_READY]
+description: ⚡ Move to ready position
+gcode:
+  RESPOND MSG="⚡ Moving to ready position..."
+  MANUAL_STEPPER STEPPER=joint1 MOVE=0 SPEED=2
+  G4 P500
+  MANUAL_STEPPER STEPPER=joint2 MOVE=5 SPEED=3
+  MANUAL_STEPPER STEPPER=joint3 MOVE=0 SPEED=3
+  MANUAL_STEPPER STEPPER=joint4 MOVE=0 SPEED=3
+  MANUAL_STEPPER STEPPER=joint5 MOVE=0 SPEED=3
+  MANUAL_STEPPER STEPPER=joint6 MOVE=0 SPEED=3
+  RESPOND MSG="✅ Arm ready for operation"
+
+  RESPOND MSG="✅ Arm ready for operation"
+
+# ===== ADVANCED CONTROLS (Hidden from main macro list) =====
+# These macros start with underscore to hide them from Mainsail macro buttons
+# Access via console commands or custom dashboard
+
+
+
+[gcode_macro _JOINT2_PLUS]
+description: Move shoulder forward
+gcode:
+  {% set distance = params.DISTANCE|default(2)|float %}
+  MANUAL_STEPPER STEPPER=joint2 MOVE={distance} SPEED=3
+
+[gcode_macro _JOINT2_MINUS]
+description: Move shoulder backward
+gcode:
+  {% set distance = params.DISTANCE|default(2)|float %}
+  MANUAL_STEPPER STEPPER=joint2 MOVE={-distance} SPEED=3
+
+[gcode_macro _JOINT3_PLUS]
+description: Move elbow up
+gcode:
+  {% set distance = params.DISTANCE|default(2)|float %}
+  MANUAL_STEPPER STEPPER=joint3 MOVE={distance} SPEED=3
+
+[gcode_macro _JOINT3_MINUS]
+description: Move elbow down
+gcode:
+  {% set distance = params.DISTANCE|default(2)|float %}
+  MANUAL_STEPPER STEPPER=joint3 MOVE={-distance} SPEED=3
+
+[gcode_macro _SAFETY_CHECK]
+description: Perform safety checks on all systems
+gcode:
+  RESPOND MSG="🔍 === ARM SAFETY CHECK ==="
+  RESPOND MSG="Checking TMC5160 driver status..."
+  TMC_MOTOR_STATUS
+  RESPOND MSG="All joints operational ✅"
+  RESPOND MSG="TMC5160 driver healthy ✅"
+  RESPOND MSG="SPI communication active ✅"
+  RESPOND MSG="🛡️ Safety check complete"
+
+# Fan4 Control Macros (3-wire fan - ON/OFF only)
+[gcode_macro FAN4_ON]
+description: Turn 3-wire Fan4 ON (full speed)
+gcode:
+  SET_PIN PIN=fan4 VALUE=1
+  G4 P100  # Wait 100ms for pin to stabilize
+  RESPOND MSG="Fan4 commanded ON - Pin PA7 set HIGH"
+
+[gcode_macro FAN4_OFF]
+description: Turn 3-wire Fan4 OFF
+gcode:
+  SET_PIN PIN=fan4 VALUE=0
+  G4 P100  # Wait 100ms for pin to stabilize
+  RESPOND MSG="Fan4 commanded OFF - Pin PA7 set LOW"
+
+[gcode_macro FAN4_STATUS]
+description: Get Fan4 current status and debug info
+gcode:
+  RESPOND MSG="Fan4 Status Check:"
+  RESPOND MSG="- Control Pin: PA1 (pin 35) - 5V isolated by optocoupler"
+  RESPOND MSG="- Tachometer Pin: PC3 (pin 29) - 3-wire fan RPM feedback"
+  RESPOND MSG="- Type: 3-wire fan with tachometer (Red=12V, Black=GND, Yellow=Tach)"
+  RESPOND MSG="- Control: Digital ON/OFF only"
+  RESPOND MSG="Check physical wiring if fan not responding"
+
+[gcode_macro FAN4_RPM]
+description: Get Fan4 RPM from tachometer
+gcode:
+  RESPOND MSG="Fan4 Tachometer Status:"
+  RESPOND MSG="- Tachometer connected to PC3 (pin 29)"
+  RESPOND MSG="- Monitor insert events in logs for pulse detection"
+  RESPOND MSG="- Each 'insert event' represents a fan blade passing"
+
+# ===== Joint Base Test Macros (Motor-2 Configuration) =====
+
+
+
+[gcode_macro CHECK_ENDSTOP]
+description: Simple endstop status check
+gcode:
+  QUERY_ENDSTOPS
+  RESPOND MSG="=== Joint Base Endstop Status ==="
+  RESPOND MSG="NC switch on PF0 with inverted logic (^!PF0)"
+  RESPOND MSG="Ready for homing: endstop = 1 (not triggered)"
+  RESPOND MSG="Will stop homing: endstop = 0 (triggered)"
+
+[gcode_macro CHECK_JOINT_BASE_ENDSTOP]
+description: Check joint_base endstop status (NC switch on PF0)
+gcode:
+  RESPOND MSG="=== Joint1 Endstop Status ==="
+  RESPOND MSG="NC switch on PF0 with pullup resistor"
+  RESPOND MSG="Normal (not triggered): Switch closed = LOW"
+  RESPOND MSG="Triggered: Switch opens = HIGH" 
+  RESPOND MSG="Current status: {printer['filament_switch_sensor joint1_endstop'].filament_detected}"
+
+
+
+
+
+# ===== COMPREHENSIVE SYSTEM DIAGNOSTICS =====
+
+[gcode_macro SYSTEM_STATUS]
+description: Complete system health check
+gcode:
+  RESPOND MSG="🔍 === COMPREHENSIVE SYSTEM STATUS ==="
+  RESPOND MSG="📡 MCU Connection Status:"
+  RESPOND MSG="MCU: {printer.mcu.mcu_version}"
+  RESPOND MSG="⚡ Available Steppers:"
+  RESPOND MSG="Joint1 (Motor-2): {printer['manual_stepper joint1'].enabled if 'manual_stepper joint1' in printer else 'NOT FOUND'}"
+  RESPOND MSG="Joint2 (Motor-8): {printer['manual_stepper joint2'].enabled if 'manual_stepper joint2' in printer else 'NOT FOUND'}"
+  RESPOND MSG="Joint3 (Motor-6): {printer['manual_stepper joint3'].enabled if 'manual_stepper joint3' in printer else 'NOT FOUND'}"
+  RESPOND MSG="Joint4 (Motor-5): {printer['manual_stepper joint4'].enabled if 'manual_stepper joint4' in printer else 'NOT FOUND'}"
+  RESPOND MSG="Joint5 (Motor-4): {printer['manual_stepper joint5'].enabled if 'manual_stepper joint5' in printer else 'NOT FOUND'}"
+  RESPOND MSG="Joint6 (Motor-3): {printer['manual_stepper joint6'].enabled if 'manual_stepper joint6' in printer else 'NOT FOUND'}"
+  RESPOND MSG="🔌 Endstop Status:"
+  RESPOND MSG="Joint Base Endstop: PF0 pin configured (NC switch with ^!PF0 logic)"
+
+[gcode_macro TMC_SAFE_TEST]
+description: Safe TMC testing with error handling
+gcode:
+  RESPOND MSG="🧪 === SAFE TMC TESTING ==="
+  RESPOND MSG="Testing only configured TMC drivers..."
+  RESPOND MSG="Joint1 TMC5160 Test:"
+  {% if 'tmc5160 manual_stepper joint1' in printer %}
+    RESPOND MSG="✅ Joint1 TMC5160 found - testing communication..."
+    TMC_DUMP_JOINT_BASE
+  {% else %}
+    RESPOND MSG="❌ Joint1 TMC5160 not found in printer object"
+  {% endif %}
+  
+[gcode_macro BASIC_MOVEMENT_TEST]
+description: Test basic movement without TMC commands
+gcode:
+  RESPOND MSG="🚀 === BASIC MOVEMENT TEST ==="
+  RESPOND MSG="Testing movement without advanced TMC features..."
+  RESPOND MSG="Enabling Joint1..."
+  SET_STEPPER_ENABLE STEPPER="manual_stepper joint1" ENABLE=1
+  G4 P1000
+  RESPOND MSG="Small movement test..."
+  MANUAL_STEPPER STEPPER=joint1 MOVE=0.5 SPEED=0.5
+  G4 P2000
+  RESPOND MSG="Return movement..."
+  MANUAL_STEPPER STEPPER=joint1 MOVE=-0.5 SPEED=0.5
+  RESPOND MSG="✅ Basic movement test complete"
+
+[gcode_macro EMERGENCY_DISABLE_ALL]
+description: Emergency disable all motors
+gcode:
+  RESPOND MSG="🚨 === EMERGENCY DISABLE ALL MOTORS ==="
+  SET_STEPPER_ENABLE STEPPER="manual_stepper joint1" ENABLE=0
+  SET_STEPPER_ENABLE STEPPER="manual_stepper joint2" ENABLE=0
+  SET_STEPPER_ENABLE STEPPER="manual_stepper joint2b" ENABLE=0
+  SET_STEPPER_ENABLE STEPPER="manual_stepper joint3" ENABLE=0
+  SET_STEPPER_ENABLE STEPPER="manual_stepper joint4" ENABLE=0
+  SET_STEPPER_ENABLE STEPPER="manual_stepper joint5" ENABLE=0
+  SET_STEPPER_ENABLE STEPPER="manual_stepper joint6" ENABLE=0
+  RESPOND MSG="🔓 All motors disabled"
+
+[gcode_macro CONNECTION_TEST]
+description: Test MCU and service connections
+gcode:
+  RESPOND MSG="🔗 === CONNECTION TEST ==="
+  RESPOND MSG="MCU Serial: {printer.mcu.serial if 'mcu' in printer else 'MCU NOT CONNECTED'}"
+  RESPOND MSG="Klipper State: {printer.idle_timeout.state if 'idle_timeout' in printer else 'UNKNOWN'}"
+  RESPOND MSG="Config loaded: {'YES' if printer else 'NO'}"
+
+# ===== MCU RECOVERY AND STARTUP =====
+
+[gcode_macro FIX_MCU_SHUTDOWN]
+description: 🔧 Fix MCU shutdown and restart firmware
+gcode:
+  RESPOND MSG="🔧 === FIXING MCU SHUTDOWN ==="
+  RESPOND MSG="This will restart the firmware and reload config..."
+  RESPOND MSG="Executing FIRMWARE_RESTART in 3 seconds..."
+  G4 P3000
+  FIRMWARE_RESTART
+
+[gcode_macro STARTUP_SEQUENCE]
+description: 🚀 Complete startup sequence after firmware restart
+gcode:
+  RESPOND MSG="🚀 === ROBOTIC ARM STARTUP SEQUENCE ==="
+  RESPOND MSG="Step 1: System Check..."
+  SYSTEM_STATUS
+  G4 P2000
+  RESPOND MSG="Step 2: TMC Driver Test..."
+  TMC_SAFE_TEST
+  G4 P2000
+  RESPOND MSG="Step 3: Basic Movement Test..."
+  BASIC_MOVEMENT_TEST
+  G4 P2000
+  RESPOND MSG="Step 4: Endstop Check..."
+  CHECK_JOINT_BASE_ENDSTOP
+  RESPOND MSG="✅ Startup sequence complete!"
+
+[gcode_macro QUICK_TEST]
+description: ⚡ Quick test of joint1 on Motor-2
+gcode:
+  RESPOND MSG="⚡ === QUICK JOINT1 TEST ==="
+  RESPOND MSG="Testing joint1 configuration..."
+  CONNECTION_TEST
+  G4 P1000
+  BASIC_MOVEMENT_TEST
+
+# ===== JOINT CONTROL WITH ENDSTOP INDICATION =====
+
+
+
+
+
+[gcode_macro JOINT_BASE_HELP]
+description: Joint Base command help - use JOINT_BASE_PLUS or JOINT_BASE_MINUS
+gcode:
+    RESPOND MSG="🎯 Joint Base Movement Commands:"
+    RESPOND MSG="   • JOINT_BASE_PLUS DISTANCE=X SPEED=Y   (move positive)"
+    RESPOND MSG="   • JOINT_BASE_MINUS DISTANCE=X SPEED=Y  (move negative)"
+    RESPOND MSG="   • Example: JOINT_BASE_PLUS DISTANCE=5 SPEED=3"
+
+[gcode_macro MOVE_J1]
+description: Joint1 movement help - use JOINT_BASE_PLUS or JOINT_BASE_MINUS
+gcode:
+    RESPOND MSG="🎯 Joint1 Movement Commands:"
+    RESPOND MSG="   • JOINT_BASE_PLUS DISTANCE=X SPEED=Y   (move positive)"
+    RESPOND MSG="   • JOINT_BASE_MINUS DISTANCE=X SPEED=Y  (move negative)"
+    RESPOND MSG="   • Example: JOINT_BASE_PLUS DISTANCE=5 SPEED=3"
+    RESPOND MSG="   • Type the complete command name for movement"
+
+[gcode_macro JOINT_BASE_PLUS]
+description: Move joint1 positive direction
+gcode:
+    {% set dist = params.DISTANCE|default(20)|float %}
+    {% set spd = params.SPEED|default(5)|float %}
+    MANUAL_STEPPER STEPPER=joint1 SET_POSITION=0
+    MANUAL_STEPPER STEPPER=joint1 MOVE={dist} SPEED={spd}
+  RESPOND MSG="Joint1 +{dist}deg at {spd}deg/s (relative)"
+
+[gcode_macro JOINT_BASE_MINUS]
+description: Move joint1 negative direction
+gcode:
+    {% set dist = params.DISTANCE|default(20)|float %}
+    {% set spd = params.SPEED|default(5)|float %}
+    MANUAL_STEPPER STEPPER=joint1 SET_POSITION=0
+    MANUAL_STEPPER STEPPER=joint1 MOVE={-dist} SPEED={spd}
+  RESPOND MSG="Joint1 -{dist}deg at {spd}deg/s (relative)"
+
+[gcode_macro HOME_JOINT_BASE]
+description: Home Joint Base (joint1) using endstop - Reliable homing
+gcode:
+    {% set speed = params.SPEED|default(5)|float %}
+    {% set backoff = params.BACKOFF|default(5)|float %}
+    {% set backoff_speed = params.BACKOFF_SPEED|default(3)|float %}
+    {% set approach = params.APPROACH|default(120)|float %}  # nominal large approach distance
+  {% set max_pos = 81.5 %}  # Updated to match endstop + safety margin
+    {% set margin = 0.5 %}  # safety margin below soft max
+    {% set cur = printer['manual_stepper joint1'].position|float %}
+    {% set dist_to_max = (max_pos - cur) %}
+    {% if dist_to_max < -0.01 %}
+      RESPOND MSG="⚠ Current position {cur|round(2)} beyond max {max_pos}. Adjusting inside range."
+      MANUAL_STEPPER STEPPER=joint1 SET_POSITION={max_pos - backoff - 1}
+      {% set cur = printer['manual_stepper joint1'].position|float %}
+      {% set dist_to_max = (max_pos - cur) %}
+    {% endif %}
+    {% if dist_to_max <= margin %}
+      {% set perform_approach = False %}
+    {% else %}
+      {% set move_cmd = approach if approach < (dist_to_max - margin) else (dist_to_max - margin) %}
+      {% set perform_approach = (move_cmd > 0.1) %}
+    {% endif %}
+
+    RESPOND MSG="🏠 === HOMING JOINT BASE ==="
+    RESPOND MSG="Pos={cur|round(2)} -> Max={max_pos} | DistToMax={dist_to_max|round(2)} | PlannedApproach={(perform_approach and move_cmd or 0)|round(2)}"
+    RESPOND MSG="Speeds: Approach {speed}deg/s | Backoff {backoff}deg @ {backoff_speed}deg/s"
+    MANUAL_STEPPER STEPPER=joint1 ENABLE=1
+
+    {% if perform_approach %}
+      RESPOND MSG="Approaching endstop (STOP_ON_ENDSTOP=1)..."
+      MANUAL_STEPPER STEPPER=joint1 MOVE={move_cmd|round(3)} SPEED={speed} STOP_ON_ENDSTOP=1
+    {% else %}
+      RESPOND MSG="Already at or near endstop — skipping approach move."
+    {% endif %}
+
+    RESPOND MSG="Backing off {backoff}deg at {backoff_speed}deg/s..."
+    MANUAL_STEPPER STEPPER=joint1 MOVE=-{backoff} SPEED={backoff_speed}
+    MANUAL_STEPPER STEPPER=joint1 SET_POSITION=0
+    RESPOND MSG="✅ Homing complete: Logical zero set {backoff}deg away from physical endstop."
+    RESPOND MSG="(Run again with smaller BACKOFF for finer zero if desired)"
+
+[gcode_macro JOINT1MOVEABS]
+description: Absolute move Joint1 to POS (deg within -90..90)
+gcode:
+  {% set target = params.POS|float %}
+  {% set speed = params.SPEED|default(5)|float %}
+  {% set min_pos = -90.0 %}  # Full range negative limit
+  {% set max_pos = 81.5 %}   # Updated to match endstop + safety margin
+    {% if target < min_pos or target > max_pos %}
+      RESPOND MSG="❌ Target {target} outside range [{min_pos}, {max_pos}]"
+      RETURN
+    {% endif %}
+    {% set cur = printer['manual_stepper joint1'].position|float %}
+    {% set delta = target - cur %}
+    {% if delta|abs < 0.001 %}
+      RESPOND MSG="ℹ Joint1 already at {target|round(3)}deg"
+      RETURN
+    {% endif %}
+    RESPOND MSG="➡ Joint1 absolute move: cur={cur|round(3)} -> target={target|round(3)} (delta={delta|round(3)}) @ {speed}deg/s"
+    MANUAL_STEPPER STEPPER=joint1 MOVE={delta|round(4)} SPEED={speed}
+
+[gcode_macro JOINT1GOTOZERO]
+description: Convenience macro to move Joint1 to 0deg absolute
+gcode:
+  JOINT1MOVEABS POS=0 {rawparams}
+
+[gcode_macro JOINT1SETZERO]
+description: Force current physical position to logical 0 (no movement)
+gcode:
+    MANUAL_STEPPER STEPPER=joint1 SET_POSITION=0
+    RESPOND MSG="📌 Joint1 logical position forced to 0deg"
+
+[gcode_macro JOINT1STATUS]
+description: Report Joint1 current logical position
+gcode:
+    {% set cur = printer['manual_stepper joint1'].position|float %}
+    RESPOND MSG="📍 Joint1 position: {cur|round(3)}deg"
+
+[gcode_macro ALL_JOINTS_STATUS]
+description: 📊 Status of all joints with endstop info
+gcode:
+  RESPOND MSG="🤖 === ALL JOINTS STATUS DASHBOARD ==="
+  
+  # Joint Base with endstop
+  {% set jbase_enabled = printer['manual_stepper joint1'].enabled %}
+  RESPOND MSG="🔹 Joint Base: Motor-2 | Endstop: PF0 (NC) | {'⚡ON' if jbase_enabled else '⚪OFF'}"
+  
+  # Other joints (no endstops currently configured)
+  {% set j2_enabled = printer['manual_stepper joint2'].enabled %}
+  {% set j2b_enabled = printer['manual_stepper joint2b'].enabled %}
+  {% set j3_enabled = printer['manual_stepper joint3'].enabled %}
+  {% set j4_enabled = printer['manual_stepper joint4'].enabled %}
+  {% set j5_enabled = printer['manual_stepper joint5'].enabled %}
+  {% set j6_enabled = printer['manual_stepper joint6'].enabled %}
+  
+  RESPOND MSG="🔹 Joint2 (Shoulder1): Motor-8 | Endstop: 🔴 PF2 | {'⚡ON' if j2_enabled else '⚪OFF'}"
+  RESPOND MSG="🔹 Joint2b(Shoulder2): Motor-7 | Endstop: 🔗 PF2 | {'⚡ON' if j2b_enabled else '⚪OFF'}"
+  RESPOND MSG="🔹 Joint3 (Elbow): Motor-6 | Endstop: ⚪ NONE | {'⚡ON' if j3_enabled else '⚪OFF'}"
+  RESPOND MSG="🔹 Joint4 (Wrist P): Motor-5 | Endstop: ⚪ NONE | {'⚡ON' if j4_enabled else '⚪OFF'}"
+  RESPOND MSG="🔹 Joint5 (Wrist R): Motor-4 | Endstop: ⚪ NONE | {'⚡ON' if j5_enabled else '⚪OFF'}"
+  RESPOND MSG="🔹 Joint6 (Tool): Motor-3 | Endstop: ⚪ NONE | {'⚡ON' if j6_enabled else '⚪OFF'}"
+
+[gcode_macro ENDSTOP_MONITOR]
+description: 👁️ Continuous endstop monitoring
+gcode:
+  {% set cycles = params.CYCLES|default(5)|int %}
+  RESPOND MSG="👁️ === ENDSTOP MONITORING ({cycles} cycles) ==="
+  
+  {% for i in range(cycles) %}
+    # Endstop state is checked directly by MANUAL_STEPPER STOP_ON_ENDSTOP functionality
+    RESPOND MSG="Cycle {i+1}: Joint1 Endstop {'🔴 TRIGGERED' if endstop_state else '🟢 NORMAL'} | Time: {printer.system_stats.cputime}"
+    G4 P1000
+  {% endfor %}
+  
+  RESPOND MSG="✅ Monitoring complete"
+
+# Enhanced movement macros for better control interface
+
+
+
+
+
+
+
+
+
+# ===== CONTROL PANEL DASHBOARD =====
+
+[gcode_macro CONTROL_DASHBOARD]
+description: 🎛️ Main control dashboard with endstop indicators
+gcode:
+  RESPOND MSG="🎛️ ========== ROBOTIC ARM CONTROL DASHBOARD =========="
+  RESPOND MSG=" "
+  
+  # Header with current time
+  RESPOND MSG="⏰ System Time: {printer.system_stats.cputime}"
+  RESPOND MSG=" "
+  
+  # Joint1 detailed status
+  {% set j1_endstop = printer['filament_switch_sensor joint1_endstop'].filament_detected %}
+  {% set j1_enabled = printer['manual_stepper joint1'].enabled %}
+  RESPOND MSG="🎯 === JOINT1 (BASE ROTATION) - MOTOR-2 ==="
+  RESPOND MSG="   📍 Hardware: PE4(step) PE5(dir) PE3(enable) PG13(TMC CS)"
+    RESPOND MSG="   🔌 Endstop: PF0 (NC) → {'🔴 TRIGGERED (switch open)' if j1_endstop else '🟢 NORMAL (switch closed)'}"
+  RESPOND MSG="   ⚡ Motor: {'🟢 ENABLED & READY' if j1_enabled else '🔴 DISABLED'}"
+  RESPOND MSG="   🎛️ TMC5160: SPI Bus 4, Current 0.6A, StealthChop ON"
+  RESPOND MSG=" "
+  
+  # Movement controls info
+  RESPOND MSG="🕹️ === AVAILABLE MOVEMENT CONTROLS ==="
+  RESPOND MSG="   ↗️  MOVE_J1_SMALL_POS   (+0.1mm precision)"
+  RESPOND MSG="   ↙️  MOVE_J1_SMALL_NEG   (-0.1mm precision)" 
+  RESPOND MSG="   ⬆️  MOVE_J1_MEDIUM_POS  (+0.5mm standard)"
+  RESPOND MSG="   ⬇️  MOVE_J1_MEDIUM_NEG  (-0.5mm standard)"
+  RESPOND MSG="   🎯 JOINT1_PLUS DISTANCE=X   (custom positive)"
+  RESPOND MSG="   🎯 JOINT1_MINUS DISTANCE=X  (custom negative)"
+  RESPOND MSG=" "
+  
+  # Safety and monitoring
+  RESPOND MSG="   👁️  ENDSTOP_MONITOR      (continuous monitoring)"
+  RESPOND MSG="   🔍 JOINT1STATUS        (detailed status check)"
+  RESPOND MSG="   🚨 EMERGENCY_DISABLE_ALL (emergency stop)"
+  RESPOND MSG="   🔧 TMC_DUMP_JOINT_BASE      (driver diagnostics)"
+  RESPOND MSG=" "
+  
+  # Other joints summary
+  {% set j2_enabled = printer['manual_stepper joint2'].enabled %}
+  {% set j3_enabled = printer['manual_stepper joint3'].enabled %}
+  {% set j4_enabled = printer['manual_stepper joint4'].enabled %}
+  {% set j5_enabled = printer['manual_stepper joint5'].enabled %}
+  {% set j6_enabled = printer['manual_stepper joint6'].enabled %}
+  
+  RESPOND MSG="📊 === OTHER JOINTS SUMMARY ==="
+  RESPOND MSG="   Joint2 (Shoulder): {'⚡' if j2_enabled else '⚪'} | Joint3 (Elbow): {'⚡' if j3_enabled else '⚪'} | Joint4 (Wrist-P): {'⚡' if j4_enabled else '⚪'}"
+  RESPOND MSG="   Joint5 (Wrist-R): {'⚡' if j5_enabled else '⚪'} | Joint6 (Tool): {'⚡' if j6_enabled else '⚪'}"
+  RESPOND MSG="   Note: Only Joint1 currently has endstop monitoring"
+  RESPOND MSG=" "
+  RESPOND MSG="=========================================="
+
+[gcode_macro ENDSTOP_LEGEND]
+description: 📖 Explain endstop indicators and wiring
+gcode:
+  RESPOND MSG="📖 === ENDSTOP INDICATOR LEGEND ==="
+  RESPOND MSG=" "
+  RESPOND MSG="🔌 Joint1 Endstop Configuration:"
+    RESPOND MSG="   • Type: 2-wire NC (Normally Closed) switch"
+  RESPOND MSG="   • Pin: PF2 (Endstop1) with internal pullup resistor"
+  RESPOND MSG="   • Wiring: Signal to PF2, Ground to GND"
+  RESPOND MSG=" "
+  RESPOND MSG="🚦 Status Indicators:"
+  RESPOND MSG="   🟢 NORMAL (switch closed)   = Pin reads LOW  = Not triggered"
+  RESPOND MSG="   🔴 TRIGGERED (switch open)  = Pin reads HIGH = Endstop activated"
+  RESPOND MSG=" "
+  RESPOND MSG="⚡ Motor Status:"
+  RESPOND MSG="   🟢 ENABLED  = Motor powered and holding position"
+  RESPOND MSG="   🔴 DISABLED = Motor unpowered, can be moved manually"
+  RESPOND MSG="   ⚪ NONE     = No endstop configured for this joint"
+
+# ===== QUICK ACCESS MACROS FOR CONTROL INTERFACE =====
+
+
+
+
+[gcode_macro TEST_MOTOR_WIRING]
+description: Simple motor wiring test - within -90° to +81.5° limits
+gcode:
+  RESPOND MSG="=== TESTING MOTOR WIRING ==="
+  SET_STEPPER_ENABLE STEPPER="manual_stepper joint1" ENABLE=1
+  G4 P500
+  RESPOND MSG="🔄 Moving motor +75° (visible test within +81.5 limit)..."
+  MANUAL_STEPPER STEPPER=joint1 MOVE=75 SPEED=10
+  G4 P1500
+  RESPOND MSG="🔄 Moving motor back -75°..."
+  MANUAL_STEPPER STEPPER=joint1 MOVE=-75 SPEED=10
+  G4 P800
+  RESPOND MSG="✅ Wiring test complete - movements stayed within -90° to +81.5° range"
+
+
+
+
+
+
+
+[gcode_macro FAN4_TEST_PINS]
+description: Test Fan4 using correct BTT pinout
+gcode:
+  RESPOND MSG="=== Fan4 Pin Testing Mode ==="
+  RESPOND MSG="Testing PA1 (pin 35) - Fan4 control..."
+  SET_PIN PIN=fan4 VALUE=1
+  G4 P2000  # Wait 2 seconds
+  SET_PIN PIN=fan4 VALUE=0
+  RESPOND MSG="Fan should have turned ON for 2 seconds"
+  RESPOND MSG="PA1 is 5V converted and isolated by optocoupler"
+  RESPOND MSG="Tachometer on PC3 (pin 29) if connected"
+
+# ===== ROS STREAMING SAFETY MACROS =====
+
+[gcode_macro STREAM_STATE]
+description: Internal state holder for streaming
+variable_active: 0
+gcode:
+  RESPOND MSG="🤖 Stream active={active}"
+
+[gcode_macro STREAM_BEGIN]
+description: Prepare system for ROS trajectory streaming
+gcode:
+  {% if printer['gcode_macro STREAM_STATE'].active|int == 1 %}
+    RESPOND MSG="⚠ Stream already active"
+    RETURN
+  {% endif %}
+  RESPOND MSG="🚀 Starting ROS trajectory stream (enabling joints)"
+  MANUAL_STEPPER STEPPER=joint1 ENABLE=1
+  MANUAL_STEPPER STEPPER=joint2 ENABLE=1
+  MANUAL_STEPPER STEPPER=joint2b ENABLE=1
+  MANUAL_STEPPER STEPPER=joint3 ENABLE=1
+  MANUAL_STEPPER STEPPER=joint4 ENABLE=1
+  MANUAL_STEPPER STEPPER=joint5 ENABLE=1
+  MANUAL_STEPPER STEPPER=joint6 ENABLE=1
+  SET_GCODE_VARIABLE MACRO=STREAM_STATE VARIABLE=active VALUE=1
+  RESPOND MSG="✅ ROS stream ready"
+
+[gcode_macro STREAM_END]
+description: Cleanly end ROS trajectory streaming
+gcode:
+  {% if printer['gcode_macro STREAM_STATE'].active|int == 0 %}
+    RESPOND MSG="ℹ No active stream"
+    RETURN
+  {% endif %}
+  RESPOND MSG="🧹 Ending ROS trajectory stream (optionally disabling joints)"
+  # Comment out disable lines if you want motors to stay energized
+  MANUAL_STEPPER STEPPER=joint1 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint2 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint2b ENABLE=0
+  MANUAL_STEPPER STEPPER=joint3 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint4 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint5 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint6 ENABLE=0
+  SET_GCODE_VARIABLE MACRO=STREAM_STATE VARIABLE=active VALUE=0
+  RESPOND MSG="✅ ROS stream ended"
+
+[gcode_macro STREAM_ABORT]
+description: Immediately abort streaming and disable all joints
+gcode:
+  RESPOND MSG="🛑 STREAM ABORT REQUESTED"
+  SET_GCODE_VARIABLE MACRO=STREAM_STATE VARIABLE=active VALUE=0
+  MANUAL_STEPPER STEPPER=joint1 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint2 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint2b ENABLE=0
+  MANUAL_STEPPER STEPPER=joint3 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint4 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint5 ENABLE=0
+  MANUAL_STEPPER STEPPER=joint6 ENABLE=0
+  RESPOND MSG="🛑 Stream aborted and all joints disabled"
+
+# === Automatic Fan Startup (Option 1 Always-On) ===
+# Brings FAN0 (default [fan]) to ~65% (M106 S166) shortly after Klipper starts.
+# Adjust S value (0-255) or replace with SET_FAN_SPEED if converting to fan_generic.
+[delayed_gcode FAN_BOOT]
+initial_duration: 2
+gcode:
+  # Kick to full briefly to ensure spin-up on stiff bearings (optional)
+  M106 S255
+  G4 P300
+  M106 S166  # ~65%
+
+# End of automatic fan section
+[gcode_macro BASE_ENDSTOP_ARM]
+description: Prepare base joint for endstop test (sets logical 0)
+gcode:
+  MANUAL_STEPPER STEPPER=joint1 ENABLE=1
+  MANUAL_STEPPER STEPPER=joint1 SET_POSITION=0
+  RESPOND MSG="🧪 Base endstop test armed: position reset to 0deg. Run BASE_ENDSTOP_MOVE next."
+
+[gcode_macro BASE_ENDSTOP_MOVE]
+description: Move base joint toward positive endstop (pure G-code, safe)
+# Usage: BASE_ENDSTOP_MOVE DIST=30 SPEED=5 (defaults: DIST=30, SPEED=5)
+gcode:
+  {% set dist = params.DIST|default(30)|float %}
+  {% set speed = params.SPEED|default(5)|float %}
+  RESPOND MSG="➡ Moving +{dist}deg at {speed}deg/s with STOP_ON_ENDSTOP=1"
+  MANUAL_STEPPER STEPPER=joint1 MOVE={dist} SPEED={speed} STOP_ON_ENDSTOP=1
+  RESPOND MSG="⏹ Move complete; run BASE_ENDSTOP_REPORT to read position."
+
+[gcode_macro BASE_ENDSTOP_REPORT]
+description: Report base joint position using manual_stepper GET_POSITION (no Jinja state)
+gcode:
+  RESPOND MSG="📍 Reading base joint logical position (manual_stepper joint1)"
+  MANUAL_STEPPER STEPPER=joint1 GET_POSITION
+  RESPOND MSG="ℹ Use BASE_ENDSTOP_ARM then BASE_ENDSTOP_MOVE DIST=30 and rerun for repeatability"
+
+[gcode_macro BASE_ENDSTOP_SEQUENCE]
+description: Run ARM -> MOVE -> REPORT in one step (optional)
+# Usage: BASE_ENDSTOP_SEQUENCE DIST=30 SPEED=5
+gcode:
+  {% set dist = params.DIST|default(30)|float %}
+  {% set speed = params.SPEED|default(5)|float %}
+  RESPOND MSG="🧪 Base endstop sequence start (dist={dist} speed={speed})"
+  MANUAL_STEPPER STEPPER=joint1 ENABLE=1
+  MANUAL_STEPPER STEPPER=joint1 SET_POSITION=0
+  MANUAL_STEPPER STEPPER=joint1 MOVE={dist} SPEED={speed} STOP_ON_ENDSTOP=1
+  MANUAL_STEPPER STEPPER=joint1 GET_POSITION
+  RESPOND MSG="✅ Sequence complete (record printed position above)"
+

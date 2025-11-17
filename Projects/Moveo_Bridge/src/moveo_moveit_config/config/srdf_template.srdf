@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<robot name="moveo">
+  <!-- Auto-generated placeholder SRDF. Update groups and end effectors. -->
+  <group name="manipulator">
+    <chain base_link="base_link" tip_link="tool_link"/>
+  </group>
+  <virtual_joint name="world_joint" type="fixed" parent_frame="world" child_link="base_link"/>
+</robot>

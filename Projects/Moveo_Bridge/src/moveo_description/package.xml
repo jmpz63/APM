@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>moveo_description</name>
+  <version>0.0.1</version>
+  <description>Minimal Moveo arm description (placeholder for MoveIt integration)</description>
+  <maintainer email="jmpz63.jp@gmail.com">arm1</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>xacro</depend>
+  <export/>
+</package>

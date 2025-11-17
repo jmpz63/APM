@@ -1,0 +1,35 @@
+MISSION: Provide a reproducible pipeline to (a) simulate the Moveo arm motion in standard ROS 2 environments (MoveIt 2, Gazebo / Ignition, RViz) and (b) execute the validated trajectories on the physical Moveo arm via the trajectory bridge (ROS 2 -> Moonraker/Klipper MANUAL_STEPPER / G-code path).
+
+STATUS (2025-10-01): Single-joint (J1) physical execution achieved THROUGH ROS NODE (trajectory_bridge) -> Moonraker -> Klipper; multi-joint, feedback, and safety layers pending.
+
+PURPOSE OF THIS ONBOARDING FOLDER:
+- Fast ramp for any new AI agent or human collaborator.
+- Single source of truth for goals, procedures, progress, lessons, and architecture.
+- Minimize rediscovery and context scraping time.
+
+HIGH-LEVEL OBJECTIVES (live roadmap):
+1. Accurate robot description (URDF/Xacro + SRDF + limits + visuals + collisions).
+2. Deterministic MoveIt planning (single joint -> full manipulator).
+3. Stable trajectory relay & bridge (DisplayTrajectory/JointTrajectory -> G-code) with limits and safety.
+4. Simulation environment parity (RViz visualization; later Gazebo physics; optional Isaac / Ignition).
+5. Feedback loop: real joint state acquisition (Klipper -> ROS 2) for validation and future closed-loop control.
+6. Extensible multi-joint execution with velocity/accel scaling and payload heuristics.
+7. Robust Onboarding artifacts kept current as system evolves.
+
+KEY PRINCIPLES:
+- Prefer stable, explicit configuration over magic auto-detection.
+- Always verify robot_description consistency across nodes.
+- Treat physical motion enablement as an explicit stage (never implicit).
+- Log before act: every hardware send must have a preceding acceptance log.
+
+SUCCESS CRITERIA (initial):
+- Plan joint1 to a target in MoveIt and observe physical arm reproduce motion.
+- Ability to repeat plan with only documented steps + scripts.
+- New AI agent can reach same state within <= 30 minutes from clean Ubuntu + instructions here.
+
+NEXT_EXPANSIONS (tracked once baseline solid):
+- Add MotionPlanning RViz panel resolution (plugin env fix) & full GUI workflow.
+- Multi-joint planning & synchronized trajectory execution.
+- Automated feedback publisher for /joint_states from Klipper queries.
+- Safety: soft-limit monitoring & emergency stop hook.
+- Simulation physics parity (Gazebo) & regression tests.

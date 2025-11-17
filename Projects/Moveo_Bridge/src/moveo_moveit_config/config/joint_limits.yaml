@@ -1,0 +1,8 @@
+joint_limits:
+  # joint1: ±62° (1.0821 rad) physical. Velocity set to 1.05 rad/s (~60 deg/s)
+  joint1: {has_velocity_limits: true, max_velocity: 1.05, has_acceleration_limits: true, max_acceleration: 5.24, has_position_limits: true, min_position: -1.0821, max_position: 1.0821}
+  joint2: {has_velocity_limits: true, max_velocity: 0.52, has_acceleration_limits: true, max_acceleration: 2.44}  # ~30 deg/s, 140 deg/s^2
+  joint3: {has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 4.0}
+  joint4: {has_velocity_limits: true, max_velocity: 1.5, has_acceleration_limits: true, max_acceleration: 6.0}
+  joint5: {has_velocity_limits: true, max_velocity: 2.0, has_acceleration_limits: true, max_acceleration: 8.0}
+  joint6: {has_velocity_limits: true, max_velocity: 2.0, has_acceleration_limits: true, max_acceleration: 8.0}
