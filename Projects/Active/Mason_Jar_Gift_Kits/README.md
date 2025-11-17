@@ -13,6 +13,12 @@ Creative collection of mason jar-based projects for gift-giving, home organizati
 
 **Purpose**: Multi-functional project system for personal use, gifts, and potential small business opportunities
 
+## ⚙️ Operations quickstart
+
+- Ship an order: see `docs/SHIPPING_PACKAGING_CHECKLISTS.md` for packing, labeling, and carrier steps
+- Reference PDFs: browse `docs/reference_pdfs/` for packaging, labeling compliance, shipping, and barcodes resources
+- Compliance note: FTC guidance lives under `docs/reference_pdfs/labeling_compliance/FTC_Made_in_USA_Guide.pdf`
+
 ## 🎁 Themed Gift Kit Ideas
 
 ### Food & Beverage Kits
