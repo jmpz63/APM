@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+"""
+APM PDF Tool - Quick access wrapper for advanced_pdf_processor.py
+
+Usage:
+  apm-pdf test                  # Test capabilities
+  apm-pdf <file.pdf>            # Process single file
+  apm-pdf joints                # Process all joint datasheets
+  apm-pdf batch <directory>     # Process all PDFs in directory
+"""
+import sys
+from pathlib import Path
+
+# Get the advanced processor
+TOOLS_DIR = Path(__file__).parent
+processor = TOOLS_DIR / 'advanced_pdf_processor.py'
+
+if not processor.exists():
+    print(f"❌ Error: advanced_pdf_processor.py not found at {processor}")
+    sys.exit(1)
+
+# Map convenience commands
+if len(sys.argv) > 1:
+    cmd = sys.argv[1]
+    
+    if cmd == 'test':
+        import subprocess
+        subprocess.run(['python3', str(processor), '--test'])
+    
+    elif cmd == 'joints':
+        import subprocess
+        subprocess.run(['python3', str(processor), '--joints'])
+    
+    elif cmd == 'batch' and len(sys.argv) > 2:
+        import subprocess
+        subprocess.run(['python3', str(processor), '--batch', sys.argv[2]])
+    
+    elif cmd in ['help', '-h', '--help']:
+        print(__doc__)
+    
+    else:
+        # Assume it's a file path
+        import subprocess
+        subprocess.run(['python3', str(processor), sys.argv[1]])
+else:
+    print(__doc__)
+    print("\n📖 Full docs: ~/APM/README.md (PDF Processing Tools section)")

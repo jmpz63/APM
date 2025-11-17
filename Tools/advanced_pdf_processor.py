@@ -119,14 +119,52 @@ def process_pdf_basic(pdf_path):
     print(f"  ✅ Results saved to: {output_file}")
     return results
 
+def batch_process_pdfs(search_path, pattern="**/*.pdf"):
+    """Process all PDFs matching pattern in search_path."""
+    search_dir = Path(search_path)
+    pdf_files = sorted(search_dir.glob(pattern))
+    
+    print(f"🔍 Searching: {search_path}")
+    print(f"📄 Found {len(pdf_files)} PDF files")
+    print("=" * 60)
+    
+    results_summary = []
+    for pdf_file in pdf_files:
+        try:
+            print(f"\n📄 Processing: {pdf_file.relative_to(search_dir)}")
+            result = process_pdf_basic(str(pdf_file))
+            results_summary.append({
+                'file': str(pdf_file.relative_to(search_dir)),
+                'status': 'success',
+                'pages': result.get('content', {}).get('text', {}).get('pymupdf', {}).get('pages', 0)
+            })
+        except Exception as e:
+            print(f"  ❌ Error: {e}")
+            results_summary.append({
+                'file': str(pdf_file.relative_to(search_dir)),
+                'status': 'error',
+                'error': str(e)
+            })
+    
+    print("\n" + "=" * 60)
+    print("📊 BATCH PROCESSING SUMMARY")
+    print("=" * 60)
+    success_count = sum(1 for r in results_summary if r['status'] == 'success')
+    print(f"✅ Processed: {success_count}/{len(results_summary)} files")
+    
+    return results_summary
+
 def main():
     parser = argparse.ArgumentParser(description="APM PDF Processor")
     parser.add_argument('pdf_file', nargs='?', help='PDF file to process')
     parser.add_argument('--test', action='store_true', help='Test capabilities')
+    parser.add_argument('--batch', metavar='DIR', help='Process all PDFs in directory')
+    parser.add_argument('--joints', action='store_true', help='Process all joint datasheets')
+    parser.add_argument('--pattern', default='**/*.pdf', help='File pattern for batch processing')
     
     args = parser.parse_args()
     
-    if args.test or not args.pdf_file:
+    if args.test or (not args.pdf_file and not args.batch and not args.joints):
         print("🤖 APM Advanced PDF Processor")
         print("=" * 50)
         capabilities = get_capabilities()
@@ -135,8 +173,22 @@ def main():
             status = "✅" if available else "❌"
             print(f"  {status} {tool}")
         
-        if not args.pdf_file:
+        if not args.pdf_file and not args.batch and not args.joints:
+            print("\n📖 Usage:")
+            print("  Single file: python3 advanced_pdf_processor.py <file.pdf>")
+            print("  Batch:       python3 advanced_pdf_processor.py --batch <dir>")
+            print("  All joints:  python3 advanced_pdf_processor.py --joints")
             return
+    
+    if args.joints:
+        # Process all joint datasheets
+        joints_dir = Path('/home/arm1/APM/Projects/Active/wall_panel_manufacturing/Onboarding/04_Hardware_Firmware_Network_Architecture/joint_datasheets')
+        batch_process_pdfs(joints_dir)
+        return
+    
+    if args.batch:
+        batch_process_pdfs(args.batch, args.pattern)
+        return
     
     pdf_path = Path(args.pdf_file)
     if not pdf_path.exists():

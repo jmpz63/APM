@@ -200,12 +200,55 @@ APM/
 ├── 🛠️ Tools/
 │   ├── Software/
 │   ├── Scripts/
-│   └── Templates/
+│   ├── Templates/
+│   └── 📄 advanced_pdf_processor.py (see Quick Commands below)
 └── 📋 _ADMIN/
     ├── changelog.md
     ├── todo.md
     ├── ai_handoff_notes.md
     └── maintenance_log.md
+```
+
+## 📄 PDF PROCESSING TOOLS
+
+**Location**: `Tools/advanced_pdf_processor.py`
+
+### Quick Commands
+```bash
+# Simple wrapper (recommended)
+~/APM/Tools/apm-pdf test                    # Test capabilities
+~/APM/Tools/apm-pdf joints                  # Process all joint datasheets
+~/APM/Tools/apm-pdf path/to/file.pdf        # Process single file
+~/APM/Tools/apm-pdf batch /path/to/dir      # Process directory
+
+# Or use full script directly
+python3 ~/APM/Tools/advanced_pdf_processor.py --test
+python3 ~/APM/Tools/advanced_pdf_processor.py --joints
+python3 ~/APM/Tools/advanced_pdf_processor.py path/to/file.pdf
+python3 ~/APM/Tools/advanced_pdf_processor.py --batch /path/to/directory
+python3 ~/APM/Tools/advanced_pdf_processor.py --batch . --pattern "**/torque*.pdf"
+```
+
+### What it does
+- Extracts text from PDFs (datasheets, torque curves, technical docs)
+- Multiple extraction methods: PDFPlumber, PyMuPDF, Poppler
+- Batch processing for entire directories
+- Saves structured JSON output with extracted content
+- Ideal for processing motor datasheets, technical specifications
+
+### Joint Datasheets
+All motor specs and torque curves are in:
+```
+Projects/Active/wall_panel_manufacturing/Onboarding/
+  04_Hardware_Firmware_Network_Architecture/joint_datasheets/
+    ├── joint1/ (17HS24-0644S)
+    ├── joint2/ (23HS32-4004S)
+    ├── joint3/ (17HS19-1684S-PG14)
+    ├── joint5/ (14HS17-0504S)
+    └── joint6/ (8HS15-0604S-PG19)
+```
+
+Use `--joints` flag to process all at once!
 ```
 
 ## 📋 MANAGEMENT PRINCIPLES
