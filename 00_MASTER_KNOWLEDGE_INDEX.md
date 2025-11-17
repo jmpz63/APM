@@ -38,6 +38,37 @@ ensure_compliance()  # Required after ANY knowledge operation!
 - **Project Intelligence** - Health monitoring, resource optimization
 - **Research Automation** - Systematic innovation and impact analysis
 
+### **🏗️ Unified Project Portfolio** *(Consolidated 2025-11-17)*
+**Strategic Initiative: Wall Panel Manufacturing Business**
+
+All active projects now serve a unified vision of automated wall panel manufacturing:
+
+- **🤖 [Wall Panel Manufacturing](Projects/Active/wall_panel_manufacturing/)** - Primary business initiative
+  - Hardware: 6-DOF robotic arm + linear traverse operational (1:8 scale)
+  - Planning: 1:4 scale and full-scale development roadmap
+  - ROS2 + MoveIt + Klipper integration
+  - GitHub: https://github.com/jmpz63/moveo-bridge-project
+
+- **💰 [Trading Bot](Projects/Active/trading_bot/)** - Business funding engine
+  - 24/7 automated capital generation ($96.69, +153% growth)
+  - Live Kraken API integration
+  - GitHub: https://github.com/jmpz63/Trading_Bot
+
+- **💻 [WallPanelization](PROJECTS/Active/WallPanelization/)** - Design & fabrication software
+  - Rhino/Grasshopper integration
+  - JSON contract specification
+  - GitHub: https://github.com/jmpz63/WallPanelization
+
+- **🖨️ [3D Printer](Projects/Active/Klipper_3D_Printer/)** - Prototyping support system
+  - BTT Octopus Max EZ + Klipper operational
+  - Shared firmware knowledge with robotic systems
+
+- **🎁 [Mason Jar Kits](Projects/Active/Mason_Jar_Gift_Kits/)** - Creative side projects
+  - 40+ gift and organization ideas
+  - Skills development and potential side income
+
+**📋 [View Complete Project Portfolio](Projects/Active/README.md)**
+
 
 
 ## 📊 **Enhanced System Statistics** *(V2.0 Transformation)*
@@ -164,8 +195,12 @@ ensure_compliance()  # Required after ANY knowledge operation!
 ### **💰 Trading & Financial Systems**
 | Document | Location | Purpose | Last Updated |
 |----------|----------|---------|--------------|
-| Kraken Bitcoin Trading Bot 2.0 | `TRADING/kraken_bitcoin_trading_bot_2_0.md` | Live automated cryptocurrency trading system | 2025-10-05 |
-| Trading Bot Repository | [Trading_Bot](https://github.com/jmpz63/Trading_Bot) | Production trading system with Kraken API integration | 2025-10-05 |
+| **Trading Bot (Active Project)** | `Projects/Active/trading_bot/` | **24/7 live trading - Wall Panel Manufacturing funding engine** | **2025-11-17** |
+| Kraken Bitcoin Trading Bot 2.0 | `TRADING/kraken_bitcoin_trading_bot_2_0.md` | Live automated cryptocurrency trading system documentation | 2025-10-05 |
+| Trading Bot Case Study | `Knowledge_Base/Case_Studies/trading_bot_paper_trading_system.md` | Paper trading system analysis and learning outcomes | 2025-10-05 |
+| Trading Bot Repository | [Trading_Bot](https://github.com/jmpz63/Trading_Bot) | Production trading system with Kraken API integration | 2025-11-17 |
+
+**Strategic Role**: Capital generation for manufacturing equipment and business scaling
 
 ---
 
