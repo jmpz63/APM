@@ -25,7 +25,13 @@ class APMWorkflowSystem:
     """Unified APM automation and workflow system"""
     
     def __init__(self):
-        self.apm_root = Path("/home/arm1/APM")
+        # Portable root resolution (no hardcoded Linux path)
+        try:
+            from config.apm_config import get_apm_root
+            self.apm_root = get_apm_root()
+        except Exception:
+            # Fallback: assume parent of _ADMIN directory is root
+            self.apm_root = Path(__file__).resolve().parent.parent
         self.knowledge_base = self.apm_root / "Knowledge_Base"
         self.admin_dir = self.apm_root / "_ADMIN"
         
@@ -268,7 +274,7 @@ class APMWorkflowSystem:
         # Check directory structure
         critical_dirs = [
             "Knowledge_Base",
-            "Projects", 
+            "PROJECTS",  # Windows repo uses uppercase directory name
             "_ADMIN"
         ]
         

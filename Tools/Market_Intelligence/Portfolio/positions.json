@@ -1,0 +1,25 @@
+{
+  "equities": [
+    {"symbol": "NVDA", "lots": [
+      {"shares": 20, "price": 175.00, "date": "2025-11-21"},
+      {"shares": 30, "price": 180.00, "date": "2025-11-21"},
+      {"shares": 100, "price": 175.45, "date": "2025-11-25"}
+    ]},
+    {"symbol": "AVAV", "lots": [
+      {"shares": 20, "price": 268.50, "date": "2025-11-21"}
+    ]},
+    {"symbol": "PANW", "lots": [
+      {"shares": 30, "price": 185.50, "date": "2025-11-21"}
+    ]}
+  ],
+  "crypto": [
+    {"symbol": "BTC-USD", "lots": [
+      {"units": 0.06024096, "price": 82990.48, "date": "2025-11-21"},
+      {"units": 0.01058201, "price": 94435.31, "date": "2025-11-16"}
+    ]}
+  ],
+  "options": [
+    {"underlying": "AVGO", "side": "long_put", "strike": 392.5, "expiry": "2025-11-28", "contracts": 1, "premium": 12.85},
+    {"underlying": "TSLA", "side": "short_put", "strike": 417.5, "expiry": "2025-11-28", "contracts": 1, "premium": 13.00}
+  ]
+}

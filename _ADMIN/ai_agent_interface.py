@@ -9,8 +9,17 @@ This replaces the old ai_agent_helper.py with a cleaner, simpler interface.
 from pathlib import Path
 import sys
 
-# Add the _ADMIN directory to path for imports
-sys.path.insert(0, str(Path("/home/arm1/APM/_ADMIN")))
+# Portable root resolution
+try:
+    from config.apm_config import get_apm_root
+    APM_ROOT = get_apm_root()
+except Exception:
+    APM_ROOT = Path(__file__).resolve().parent.parent
+
+# Ensure _ADMIN is importable without hardcoded absolute path
+_admin_path = APM_ROOT / "_ADMIN"
+if str(_admin_path) not in sys.path:
+    sys.path.insert(0, str(_admin_path))
 
 from apm_unified_system import APMWorkflowSystem
 

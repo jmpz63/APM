@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BTC Scenario Visualization Tool (Prototype)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif; margin: 0; padding: 1.2rem; background:#0d1117; color:#e6edf3; }
+    h1 { font-size: 1.4rem; margin: 0 0 .75rem; }
+    fieldset { border:1px solid #30363d; padding: .75rem 1rem; margin-bottom: .9rem; border-radius:6px; }
+    legend { padding:0 .4rem; font-weight:600; }
+    label { display:flex; align-items:center; gap:.35rem; margin:.35rem 0; font-size:.85rem; }
+    input[type=number] { width:110px; background:#161b22; border:1px solid #30363d; color:#e6edf3; padding:4px; border-radius:4px; }
+    input[type=date] { background:#161b22; border:1px solid #30363d; color:#e6edf3; padding:4px; border-radius:4px; }
+    .grid { display:grid; gap:.9rem; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); }
+    .note { font-size:.7rem; opacity:.7; line-height:1.25; }
+    .badge { padding:2px 6px; border-radius:4px; background:#1f6feb; font-size:.65rem; font-weight:600; letter-spacing:.5px; }
+    .scenario-range { position:absolute; top:0; left:0; pointer-events:none; }
+    .footer { margin-top:1.4rem; font-size:.65rem; opacity:.6; }
+    button { background:#238636; border:1px solid #2ea043; color:#fff; padding:6px 14px; border-radius:6px; cursor:pointer; font-weight:600; }
+    button:disabled { opacity:.4; cursor:not-allowed; }
+    .inline { display:inline-block; margin-right:.6rem; }
+    .warn { color:#ffa657; font-size:.7rem; }
+    .flex-row { display:flex; flex-wrap:wrap; gap:1rem; align-items:flex-end; }
+    canvas { background:#161b22; border:1px solid #30363d; border-radius:8px; }
+    .chip { display:inline-block; padding:2px 6px; border-radius:12px; background:#30363d; font-size:.6rem; margin:2px 4px 0 0; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <h1>BTC Local Bottom Scenario Explorer <span class="badge">Prototype</span></h1>
+  <p style="font-size:.85rem; max-width:840px; line-height:1.35">
+    Visual comparison of hypothetical corrective paths toward potential local bottoms (not macro cycle lows). Adjust inputs; toggle scenarios. Bottom windows shaded. This file is offline-capable (CDN required for Chart.js). No financial advice.
+  </p>
+
+  <div class="flex-row" style="margin-bottom:.9rem">
+    <div>
+      <label>Current Date: <input type="date" id="currentDate" /></label>
+      <label>Current Price (USD): <input type="number" id="currentPrice" value="62000" min="1" step="100" />
+        <button type="button" id="livePriceBtn" style="margin-left:.5rem">Refresh Live Price</button>
+      </label>
+      <div class="note" id="livePriceStatus" style="margin-top:-4px">Live price: (pending fetch)</div>
+      <label>Assumed Interim Top (Scenario A) <input type="number" id="topA" value="110000" step="1000" /></label>
+      <label>Scenario A Bottom Low <input type="number" id="bottomALow" value="55000" step="500" /></label>
+      <label>Scenario A Bottom High <input type="number" id="bottomAHigh" value="68000" step="500" /></label>
+      <label>Scenario A Bottom Date <input type="date" id="bottomADate" /></label>
+    </div>
+    <div>
+      <label>Scenario B Early Peak (USD) <input type="number" id="topBEarly" value="105000" step="1000" /></label>
+      <label>Scenario B Bottom Low <input type="number" id="bottomBLow" value="60000" step="500" /></label>
+      <label>Scenario B Bottom High <input type="number" id="bottomBHigh" value="72000" step="500" /></label>
+      <label>Scenario B Bottom Date <input type="date" id="bottomBDate" /></label>
+    </div>
+    <div>
+      <label>Scenario C Gentle High (USD) <input type="number" id="topCGentle" value="95000" step="1000" /></label>
+      <label>Scenario C Bottom Low <input type="number" id="bottomCLow" value="70000" step="500" /></label>
+      <label>Scenario C Bottom High <input type="number" id="bottomCHigh" value="78000" step="500" /></label>
+      <label>Scenario C Bottom Date <input type="date" id="bottomCDate" /></label>
+    </div>
+  </div>
+
+  <fieldset>
+    <legend>Scenario Visibility</legend>
+    <label><input type="checkbox" class="scenario-toggle" data-key="A" checked /> Scenario A (Base Continuation)</label>
+    <label><input type="checkbox" class="scenario-toggle" data-key="B" checked /> Scenario B (Earlier Peak / Faster Correction)</label>
+    <label><input type="checkbox" class="scenario-toggle" data-key="C" checked /> Scenario C (Delayed Peak / Shallow Pullback)</label>
+    <div class="note">Set explicit bottom dates per scenario; price bands still define vertical range.</div>
+  </fieldset>
+
+  <button id="recalcBtn">Recalculate & Update</button>
+  <span class="warn" id="statusMsg"></span>
+
+  <div style="margin-top:1rem">
+    <canvas id="btcChart" height="420"></canvas>
+  </div>
+
+  <details style="margin-top:1rem">
+    <summary style="cursor:pointer;font-weight:600">Methodology & Assumptions</summary>
+    <div class="note" style="margin-top:.5rem; font-size:.75rem">
+      Paths are piecewise linear approximations: (current → projected interim top) then (top → bottom midpoint) then (recovery). Recovery leg assumes 50% retrace back toward top over same duration as descent. Adjust top & bottom ranges to explore sensitivity. Bottom windows are horizontal semi-transparent bands. For production, replace synthetic paths with model output (on-chain metrics, derivatives flush signals). No guarantees; for exploratory visualization only.
+    </div>
+  </details>
+
+  <div class="footer">Prototype generated on demand. Integrate into APM workflow by wrapping with notify_new_document()/ensure_compliance once finalized.</div>
+
+<script>
+(function(){
+  const todayISO = new Date().toISOString().slice(0,10);
+  const currentDateInput = document.getElementById('currentDate');
+  currentDateInput.value = todayISO;
+  // Default bottom date fields (rough heuristic)
+  const setDateOffset = (el, monthsAhead) => {
+    const d = new Date(); d.setMonth(d.getMonth() + monthsAhead); el.value = d.toISOString().slice(0,10);
+  };
+  setDateOffset(document.getElementById('bottomADate'), 5); // Base continuation mid-window
+  setDateOffset(document.getElementById('bottomBDate'), 4); // Earlier correction
+  setDateOffset(document.getElementById('bottomCDate'), 8); // Delayed correction
+
+  const ctx = document.getElementById('btcChart').getContext('2d');
+
+  function generateDates(startDate, months=12){
+    const dates=[]; const d=new Date(startDate);
+    for(let i=0;i<=months;i++){ const t=new Date(d); t.setMonth(d.getMonth()+i); dates.push(t); }
+    return dates;
+  }
+
+  function linearSeries(points){
+    // points: [ {date:Date, price:Number}, ... ] piecewise segments
+    const out=[]; for(let i=0;i<points.length-1;i++){ const a=points[i], b=points[i+1]; const steps= Math.max(1, Math.round((b.date - a.date)/(1000*60*60*24*30))); for(let s=0;s<steps;s++){ const f=s/steps; out.push({date:new Date(a.date.getTime()+f*(b.date-a.date)), price:a.price + f*(b.price-a.price)}); } }
+    out.push(points[points.length-1]); return out;
+  }
+
+  function buildScenarioData(kind, cfg){
+    // cfg: {currentDate, currentPrice, topPrice, bottomLow, bottomHigh, bottomDate}
+    const start = new Date(cfg.currentDate);
+    const topDate = new Date(start); topDate.setMonth(topDate.getMonth()+ (kind==='B'?2:(kind==='A'?3:6))); // relative timing heuristics
+    let bottomMidDate;
+    if (cfg.bottomDate) {
+      bottomMidDate = new Date(cfg.bottomDate);
+    } else {
+      bottomMidDate = new Date(topDate); bottomMidDate.setMonth(bottomMidDate.getMonth()+ (kind==='B'?2:(kind==='A'?3:2))); // fallback descent duration
+    }
+    const recoveryDate = new Date(bottomMidDate); recoveryDate.setMonth(recoveryDate.getMonth()+ (kind==='C'?2:3));
+
+    const bottomMidPrice = (cfg.bottomLow + cfg.bottomHigh)/2;
+    const recoveryPrice = bottomMidPrice + (cfg.topPrice - bottomMidPrice)*0.5; // partial recovery
+
+    const points = [
+      {date:start, price:cfg.currentPrice},
+      {date:topDate, price:cfg.topPrice},
+      {date:bottomMidDate, price:bottomMidPrice},
+      {date:recoveryDate, price:recoveryPrice}
+    ];
+    return linearSeries(points);
+  }
+
+  function formatDate(d){ return d.toISOString().slice(0,10); }
+
+  function buildChart(){
+    const currentPrice = parseFloat(document.getElementById('currentPrice').value);
+    const data = {
+      A: buildScenarioData('A', {
+        currentDate: currentDateInput.value,
+        currentPrice,
+        topPrice: parseFloat(document.getElementById('topA').value),
+        bottomLow: parseFloat(document.getElementById('bottomALow').value),
+        bottomHigh: parseFloat(document.getElementById('bottomAHigh').value),
+        bottomDate: document.getElementById('bottomADate').value || null
+      }),
+      B: buildScenarioData('B', {
+        currentDate: currentDateInput.value,
+        currentPrice,
+        topPrice: parseFloat(document.getElementById('topBEarly').value),
+        bottomLow: parseFloat(document.getElementById('bottomBLow').value),
+        bottomHigh: parseFloat(document.getElementById('bottomBHigh').value),
+        bottomDate: document.getElementById('bottomBDate').value || null
+      }),
+      C: buildScenarioData('C', {
+        currentDate: currentDateInput.value,
+        currentPrice,
+        topPrice: parseFloat(document.getElementById('topCGentle').value),
+        bottomLow: parseFloat(document.getElementById('bottomCLow').value),
+        bottomHigh: parseFloat(document.getElementById('bottomCHigh').value),
+        bottomDate: document.getElementById('bottomCDate').value || null
+      })
+    };
+
+    const allDates = [...new Set([...data.A, ...data.B, ...data.C].map(p=>formatDate(p.date)))].sort();
+
+    const vis = Array.from(document.querySelectorAll('.scenario-toggle')).reduce((acc,el)=>{ acc[el.dataset.key]=el.checked; return acc; },{});
+
+    const datasets = [
+      vis.A && {
+        label: 'Scenario A - Base Continuation', data: allDates.map(d=>{ const f=data.A.find(p=>formatDate(p.date)===d); return f?f.price:null; }),
+        borderColor: '#58a6ff', tension:.25, spanGaps:true
+      },
+      vis.B && {
+        label: 'Scenario B - Earlier Peak', data: allDates.map(d=>{ const f=data.B.find(p=>formatDate(p.date)===d); return f?f.price:null; }),
+        borderColor: '#ffa657', tension:.25, spanGaps:true
+      },
+      vis.C && {
+        label: 'Scenario C - Delayed Peak', data: allDates.map(d=>{ const f=data.C.find(p=>formatDate(p.date)===d); return f?f.price:null; }),
+        borderColor: '#3fb950', tension:.25, spanGaps:true
+      }
+    ].filter(Boolean);
+
+    if(window.btcChart){ window.btcChart.destroy(); }
+
+    window.btcChart = new Chart(ctx, {
+      type: 'line',
+      data: { labels: allDates, datasets },
+      options: {
+        responsive: true,
+        interaction:{ mode:'index', intersect:false },
+        plugins:{
+          legend:{ labels:{ color:'#e6edf3', font:{size:11} } },
+          tooltip:{ callbacks:{
+            label:(ctx)=> ctx.dataset.label+': $'+ ctx.formattedValue
+          }}
+        },
+        scales:{
+          x:{ ticks:{ color:'#8b949e' }, grid:{ color:'#21262d' } },
+          y:{ ticks:{ color:'#8b949e', callback:(v)=>'$'+v.toLocaleString() }, grid:{ color:'#21262d' } }
+        }
+      }
+    });
+
+    // Draw bottom windows overlay bands
+    requestAnimationFrame(()=>{
+      const chartArea = window.btcChart.chartArea;
+      const yScale = window.btcChart.scales.y;
+      const ctx2 = ctx;
+      ctx2.save();
+      function shade(low, high, color){
+        const yHigh = yScale.getPixelForValue(high);
+        const yLow = yScale.getPixelForValue(low);
+        ctx2.fillStyle = color;
+        ctx2.fillRect(chartArea.left, yHigh, chartArea.right - chartArea.left, yLow - yHigh);
+      }
+      // Use current inputs
+      shade(parseFloat(document.getElementById('bottomALow').value), parseFloat(document.getElementById('bottomAHigh').value), 'rgba(88,166,255,0.08)');
+      shade(parseFloat(document.getElementById('bottomBLow').value), parseFloat(document.getElementById('bottomBHigh').value), 'rgba(255,166,87,0.07)');
+      shade(parseFloat(document.getElementById('bottomCLow').value), parseFloat(document.getElementById('bottomCHigh').value), 'rgba(63,185,80,0.07)');
+      ctx2.restore();
+    });
+
+    document.getElementById('statusMsg').textContent = 'Updated '+ new Date().toLocaleTimeString();
+  }
+
+  document.getElementById('recalcBtn').addEventListener('click', buildChart);
+  document.querySelectorAll('.scenario-toggle').forEach(el=> el.addEventListener('change', buildChart));
+
+  async function fetchLivePrice(){
+    const statusEl = document.getElementById('livePriceStatus');
+    statusEl.textContent = 'Live price: fetching…';
+    try {
+      const resp = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+      if(!resp.ok) throw new Error('HTTP '+resp.status);
+      const data = await resp.json();
+      if(data && data.bitcoin && typeof data.bitcoin.usd === 'number'){
+        const price = data.bitcoin.usd;
+        const input = document.getElementById('currentPrice');
+        input.value = price;
+        statusEl.textContent = 'Live price: $'+ price.toLocaleString() +' (Coingecko '+ new Date().toLocaleTimeString()+')';
+        buildChart();
+      } else {
+        statusEl.textContent = 'Live price: unavailable (unexpected data)';
+      }
+    } catch(err){
+      statusEl.textContent = 'Live price fetch failed: '+ err.message;
+    }
+  }
+
+  document.getElementById('livePriceBtn').addEventListener('click', fetchLivePrice);
+  // Auto-fetch on initial load (can be disabled if rate-limit concerns)
+  fetchLivePrice();
+
+  buildChart();
+})();
+</script>
+</body>
+</html>
