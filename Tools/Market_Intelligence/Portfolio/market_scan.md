@@ -1,0 +1,12 @@
+# Market Trend Scan
+
+Generated: 2025-11-26 15:13 UTC
+
+## Bull-Run Candidates
+- AVGO: Px 391.26 | SMA50 349.83 | SMA200 270.53 | RSI 64.4 | MACDhist 3.72 | 20d L/H 339.98/391.26
+
+## Others (Not All Signals Aligned)
+- AVAV: Px 276.78 | SMA50 338.33 | SMA200 229.25 | RSI 15.5 | MACDhist -4.13 | 20d L/H 272.54/369.91
+- NVDA: Px 179.03 | SMA50 186.79 | SMA200 153.43 | RSI 42.3 | MACDhist -1.80 | 20d L/H 177.82/206.88
+- PANW: Px 185.66 | SMA50 207.77 | SMA200 192.33 | RSI 22.8 | MACDhist -2.99 | 20d L/H 182.90/220.24
+- TSLA: Px 419.12 | SMA50 433.53 | SMA200 339.91 | RSI 40.0 | MACDhist -1.19 | 20d L/H 391.09/468.37

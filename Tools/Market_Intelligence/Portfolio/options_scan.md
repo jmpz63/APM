@@ -1,0 +1,1 @@
+yfinance not installed. Run: python -m pip install yfinance
