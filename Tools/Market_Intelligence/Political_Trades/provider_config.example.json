@@ -1,0 +1,5 @@
+{
+  "provider_url": "https://api.quiverquant.com/beta/live/congresstrading", 
+  "headers": {"Authorization": "Bearer YOUR_QUIVER_API_KEY"},
+  "names": ["Nancy Pelosi", "Paul Pelosi"]
+}

@@ -83,6 +83,16 @@ def sma(values, period):
         return None
     return sum(values[-period:]) / period
 
+def last_n_low(values, n):
+    if len(values) < n:
+        return None
+    return min(values[-n:])
+
+def last_n_high(values, n):
+    if len(values) < n:
+        return None
+    return max(values[-n:])
+
 def generate():
     chart = fetch_json(COINGECKO_CHART_URL)
     spot = fetch_json(COINGECKO_PRICE_URL)
@@ -105,6 +115,8 @@ def generate():
         "macd": macd(closing_prices),
         "realized_vol_7d": realized_vol(closing_prices, 7),
         "price_distance_sma200_pct": None,
+        "low_20d": last_n_low(closing_prices, 20),
+        "high_20d": last_n_high(closing_prices, 20),
     }
     if metrics["current_price"] and metrics["sma200"]:
         metrics["price_distance_sma200_pct"] = ((metrics["current_price"] - metrics["sma200"]) / metrics["sma200"]) * 100
@@ -129,6 +141,7 @@ def write_outputs(data):
             f"**MACD (line/signal/hist):** {data['macd']['macd']:.2f} / {data['macd']['signal']:.2f} / {data['macd']['histogram']:.2f}" if data.get('macd') else "**MACD:** n/a",
             f"**Realized Vol (7d, annualized):** {round(data.get('realized_vol_7d'),4) if data.get('realized_vol_7d') else 'n/a'}",
             f"**Distance from SMA200 (%):** {round(data.get('price_distance_sma200_pct'),2) if data.get('price_distance_sma200_pct') else 'n/a'}",
+            f"**20D High / Low:** {round(data.get('high_20d'),2) if data.get('high_20d') else 'n/a'} / {round(data.get('low_20d'),2) if data.get('low_20d') else 'n/a'}",
             "",
             "## Scenario Probabilities (Initial Placeholder)",
             "- Bullish Continuation: 33%", 
@@ -142,6 +155,33 @@ def write_outputs(data):
             "## Invalidation Levels (Placeholder)",
             "- Bullish bias invalid below SMA50 if RSI < 45.",
             "- Bearish acceleration invalid if price holds > SMA20 for 3 consecutive closes.",
+            "",
+            "## Bias & Levels",
+        ])
+
+        price = data.get('current_price')
+        sma20_v = data.get('sma20')
+        sma50_v = data.get('sma50')
+        sma200_v = data.get('sma200')
+        rsi_v = data.get('rsi14')
+        low20 = data.get('low_20d')
+        high20 = data.get('high_20d')
+
+        # Determine simple bias
+        bias = "Neutral / Range"
+        if price and sma20_v and rsi_v is not None:
+            if price > sma20_v and rsi_v > 50:
+                bias = "Bullish (short-term)"
+            elif price < sma20_v and rsi_v < 45:
+                bias = "Bearish (short-term)"
+
+        lines.extend([
+            f"- Bias: {bias}",
+            f"- Key Support: {round(low20,2) if low20 else 'n/a'} (20D Low)",
+            f"- Key Resistance: {round(sma20_v,2) if sma20_v else 'n/a'} (SMA20) | {round(high20,2) if high20 else 'n/a'} (20D High)",
+            f"- Trend Pivots: {round(sma50_v,2) if sma50_v else 'n/a'} (SMA50), {round(sma200_v,2) if sma200_v else 'n/a'} (SMA200)",
+            "- Bullish trigger: 2–3 daily closes above SMA20, then SMA50.",
+            "- Bearish trigger: Daily close below 20D Low or repeated failures at SMA20.",
         ])
     md_path.write_text("\n".join(lines), encoding="utf-8")
     return json_path, md_path
