@@ -37,6 +37,45 @@ Purpose: Give new AI agents a fast, reliable playbook to operate within APM with
 - Prefer minimal, non-breaking changes; avoid mass reformat
 - Use `DUMP_TMC` and documented procedures for hardware-related steps (see TMC KB)
 
+## Scheduled Tasks & Automation
+- Use Windows Task Scheduler via PowerShell (`schtasks`) for reliability.
+- Prefer small, self-contained scripts under `Tools/...` so they can be versioned and tested.
+
+### Hidden (No-Window) Execution Pattern
+To avoid seeing a flashing console window for scheduled tasks, run scripts via a VBScript wrapper hidden.
+
+1) Write `run_hidden.vbs` next to your script:
+```
+Set WshShell = CreateObject("WScript.Shell")
+WshShell.Run """<your command here>""", 0, False
+```
+- `0` = hidden window, `False` = don't wait.
+
+2) Register the task to run the wrapper silently:
+```
+schtasks /Create /SC MINUTE /MO 15 /TN Your_Task_Name /TR "cscript //nologo \"C:\\path\\to\\run_hidden.vbs\"" /F
+```
+
+3) Recommended: have your scheduler `.ps1` auto-generate the wrapper and set the action to `cscript`:
+```
+$cmd = '"C:\\Path\\to\\python.exe" "C:\\path\\to\\your_script.py"'
+$vbsContent = @"
+Set WshShell = CreateObject("WScript.Shell")
+WshShell.Run """$cmd""", 0, False
+"@
+Set-Content -Path $vbs -Value $vbsContent -Encoding ASCII
+$taskRun = 'cscript //nologo ' + '"' + $vbs + '"'
+```
+
+4) Verify the task:
+```
+schtasks /Query /TN Your_Task_Name /FO LIST
+```
+
+Placement:
+- Keep schedulers with their tools (e.g., `Tools/Market_Intelligence/.../schedule_*.ps1`).
+- Document the hidden-run pattern here so future tasks follow the same convention.
+
 ## Commit etiquette
 - Group related change sets; avoid mixed-purpose commits
 - Prefix messages with area: `docs(project-hubs): ...`, `knowledge(TMC): ...`, `projects(...): ...`
