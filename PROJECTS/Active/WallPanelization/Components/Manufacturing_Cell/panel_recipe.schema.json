@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Wall Panel Recipe",
+  "type": "object",
+  "required": ["version", "panel", "frame", "studs", "nails"],
+  "properties": {
+    "version": {"type": "string"},
+    "panel": {
+      "type": "object",
+      "required": ["id", "width_mm", "height_mm"],
+      "properties": {
+        "id": {"type": "string"},
+        "width_mm": {"type": "number"},
+        "height_mm": {"type": "number"},
+        "face": {"type": "string", "enum": ["A", "B"], "default": "A"},
+        "material": {"type": "string"}
+      }
+    },
+    "frame": {
+      "type": "object",
+      "description": "Coordinate frame: origin at table lower-left; units mm",
+      "properties": {
+        "origin": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+        "rotation_deg": {"type": "number", "enum": [0, 180]}
+      }
+    },
+    "studs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["x_mm", "y_mm", "length_mm", "type"],
+        "properties": {
+          "x_mm": {"type": "number"},
+          "y_mm": {"type": "number"},
+          "length_mm": {"type": "number"},
+          "type": {"type": "string", "enum": ["stud", "plate_top", "plate_bottom", "header", "king", "cripple"]},
+          "width_mm": {"type": "number"}
+        }
+      }
+    },
+    "nails": {
+      "type": "array",
+      "description": "Absolute nail coordinates on current face",
+      "items": {
+        "type": "object",
+        "required": ["x_mm", "y_mm"],
+        "properties": {
+          "x_mm": {"type": "number"},
+          "y_mm": {"type": "number"},
+          "pattern": {"type": "string"}
+        }
+      }
+    },
+    "clamp_zones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["zone_id", "enabled"],
+        "properties": {
+          "zone_id": {"type": "string"},
+          "enabled": {"type": "boolean"}
+        }
+      }
+    },
+    "transforms": {
+      "type": "object",
+      "description": "Coordinate transforms for rotation",
+      "properties": {
+        "A_to_B": {"type": "string", "description": "(x,y) -> (W-x, H-y)"}
+      }
+    }
+  }
+}

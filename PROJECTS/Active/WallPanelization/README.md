@@ -8,6 +8,12 @@ Contents
 - Power/ — power budget, generator sizing notes, single-line/layout placeholders, compute_power.py
 - Software/ — structure notes and a synthetic JSON generator (no Rhino required)
 
+Manufacturing Cell Specs
+- Components/Manufacturing_Cell/ — hybrid rotatable table workcell specs and panel recipe schema
+	- Workcell_Spec.md
+	- Rotatable_Table_Spec.md
+	- panel_recipe.schema.json
+
 Quick links
 - JSON contract (in submodule): repo/docs/JSON_CONTRACT.md
 - Schema: repo/schema/fabrication.schema.json
