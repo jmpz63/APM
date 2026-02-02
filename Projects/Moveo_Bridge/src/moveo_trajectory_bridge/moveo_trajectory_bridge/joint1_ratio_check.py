@@ -25,7 +25,7 @@ class Joint1RatioCheck(Node):
 
     def _publish(self):
         traj = JointTrajectory()
-        traj.joint_names = ['joint1','joint2','joint3','joint4','joint5','joint6']
+        traj.joint_names = ['joint1','joint2','joint3','joint4','joint5']
         # Start point (0)
         p0 = JointTrajectoryPoint()
         p0.positions = [0.0,0.0,0.0,0.0,0.0,0.0]

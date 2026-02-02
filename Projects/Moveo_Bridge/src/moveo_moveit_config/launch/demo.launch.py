@@ -59,6 +59,7 @@ def generate_launch_description():
                 {'robot_description_kinematics': kinematics_yaml},
                 {'robot_description_planning': joint_limits_yaml.get('joint_limits', joint_limits_yaml)},
                 {'planning_plugin': 'ompl_interface/OMPLPlanner'},
+                ompl_yaml,
                 controllers_yaml,
                 # Disable octomap monitor to silence missing 3D sensor plugin error
                 {'planning_scene_monitor': {

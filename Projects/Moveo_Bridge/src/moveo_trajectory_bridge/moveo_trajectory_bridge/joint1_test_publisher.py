@@ -32,7 +32,7 @@ class Joint1TestPublisher(Node):
         pts = []
         t_accum = 0.0
         traj = JointTrajectory()
-        traj.joint_names = ['joint1','joint2','joint3','joint4','joint5','joint6']
+        traj.joint_names = ['joint1','joint2','joint3','joint4','joint5']
         for d in seq_deg:
             pt = JointTrajectoryPoint()
             val = math.radians(d) if self._use_radians else d

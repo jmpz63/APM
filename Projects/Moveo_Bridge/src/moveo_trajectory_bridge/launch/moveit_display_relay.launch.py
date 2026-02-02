@@ -8,7 +8,7 @@ def generate_launch_description():
         'output_topic': '/joint_trajectory',
         'only_first': True,
         # Provide joints_subset as string array (placeholder values removed means autodetect all joints)
-        'joints_subset': ['joint1','joint2','joint3','joint4','joint5','joint6'],
+            'joints_subset': ['joint1','joint2','joint3','joint4','joint5'],
         'position_unit': 'radians'
     }
     return LaunchDescription([

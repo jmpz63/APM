@@ -18,7 +18,7 @@ class JointStateShim(Node):
         self.declare_parameter('publish_rate', 20.0)
         self._traj_topic = self.get_parameter('trajectory_topic').value
         self._rate = float(self.get_parameter('publish_rate').value)
-        self._last_names: List[str] = ['joint1','joint2','joint3','joint4','joint5','joint6']
+        self._last_names: List[str] = ['joint1','joint2','joint3','joint4','joint5']
         self._last_positions: List[float] = [0.0]*6
         self._last_stamp = self.get_clock().now()
         self._pub = self.create_publisher(JointState, 'joint_states', 10)

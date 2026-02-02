@@ -10,7 +10,7 @@ class DummyTrajectoryPublisher(Node):
     def __init__(self):
         super().__init__('dummy_trajectory_publisher')
         self.declare_parameter('publish_rate', 0.5)  # Hz per full trajectory cycle
-        self.declare_parameter('joint_names', ['joint1','joint2','joint3','joint4','joint5','joint6'])
+        self.declare_parameter('joint_names', ['joint1','joint2','joint3','joint4','joint5'])
         self.declare_parameter('topic', '/joint_trajectory')
         self.declare_parameter('one_shot', False)
         self.declare_parameter('segments', 20)
