@@ -1,0 +1,23 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "restart-klipper",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"-lc",
+				"echo 'Sending RESTART to Klipper via Moonraker (if available)...'; curl -s -X POST http://localhost:7125/printer/restart | cat || echo 'If Moonraker is not running, please run: RESTART in the printer console (Mainsail/Fluidd) or restart the service.'"
+			]
+		},
+		{
+			"label": "restart-klipper",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"-lc",
+				"echo 'Sending RESTART to Klipper via Moonraker (if available)...'; curl -s -X POST http://localhost:7125/printer/restart | cat || echo 'Moonraker restart failed or not available. Please issue RESTART from your printer console (Mainsail/Fluidd)."
+			]
+		}
+	]
+}

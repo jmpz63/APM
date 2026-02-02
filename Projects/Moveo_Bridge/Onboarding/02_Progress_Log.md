@@ -2,6 +2,10 @@
 
 Format: `YYYY-MM-DD HH:MM | Area | Summary | Outcome / Next`
 
+2026-02-02 15:00 | 5-DOF Completion | Joints 3, 4, 5 calibrated, homed, and operational | All limits set, URDF updated to 5-DOF, joint6 aux-wires
+2026-02-02 15:30 | URDF Update | Updated moveo.urdf.xacro to reflect 5-DOF configuration | Removed joint6, renamed to end_effector, updated all joint limits
+2026-02-02 15:45 | MoveIt Config | Updated SRDF and joint_limits.yaml for 5 joints | Chain now base_link to end_effector, calibrated velocities/accels
+2026-02-02 16:00 | Documentation | Updated README, KNOWLEDGE_INDEX, Progress Log | Hardware status reflects 5/5 joints operational
 2025-09-30 10:00 | Calibration | Joint1 gear ratio & limits aligned (±1.0821 rad) | Basis for MoveIt limits
 2025-09-30 11:00 | MoveIt Launch | Fixed demo.launch issues (robot_description pass, controllers) | move_group stable
 2025-09-30 12:00 | Bridge Core | Added JointTrajectory -> MANUAL_STEPPER (HTTP) | Manual curl test OK

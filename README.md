@@ -23,6 +23,7 @@
 - **[Projects/Active/](Projects/Active/)**: Current projects (see [portfolio overview](Projects/Active/README.md))
 - **Engineering/**: technical work by discipline
 - **Knowledge_Base/**: learning materials, references
+- **ROS/MoveIt Integration**: see `Knowledge_Base/ROS_Robotics/MoveIt_Integration/APM_Arm_MoveIt_Integration.md`
 - **Tools/**: templates, scripts, utilities
 - **_ADMIN/**: **AI workflow system and maintenance** ⚠️ CRITICAL
 

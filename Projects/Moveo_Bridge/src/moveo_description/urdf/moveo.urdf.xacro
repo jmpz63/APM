@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot name="moveo" xmlns:xacro="http://ros.org/wiki/xacro">
-  <!-- Clean 6-DOF chain. Dual-motor joint2 handled in hardware. -->
+  <!-- 5-DOF Moveo arm. Dual-motor joint2 handled in hardware. Joint6 unused (aux-wires). -->
 
   <!-- Base link (assumed fixed) -->
   <link name="base_link">
@@ -43,8 +43,8 @@
     <child link="link1"/>
     <origin xyz="0 0 0.025" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <!-- Physical calibrated travel ~±62° (1.0821 rad). Adjust if mechanical range increases. -->
-    <limit effort="5" velocity="1.05" lower="-1.0821" upper="1.0821"/>
+    <!-- Calibrated: ±82° (±1.4312 rad) | gear_ratio: 100:10 | endstop: 82° -->
+    <limit effort="5" velocity="8.7266" lower="-1.4312" upper="1.4312"/>
     <dynamics damping="0.1" friction="0.0"/>
   </joint>
 
@@ -71,7 +71,8 @@
     <child link="link2"/>
     <origin xyz="0 0 0.05" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit effort="5" velocity="1.0" lower="-1.5708" upper="1.5708"/>
+    <!-- Calibrated: -110° to +120° (-1.9199 to 2.0944 rad) | gear_ratio: 77:14 | endstop: 115.3° | DUAL MOTOR -->
+    <limit effort="5" velocity="8.7266" lower="-1.9199" upper="2.0944"/>
     <dynamics damping="0.1" friction="0.0"/>
   </joint>
 
@@ -98,7 +99,8 @@
     <child link="link3"/>
     <origin xyz="0 0 0.05" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit effort="5" velocity="1.0" lower="-2.0" upper="2.0"/>
+    <!-- Calibrated: -90° to +115° (-1.5708 to 2.0071 rad) | gear_ratio: 600:7 | endstop: 115° -->
+    <limit effort="5" velocity="8.7266" lower="-1.5708" upper="2.0071"/>
     <dynamics damping="0.1" friction="0.0"/>
   </joint>
 
@@ -126,7 +128,8 @@
     <!-- Raised joint4 origin from 0.04 -> 0.05 to remove overlap between link3 (0–0.05 span) and link4 (0–0.04 span relative to its own frame). -->
     <origin xyz="0 0 0.05" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit effort="5" velocity="1.5" lower="-2.0" upper="2.0"/>
+    <!-- Calibrated: ±180° (±3.1416 rad) | gear_ratio: 5.16:1 -->
+    <limit effort="5" velocity="8.7266" lower="-3.1416" upper="3.1416"/>
     <dynamics damping="0.1" friction="0.0"/>
   </joint>
 
@@ -154,12 +157,13 @@
     <!-- Raised joint5 origin from 0.03 -> 0.04 to create ~2mm clearance between link4 top (≈0.039) and link5 bottom (≈0.041). -->
     <origin xyz="0 0 0.04" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit effort="5" velocity="2.0" lower="-3.14159" upper="3.14159"/>
+    <!-- Calibrated: -90° to +85° (-1.5708 to 1.4835 rad) | gear_ratio: 45:2 | endstop: 85° -->
+    <limit effort="5" velocity="8.7266" lower="-1.5708" upper="1.4835"/>
     <dynamics damping="0.1" friction="0.0"/>
   </joint>
 
-  <!-- Tool link (link6) -->
-  <link name="tool_link">
+  <!-- End effector link (5-DOF configuration, joint6 removed/aux-wires) -->
+  <link name="end_effector">
     <inertial>
       <origin xyz="0 0 0.01" rpy="0 0 0"/>
       <mass value="0.05"/>
@@ -172,18 +176,13 @@
     </visual>
     <collision>
       <origin xyz="0 0 0.01" rpy="0 0 0"/>
-      <!-- Clearance adjusted -->
       <geometry><cylinder radius="0.01" length="0.018"/></geometry>
     </collision>
   </link>
-  <joint name="joint6" type="revolute">
+  <joint name="end_effector_joint" type="fixed">
     <parent link="link5"/>
-    <child link="tool_link"/>
-    <!-- Raised joint6 from 0.02 -> 0.03 to eliminate collision overlap with link5. -->
+    <child link="end_effector"/>
     <origin xyz="0 0 0.03" rpy="0 0 0"/>
-    <axis xyz="0 1 0"/>
-    <limit effort="5" velocity="2.0" lower="-2.0" upper="2.0"/>
-    <dynamics damping="0.1" friction="0.0"/>
   </joint>
 
 </robot>

@@ -1,8 +1,19 @@
 joint_limits:
-  # joint1: ±62° (1.0821 rad) physical. Velocity set to 1.05 rad/s (~60 deg/s)
-  joint1: {has_velocity_limits: true, max_velocity: 1.05, has_acceleration_limits: true, max_acceleration: 5.24, has_position_limits: true, min_position: -1.0821, max_position: 1.0821}
-  joint2: {has_velocity_limits: true, max_velocity: 0.52, has_acceleration_limits: true, max_acceleration: 2.44}  # ~30 deg/s, 140 deg/s^2
-  joint3: {has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 4.0}
-  joint4: {has_velocity_limits: true, max_velocity: 1.5, has_acceleration_limits: true, max_acceleration: 6.0}
-  joint5: {has_velocity_limits: true, max_velocity: 2.0, has_acceleration_limits: true, max_acceleration: 8.0}
-  joint6: {has_velocity_limits: true, max_velocity: 2.0, has_acceleration_limits: true, max_acceleration: 8.0}
+  # Calibrated limits from printer.cfg - 5-DOF configuration
+  # velocity in rad/s = deg/s * pi/180, accel in rad/s^2 = deg/s^2 * pi/180
+  
+  # Joint1: ±82° (±1.4312 rad) | velocity: 500 deg/s (8.7266 rad/s) | accel: 80 deg/s^2 (1.3963 rad/s^2)
+  joint1: {has_velocity_limits: true, max_velocity: 8.7266, has_acceleration_limits: true, max_acceleration: 1.3963, has_position_limits: true, min_position: -1.4312, max_position: 1.4312}
+  
+  # Joint2: -110° to +120° (-1.9199 to 2.0944 rad) | velocity: 500 deg/s (8.7266 rad/s) | accel: 60 deg/s^2 (1.0472 rad/s^2) | DUAL MOTOR
+  joint2: {has_velocity_limits: true, max_velocity: 8.7266, has_acceleration_limits: true, max_acceleration: 1.0472, has_position_limits: true, min_position: -1.9199, max_position: 2.0944}
+  
+  # Joint3: -90° to +115° (-1.5708 to 2.0071 rad) | velocity: 5 deg/s (0.0873 rad/s) | accel: 80 deg/s^2 (1.3963 rad/s^2)
+  joint3: {has_velocity_limits: true, max_velocity: 0.0873, has_acceleration_limits: true, max_acceleration: 1.3963, has_position_limits: true, min_position: -1.5708, max_position: 2.0071}
+  
+  # Joint4: ±180° (±3.1416 rad) | velocity: 500 deg/s (8.7266 rad/s) | accel: 100 deg/s^2 (1.7453 rad/s^2)
+  joint4: {has_velocity_limits: true, max_velocity: 8.7266, has_acceleration_limits: true, max_acceleration: 1.7453, has_position_limits: true, min_position: -3.1416, max_position: 3.1416}
+  
+  # Joint5: -90° to +85° (-1.5708 to 1.4835 rad) | velocity: 500 deg/s (8.7266 rad/s) | accel: 120 deg/s^2 (2.0944 rad/s^2)
+  joint5: {has_velocity_limits: true, max_velocity: 8.7266, has_acceleration_limits: true, max_acceleration: 2.0944, has_position_limits: true, min_position: -1.5708, max_position: 1.4835}
+

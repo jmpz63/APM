@@ -3,9 +3,9 @@
 
 📋 **AUTHORITATIVE SPECS**: All joint ranges, limits, and hardware parameters are defined in `printer.cfg`
 
-🤖 **Complete ROS 2 integration for BCN3D Moveo 6-DOF robotic arm using Klipper firmware**
+🤖 **Complete ROS 2 integration for BCN3D Moveo 5-DOF robotic arm using Klipper firmware**
 
-**Current Status**: 2/6 joints operational (Joint 1 + dual-motor Joint 2) with full TMC5160 control
+**Current Status**: 5/5 joints operational (All joints calibrated with homing and limits) | Joint 6 aux-wires
 
 ## 🚀 Quick Start (4-Terminal Headless Control)
 
@@ -103,16 +103,20 @@ systemctl status klipper
 | Component | Status | Notes |
 |-----------|--------|-------|
 | BTT Octopus Max EZ | ✅ Working | 24V power stable |
-| TMC5160 Motor-6 | ✅ Ready | Reserved for Joint 3 |
-| TMC5160 Motor-7 | ✅ Working | Joint 2b @ 0.2A |
 | TMC5160 Motor-8 | ✅ Working | Joint 2 @ 0.6A |
-| TMC5160 Motor-5 | ❌ Hardware Fault | s2vsa=1 error |
-| Joints 3-6 | 🔄 Ready | Hardware prepared |
+| TMC5160 Motor-7 | ✅ Working | Joint 2b @ 0.2A |
+| TMC5160 Motor-1 | ✅ Working | Joint 1 @ 0.5A |
+| TMC5160 Motor-3 | ✅ Working | Joint 3 @ 1.20A |
+| TMC5160 Motor-4 | ✅ Working | Joint 4 @ 0.28A |
+| TMC5160 Motor-5 | ✅ Working | Joint 5 @ 0.35A |
+| Joint 1-5 | ✅ Operational | All calibrated, homed, limits set |
+| Joint 6 | 🔄 Aux-wires | Not in control chain |
 
 ## 🎯 Next Steps
-1. **Joints 3-6 Integration**: Expand to full 6-DOF control
-2. **Multi-Joint Trajectories**: Complex coordinated movements  
-3. **Performance Tuning**: Speed and precision optimization
+1. **ROS2 MoveIt Integration**: Multi-joint coordinated motion planning
+2. **Trajectory Execution**: Test 5-DOF workspace and path planning  
+3. **Performance Tuning**: Optimize motion smoothness and timing
+4. **Advanced Planning**: Collision avoidance and complex movements
 4. **Advanced Planning**: Collision avoidance and path planning
 
 ---

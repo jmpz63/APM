@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <robot name="moveo">
-  <!-- Auto-generated placeholder SRDF. Update groups and end effectors. -->
+  <!-- 5-DOF configuration. joint6 removed (aux-wires). -->
   <group name="manipulator">
-    <chain base_link="base_link" tip_link="tool_link"/>
+    <chain base_link="base_link" tip_link="end_effector"/>
   </group>
   <virtual_joint name="world_joint" type="fixed" parent_frame="world" child_link="base_link"/>
 </robot>

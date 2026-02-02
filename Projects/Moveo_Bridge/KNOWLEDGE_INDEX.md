@@ -1,12 +1,12 @@
 # Moveo Bridge Project - Knowledge Index
 
 ## Project Overview
-**BCN3D Moveo 6-DOF Robotic Arm with ROS 2 Integration**
+**BCN3D Moveo 5-DOF Robotic Arm with ROS 2 Integration**
 - **Hardware**: BTT Octopus Max EZ + TMC5160 drivers + 24V motors
 - **Firmware**: Klipper/Moonraker for low-level motor control
 - **Software**: ROS 2 Humble + MoveIt 2 for high-level planning
 - **Communication**: HTTP bridge between ROS and Klipper
-- **Status**: 2 joints operational (Joint 1 + Joint 2 dual-motor)
+- **Status**: 5 joints operational (Joints 1-5 calibrated, homed, limits set) | Joint 6 aux-wires
 
 ## 📚 LEARN IT - Knowledge Acquisition
 
