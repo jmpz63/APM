@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Queens HQ — The Cleaning Queens</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --accent:#ff2d92; --accent-soft:#ff7ab5; --accent-dim:rgba(255,45,146,.14);
+  --bg:#0a0a0c; --bg2:#101014; --card:#16161c; --line:#26262e;
+  --ink:#f5f5f7; --muted:#9d9da8; --ok:#22c55e; --warn:#facc15; --bad:#f87171;
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;line-height:1.5;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.hidden{display:none!important}
+
+/* ── sign-in ── */
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse at 50% -10%,rgba(255,45,146,.14),transparent 55%)}
+.login-card{width:100%;max-width:400px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:38px;box-shadow:0 24px 70px rgba(0,0,0,.5)}
+.login-card .crown{font-size:2.4rem;color:var(--accent);text-align:center}
+.login-card h1{font-size:1.4rem;text-align:center;margin:8px 0 2px}
+.login-card .sub{color:var(--muted);text-align:center;font-size:.9rem;margin-bottom:26px}
+.f{margin-bottom:16px}
+.f label{display:block;font-weight:700;font-size:.84rem;margin-bottom:6px}
+.f input,.f select,.f textarea{width:100%;background:var(--bg);border:1.5px solid var(--line);color:var(--ink);border-radius:10px;padding:11px 13px;font-size:1rem;font-family:inherit}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--accent);outline:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);color:#0a0a0c;font-weight:800;border:none;border-radius:10px;padding:12px 22px;font-size:.95rem;cursor:pointer;transition:background .15s}
+.btn:hover{background:var(--accent-soft)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn.sm{padding:7px 14px;font-size:.82rem;border-radius:8px}
+.login-err{color:var(--bad);font-size:.86rem;text-align:center;margin-top:12px;min-height:1.2em}
+.demo-creds{margin-top:20px;padding:12px;background:var(--accent-dim);border-radius:10px;font-size:.8rem;color:var(--muted);text-align:center}
+.demo-creds code{color:var(--accent);font-weight:700}
+
+/* ── app shell ── */
+#app{display:none;grid-template-columns:230px 1fr;min-height:100vh}
+@media(max-width:880px){#app{grid-template-columns:1fr}aside{position:fixed;inset:0 30% 0 0;z-index:60;transform:translateX(-100%);transition:transform .2s}aside.open{transform:none}}
+aside{background:var(--bg2);border-right:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;padding:0 10px 22px}
+.brand .crown{color:var(--accent);font-size:1.3rem}
+.navi{display:flex;flex-direction:column;gap:4px;flex:1}
+.navi button{display:flex;align-items:center;gap:12px;background:none;border:none;color:var(--muted);padding:11px 14px;border-radius:10px;font-size:.94rem;font-weight:600;cursor:pointer;text-align:left;width:100%}
+.navi button:hover{color:var(--ink);background:var(--card)}
+.navi button.active{background:var(--accent-dim);color:var(--accent)}
+.side-foot{padding:10px;font-size:.82rem;color:var(--muted)}
+.side-foot b{display:block;color:var(--ink)}
+main{padding:clamp(18px,3vw,36px);overflow-x:hidden}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;gap:12px;flex-wrap:wrap}
+.topbar h2{font-size:1.5rem;font-weight:900}
+.topbar .sub{color:var(--muted);font-size:.88rem}
+.burger{display:none;background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:8px 12px;font-size:1.1rem;cursor:pointer}
+@media(max-width:880px){.burger{display:block}}
+
+/* ── widgets ── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:26px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.stat .lbl{color:var(--muted);font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.stat .val{font-size:1.65rem;font-weight:900;margin-top:4px}
+.stat .val.pink{color:var(--accent)} .stat .val.ok{color:var(--ok)} .stat .val.warn{color:var(--warn)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:22px}
+.panel h3{font-size:1.02rem;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th{color:var(--muted);text-align:left;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+.badge{display:inline-block;padding:3px 11px;border-radius:999px;font-size:.75rem;font-weight:800}
+.badge.paid,.badge.done{background:rgba(34,197,94,.15);color:var(--ok)}
+.badge.due,.badge.scheduled{background:rgba(250,204,21,.13);color:var(--warn)}
+.badge.overdue{background:rgba(248,113,113,.15);color:var(--bad)}
+.badge.in_progress,.badge.new{background:var(--accent-dim);color:var(--accent)}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+/* ── schedule ── */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+@media(max-width:1000px){.week{grid-template-columns:repeat(2,1fr)}}
+.day{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px;min-height:130px}
+.day.today{border-color:var(--accent)}
+.day h4{font-size:.8rem;color:var(--muted);margin-bottom:10px;display:flex;justify-content:space-between}
+.day.today h4{color:var(--accent)}
+.appt{background:var(--card);border-left:3px solid var(--accent);border-radius:8px;padding:8px 10px;margin-bottom:8px;font-size:.8rem;cursor:pointer}
+.appt b{display:block;font-size:.84rem}
+.appt small{color:var(--muted)}
+.appt.done{opacity:.5;border-left-color:var(--ok)}
+
+/* ── kanban ── */
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:1000px){.kanban{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.kanban{grid-template-columns:1fr}}
+.kcol{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px;min-height:200px}
+.kcol h4{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;justify-content:space-between}
+.kcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;font-size:.86rem}
+.kcard b{display:block}
+.kcard small{color:var(--muted);display:block;margin:4px 0 8px}
+.kcard .row{display:flex;gap:6px;flex-wrap:wrap}
+.kcard button{background:var(--bg);border:1px solid var(--line);color:var(--muted);border-radius:7px;padding:4px 10px;font-size:.74rem;cursor:pointer;font-weight:700}
+.kcard button:hover{border-color:var(--accent);color:var(--accent)}
+.check{list-style:none;margin-top:8px}
+.check li{display:flex;gap:8px;align-items:center;padding:3px 0;font-size:.8rem;color:var(--muted);cursor:pointer}
+.check li.done{text-decoration:line-through;opacity:.55}
+.check li .bx{width:14px;height:14px;border:1.5px solid var(--line);border-radius:4px;display:inline-block;flex:none}
+.check li.done .bx{background:var(--ok);border-color:var(--ok)}
+
+/* ── misc ── */
+.toolrow{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.toolrow input,.toolrow select{background:var(--card);border:1.5px solid var(--line);color:var(--ink);border-radius:10px;padding:9px 13px;font-size:.9rem;font-family:inherit}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1.5px solid var(--ok);border-radius:12px;padding:14px 20px;font-weight:700;z-index:99;display:none}
+.note-demo{font-size:.78rem;color:var(--muted);margin-top:30px;text-align:center}
+</style>
+</head>
+<body>
+
+<!-- ══ SIGN IN ══ -->
+<div id="login">
+  <form class="login-card" id="loginForm">
+    <div class="crown">♛</div>
+    <h1>Queens HQ</h1>
+    <div class="sub">The Cleaning Queens — Management Suite</div>
+    <div class="f"><label for="lg-user">Username</label><input id="lg-user" autocomplete="username" required></div>
+    <div class="f"><label for="lg-pass">Password</label><input id="lg-pass" type="password" autocomplete="current-password" required></div>
+    <button class="btn" style="width:100%">Sign In</button>
+    <div class="login-err" id="loginErr"></div>
+    <div class="demo-creds">Demo logins — admin: <code>admin / queen123</code> · staff: <code>staff / sparkle</code></div>
+    <div style="text-align:center;margin-top:14px"><a href="index.html" style="color:var(--muted);font-size:.85rem">← Back to website</a></div>
+  </form>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app">
+  <aside id="sidebar">
+    <div class="brand"><span class="crown">♛</span> Queens HQ</div>
+    <div class="navi" id="navi">
+      <button data-view="dash" class="active">📊 Dashboard</button>
+      <button data-view="sched">🗓️ Schedule</button>
+      <button data-view="jobs">🧽 Jobs Board</button>
+      <button data-view="clients">👥 Clients</button>
+      <button data-view="pay">💳 Payments</button>
+      <button data-view="reviews">⭐ Reviews</button>
+      <button data-view="staff">👑 Staff</button>
+      <button data-view="settings">⚙️ Settings</button>
+    </div>
+    <div class="side-foot">
+      <b id="whoName"></b><span id="whoRole"></span>
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <a class="btn ghost sm" href="index.html">View site</a>
+        <button class="btn ghost sm" id="logoutBtn">Sign out</button>
+      </div>
+    </div>
+  </aside>
+  <main>
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="burger" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <div><h2 id="viewTitle">Dashboard</h2><div class="sub" id="viewSub"></div></div>
+      </div>
+      <a class="btn sm" href="index.html#book" style="text-decoration:none">+ New booking</a>
+    </div>
+    <div id="view"></div>
+    <div class="note-demo">Demo environment — all names, jobs, and payments are fictional seed data. <button class="btn ghost sm" id="resetBtn">Reset demo data</button></div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+"use strict";
+const S = window.CQStore;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ── auth gate ── */
+function gate(){
+  const s = S.session();
+  if (s) { $("login").style.display="none"; $("app").style.display="grid";
+    $("whoName").textContent = "♛ " + s.name; $("whoRole").textContent = s.role;
+    render(current);
+  } else { $("login").style.display="flex"; $("app").style.display="none"; }
+}
+$("loginForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const s = S.login($("lg-user").value.trim(), $("lg-pass").value);
+  if (!s) { $("loginErr").textContent = "Invalid credentials. Try the demo logins below."; return; }
+  gate();
+});
+$("logoutBtn").addEventListener("click", () => { S.logout(); gate(); });
+$("resetBtn").addEventListener("click", () => { S.reset(); location.reload(); });
+
+function toast(msg){ const t=$("toast"); t.textContent=msg; t.style.display="block"; setTimeout(()=>t.style.display="none",2200); }
+
+/* ── nav ── */
+let current = "dash";
+const TITLES = {dash:["Dashboard","Today at a glance"],sched:["Schedule","This week's cleans"],jobs:["Jobs Board","Leads → Scheduled → In Progress → Done"],clients:["Clients","Your royal subjects"],pay:["Payments","Invoices & revenue"],reviews:["Reviews","Moderate what shows on the website banner"],staff:["Staff","The Queens"],settings:["Settings","Business info & website"]};
+$("navi").addEventListener("click", e => {
+  const b = e.target.closest("button[data-view]"); if (!b) return;
+  document.querySelectorAll("#navi button").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); current = b.dataset.view; render(current);
+  $("sidebar").classList.remove("open");
+});
+
+function jobMeta(j){
+  const c = S.byId("clients", j.clientId)||{name:"?"};
+  const sv = S.byId("services", j.serviceId)||{name:"?"};
+  const st = S.byId("staff", j.staffId)||{name:"?",color:"#888"};
+  return {c,sv,st};
+}
+const STATUS_LABEL = {scheduled:"Scheduled",in_progress:"In Progress",done:"Done"};
+
+/* ── views ── */
+function render(v){
+  $("viewTitle").textContent = TITLES[v][0]; $("viewSub").textContent = TITLES[v][1];
+  ({dash,sched,jobs,clients,pay,reviews,staff,settings})[v]();
+}
+
+function dash(){
+  const D = S.data, today = new Date().toDateString();
+  const todays = D.jobs.filter(j => new Date(j.start).toDateString() === today);
+  const paidMTD = D.invoices.filter(i => i.status==="paid" && new Date(i.paidOn).getMonth()===new Date().getMonth()).reduce((a,i)=>a+i.amount,0);
+  const outstanding = D.invoices.filter(i=>i.status!=="paid").reduce((a,i)=>a+i.amount,0);
+  const stars = D.reviews.reduce((a,r)=>a+r.stars,0)/D.reviews.length;
+  $("view").innerHTML = `
+    <div class="stats">
+      <div class="stat"><div class="lbl">Today's jobs</div><div class="val pink">${todays.length}</div></div>
+      <div class="stat"><div class="lbl">Revenue (MTD)</div><div class="val ok">${S.money(paidMTD)}</div></div>
+      <div class="stat"><div class="lbl">Outstanding</div><div class="val warn">${S.money(outstanding)}</div></div>
+      <div class="stat"><div class="lbl">New leads</div><div class="val">${D.leads.length}</div></div>
+      <div class="stat"><div class="lbl">Avg rating</div><div class="val pink">${stars.toFixed(1)}★</div></div>
+    </div>
+    <div class="panel"><h3>Today's schedule</h3>
+      ${todays.length ? `<table><tr><th>Time</th><th>Client</th><th>Service</th><th>Queen</th><th>Status</th></tr>
+      ${todays.sort((a,b)=>a.start.localeCompare(b.start)).map(j=>{const m=jobMeta(j);return `<tr><td>${S.timeFmt(j.start)}</td><td><b>${esc(m.c.name)}</b></td><td>${esc(m.sv.name)}</td><td><span class="chip"><span class="dot" style="background:${m.st.color}"></span>${esc(m.st.name)}</span></td><td><span class="badge ${j.status}">${STATUS_LABEL[j.status]}</span></td></tr>`;}).join("")}</table>` : `<p style="color:var(--muted)">No jobs today. Time to polish the crowns.</p>`}
+    </div>
+    <div class="panel"><h3>Fresh leads <span class="badge new">${D.leads.length}</span></h3>
+      <table><tr><th>Name</th><th>Wants</th><th>Note</th><th>Phone</th><th></th></tr>
+      ${D.leads.map(l=>`<tr><td><b>${esc(l.name)}</b></td><td>${esc(l.service)}</td><td style="color:var(--muted)">${esc(l.note)}</td><td>${esc(l.phone)}</td><td><button class="btn sm" data-lead="${l.id}">Convert → job</button></td></tr>`).join("")}</table>
+    </div>`;
+  $("view").querySelectorAll("[data-lead]").forEach(b=>b.addEventListener("click",()=>convertLead(b.dataset.lead)));
+}
+
+function convertLead(id){
+  const D = S.data, l = D.leads.find(x=>x.id===id); if(!l) return;
+  const svc = D.services.find(s=>s.name===l.service) || D.services[0];
+  let client = D.clients.find(c=>c.phone===l.phone);
+  if (!client){ client = {id:S.uid("c"),name:l.name,phone:l.phone,email:"",address:"(from lead — add address)",plan:"One-time",ltv:0,notes:l.note}; D.clients.push(client); }
+  const t = new Date(); t.setDate(t.getDate()+2); t.setHours(10,0,0,0);
+  D.jobs.push({id:S.uid("j"),clientId:client.id,serviceId:svc.id,staffId:D.staff[0].id,start:t.toISOString(),hours:3,status:"scheduled",recurring:null,checklist:[{t:svc.name,done:false}]});
+  D.leads = D.leads.filter(x=>x.id!==id);
+  S.commit(); toast("Lead converted to a scheduled job 👑"); render(current);
+}
+
+function sched(){
+  const D = S.data, start = new Date(); start.setHours(0,0,0,0);
+  const days = [...Array(7)].map((_,i)=>{const d=new Date(start);d.setDate(d.getDate()+i);return d;});
+  $("view").innerHTML = `<div class="week">${days.map((d,i)=>{
+    const jobs = D.jobs.filter(j=>new Date(j.start).toDateString()===d.toDateString()).sort((a,b)=>a.start.localeCompare(b.start));
+    return `<div class="day${i===0?" today":""}"><h4><span>${d.toLocaleDateString("en-US",{weekday:"short"})}</span><span>${d.toLocaleDateString("en-US",{month:"short",day:"numeric"})}</span></h4>
+      ${jobs.map(j=>{const m=jobMeta(j);return `<div class="appt${j.status==="done"?" done":""}" data-job="${j.id}" title="Click to advance status"><b>${S.timeFmt(j.start)} · ${esc(m.c.name.split(" ")[0])}</b><small>${esc(m.sv.name)} · ${esc(m.st.name)}${j.recurring?" · 🔁"+j.recurring:""}</small></div>`;}).join("")||`<small style="color:var(--muted)">—</small>`}
+    </div>`;}).join("")}</div>
+    <p style="color:var(--muted);font-size:.83rem;margin-top:14px">Tip: click an appointment to advance its status (Scheduled → In Progress → Done).</p>`;
+  $("view").querySelectorAll("[data-job]").forEach(el=>el.addEventListener("click",()=>{
+    const j = S.data.jobs.find(x=>x.id===el.dataset.job);
+    j.status = j.status==="scheduled"?"in_progress":j.status==="in_progress"?"done":"scheduled";
+    S.commit(); toast("Status: "+STATUS_LABEL[j.status]); render(current);
+  }));
+}
+
+function jobs(){
+  const D = S.data;
+  const cols = [
+    ["Leads", D.leads.map(l=>({lead:l}))],
+    ["Scheduled", D.jobs.filter(j=>j.status==="scheduled").map(j=>({job:j}))],
+    ["In Progress", D.jobs.filter(j=>j.status==="in_progress").map(j=>({job:j}))],
+    ["Done", D.jobs.filter(j=>j.status==="done").map(j=>({job:j}))],
+  ];
+  $("view").innerHTML = `<div class="kanban">${cols.map(([name,items])=>`
+    <div class="kcol"><h4>${name} <span>${items.length}</span></h4>
+    ${items.map(it=>{
+      if (it.lead){const l=it.lead;return `<div class="kcard"><b>${esc(l.name)}</b><small>${esc(l.service)} · ${esc(l.phone)}</small><div class="row"><button data-lead="${l.id}">Convert →</button></div></div>`;}
+      const j=it.job,m=jobMeta(j);
+      return `<div class="kcard"><b>${esc(m.c.name)}</b><small>${esc(m.sv.name)} · ${S.dateFmt(j.start)} ${S.timeFmt(j.start)} · ${esc(m.st.name)}</small>
+        <ul class="check">${j.checklist.map((c,i)=>`<li class="${c.done?"done":""}" data-job="${j.id}" data-chk="${i}"><span class="bx"></span>${esc(c.t)}</li>`).join("")}</ul>
+        <div class="row" style="margin-top:8px">
+          ${j.status!=="done"?`<button data-adv="${j.id}">${j.status==="scheduled"?"Start":"Complete"} →</button>`:""}
+          ${j.status==="done"&&!D.invoices.some(i=>i.jobId===j.id)?`<button data-inv="${j.id}">+ Invoice</button>`:""}
+        </div></div>`;
+    }).join("")||`<small style="color:var(--muted)">Empty</small>`}</div>`).join("")}</div>`;
+  const V = $("view");
+  V.querySelectorAll("[data-lead]").forEach(b=>b.addEventListener("click",()=>convertLead(b.dataset.lead)));
+  V.querySelectorAll("[data-adv]").forEach(b=>b.addEventListener("click",()=>{
+    const j=S.data.jobs.find(x=>x.id===b.dataset.adv);
+    j.status=j.status==="scheduled"?"in_progress":"done"; S.commit(); render(current);
+  }));
+  V.querySelectorAll("[data-chk]").forEach(li=>li.addEventListener("click",()=>{
+    const j=S.data.jobs.find(x=>x.id===li.dataset.job); const c=j.checklist[+li.dataset.chk];
+    c.done=!c.done; S.commit(); render(current);
+  }));
+  V.querySelectorAll("[data-inv]").forEach(b=>b.addEventListener("click",()=>{
+    const j=S.data.jobs.find(x=>x.id===b.dataset.inv); const sv=S.byId("services",j.serviceId);
+    S.data.invoices.push({id:"INV-"+(1046+S.data.invoices.length),clientId:j.clientId,jobId:j.id,amount:sv?sv.price:129,status:"due",issued:new Date().toISOString(),paidOn:null,method:null});
+    S.commit(); toast("Invoice created 💳"); render(current);
+  }));
+}
+
+function clients(){
+  const D = S.data;
+  $("view").innerHTML = `<div class="toolrow"><input id="cq" placeholder="Search clients…" style="flex:1;max-width:320px"></div>
+    <div class="panel"><table id="ctab"><tr><th>Client</th><th>Plan</th><th>Contact</th><th>Lifetime value</th><th>Notes</th></tr></table></div>`;
+  const draw = q => { $("ctab").innerHTML = `<tr><th>Client</th><th>Plan</th><th>Contact</th><th>Lifetime value</th><th>Notes</th></tr>` +
+    D.clients.filter(c=>!q||c.name.toLowerCase().includes(q)||c.address.toLowerCase().includes(q)).map(c=>`
+    <tr><td><b>${esc(c.name)}</b><br><small style="color:var(--muted)">${esc(c.address)}</small></td>
+    <td><span class="badge new">${esc(c.plan)}</span></td>
+    <td>${esc(c.phone)}<br><small style="color:var(--muted)">${esc(c.email)}</small></td>
+    <td><b style="color:var(--accent)">${S.money(c.ltv)}</b></td>
+    <td style="color:var(--muted);max-width:260px">${esc(c.notes)}</td></tr>`).join(""); };
+  draw(""); $("cq").addEventListener("input",e=>draw(e.target.value.toLowerCase()));
+}
+
+function pay(){
+  const D = S.data;
+  const tot = st => D.invoices.filter(i=>i.status===st).reduce((a,i)=>a+i.amount,0);
+  $("view").innerHTML = `
+    <div class="stats">
+      <div class="stat"><div class="lbl">Collected</div><div class="val ok">${S.money(tot("paid"))}</div></div>
+      <div class="stat"><div class="lbl">Due</div><div class="val warn">${S.money(tot("due"))}</div></div>
+      <div class="stat"><div class="lbl">Overdue</div><div class="val" style="color:var(--bad)">${S.money(tot("overdue"))}</div></div>
+    </div>
+    <div class="panel"><h3>Invoices <small style="color:var(--muted);font-weight:400">Stripe-ready — demo records payments locally</small></h3>
+    <table><tr><th>Invoice</th><th>Client</th><th>Amount</th><th>Issued</th><th>Status</th><th></th></tr>
+    ${D.invoices.slice().reverse().map(i=>{const c=S.byId("clients",i.clientId)||{name:"?"};return `
+      <tr><td><b>${i.id}</b></td><td>${esc(c.name)}</td><td><b>${S.money(i.amount)}</b></td><td>${S.dateFmt(i.issued)}</td>
+      <td><span class="badge ${i.status}">${i.status}</span>${i.paidOn?`<br><small style="color:var(--muted)">${S.dateFmt(i.paidOn)} · ${i.method}</small>`:""}</td>
+      <td>${i.status!=="paid"?`<button class="btn sm" data-pay="${i.id}">Record payment</button>`:""}</td></tr>`;}).join("")}</table></div>`;
+  $("view").querySelectorAll("[data-pay]").forEach(b=>b.addEventListener("click",()=>{
+    const i=S.data.invoices.find(x=>x.id===b.dataset.pay);
+    i.status="paid"; i.paidOn=new Date().toISOString(); i.method="card";
+    S.commit(); toast("Payment recorded ✓"); render(current);
+  }));
+}
+
+function reviews(){
+  const D = S.data;
+  $("view").innerHTML = `<div class="panel"><h3>All reviews <small style="color:var(--muted);font-weight:400">Approved reviews scroll on the public banner</small></h3>
+    <table><tr><th>Reviewer</th><th>Rating</th><th>Review</th><th>Date</th><th>On banner</th></tr>
+    ${D.reviews.map(r=>`<tr><td><b>${esc(r.name)}</b><br><small style="color:var(--muted)">${esc(r.area)}</small></td>
+      <td style="color:var(--accent)">${"★".repeat(r.stars)}</td><td style="max-width:340px">${esc(r.text)}</td><td>${S.dateFmt(r.date)}</td>
+      <td><button class="btn sm ${r.approved?"":"ghost"}" data-rev="${r.id}">${r.approved?"✓ Live":"Hidden"}</button></td></tr>`).join("")}</table></div>`;
+  $("view").querySelectorAll("[data-rev]").forEach(b=>b.addEventListener("click",()=>{
+    const r=S.data.reviews.find(x=>x.id===b.dataset.rev); r.approved=!r.approved;
+    S.commit(); toast(r.approved?"Review is live on the banner":"Review hidden"); render(current);
+  }));
+}
+
+function staff(){
+  const D = S.data;
+  $("view").innerHTML = `<div class="stats">${D.staff.map(s=>{
+    const upcoming = D.jobs.filter(j=>j.staffId===s.id&&j.status!=="done").length;
+    const done = D.jobs.filter(j=>j.staffId===s.id&&j.status==="done").length;
+    return `<div class="stat"><div class="lbl"><span class="dot" style="background:${s.color};margin-right:6px"></span>${esc(s.role)}</div>
+      <div class="val" style="font-size:1.15rem">${esc(s.name)}</div>
+      <div style="color:var(--muted);font-size:.84rem;margin-top:6px">${esc(s.phone)}<br>${upcoming} upcoming · ${done} completed</div></div>`;}).join("")}</div>
+    <div class="panel"><h3>Assignments this week</h3>
+    <table><tr><th>Queen</th><th>When</th><th>Client</th><th>Service</th><th>Status</th></tr>
+    ${D.jobs.filter(j=>j.status!=="done").sort((a,b)=>a.start.localeCompare(b.start)).map(j=>{const m=jobMeta(j);return `
+      <tr><td><span class="chip"><span class="dot" style="background:${m.st.color}"></span><b>${esc(m.st.name)}</b></span></td>
+      <td>${S.dateFmt(j.start,{weekday:"short",month:"short",day:"numeric"})} ${S.timeFmt(j.start)}</td>
+      <td>${esc(m.c.name)}</td><td>${esc(m.sv.name)}</td><td><span class="badge ${j.status}">${STATUS_LABEL[j.status]}</span></td></tr>`;}).join("")}</table></div>`;
+}
+
+function settings(){
+  const b = S.data.business;
+  $("view").innerHTML = `
+    <div class="panel"><h3>Business info</h3>
+      <div class="f"><label>Business name</label><input id="st-name" value="${esc(b.name)}"></div>
+      <div class="f"><label>Tagline</label><input id="st-tag" value="${esc(b.tagline)}"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="f"><label>Phone</label><input id="st-phone" value="${esc(b.phone)}"></div>
+        <div class="f"><label>Email</label><input id="st-email" value="${esc(b.email)}"></div>
+      </div>
+      <div class="f"><label>Address</label><input id="st-addr" value="${esc(b.address)}"></div>
+      <div class="f"><label>Hours</label><input id="st-hours" value="${esc(b.hours)}"></div>
+      <button class="btn" id="stSave">Save settings</button>
+    </div>
+    <div class="panel"><h3>Website editing</h3>
+      <p style="color:var(--muted);font-size:.92rem;margin-bottom:14px">As a signed-in admin, open the public site and use the <b style="color:var(--accent)">✏️ Edit page</b> toolbar at the bottom to edit any headline or paragraph inline. Changes persist for this demo browser.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn" href="index.html">Open site to edit</a>
+        <button class="btn ghost" id="clearEdits">Reset website edits</button>
+      </div>
+    </div>`;
+  $("stSave").addEventListener("click",()=>{
+    Object.assign(S.data.business,{name:$("st-name").value,tagline:$("st-tag").value,phone:$("st-phone").value,email:$("st-email").value,address:$("st-addr").value,hours:$("st-hours").value});
+    S.commit(); toast("Settings saved ✓");
+  });
+  $("clearEdits").addEventListener("click",()=>{ S.clearEdits(); toast("Website edits reset"); });
+}
+
+gate();
+})();
+</script>
+</body>
+</html>
