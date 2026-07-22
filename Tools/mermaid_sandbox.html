@@ -1027,6 +1027,12 @@ const EXAMPLES = {
 `,
   website_build: `flowchart TB
 
+subgraph AG["\ud83e\udd16 Agent core \u2014 LLM agent (Cascade)"]
+  LLM["Plans \u00b7 decides every next action \u00b7<br/>evaluates results \u00b7 loops until gate passes"]
+  TOOLS["\ud83e\uddf0 Tool belt<br/>Playwright \u00b7 ssh/scp \u00b7 git \u00b7<br/>file editors \u00b7 agent_status.py"]
+  LLM <--> TOOLS
+end
+
 subgraph P0["\ud83d\udce5 Phase 0 \u2014 Intake & Coordination"]
   A0["Client request:<br/>pink/black site + admin suite<br/>for The Cleaning Queens"] --> A1["APM agent claim<br/>Tools/agent_status.py claim"]
 end
@@ -1059,9 +1065,18 @@ subgraph P3["\ud83d\ude80 Phase 3 \u2014 Deploy"]
   E0["scp \u2192 forge1<br/>/home/jmpz63/forge_studio/previews/"] --> E1["Live: 192.168.50.201:8090<br/>/preview/cleaning-queens/"]
 end
 
-subgraph P4["\u2705 Phase 4 \u2014 Verify (gate before ship)"]
-  F0["Headless Playwright suite on forge1<br/>verify_cleaning_queens.py"] --> F1{"\ud83d\udd36 29/29<br/>pass?"}
-  F1 -- "no" --> F2["Fix root cause \u2192 redeploy"] --> F0
+subgraph P4["\u2705 Phase 4 \u2014 Verify (gate before ship \u00b7 Bible \u00a711)"]
+  F0["Layer 1 FUNCTIONAL \u2014 Playwright E2E<br/>vs the LIVE deploy \u00b7 web-first assertions \u00b7<br/>flows round-trip \u00b7 images decoded \u00b7<br/>data persists after reload"]
+  FL1["Layer 2 PERFORMANCE<br/>Lighthouse \u2265 90 \u00b7 LCP \u2264 2.5s \u00b7 CLS \u2264 0.1"]
+  FL2["Layer 3 ACCESSIBILITY<br/>axe-core: 0 critical<br/>(+ manual keyboard pass \u2014 tools catch ~35%)"]
+  FL3["Layer 4 VISUAL<br/>screenshot diff vs baseline \u00b7 \u22643% tolerance"]
+  FERR["pageerror listener \u2014 ANY uncaught<br/>JS exception anywhere = FAIL"]
+  F0 --> FERR
+  FERR --> F1{"\ud83d\udd36 all layers<br/>green?"}
+  FL1 --> F1
+  FL2 --> F1
+  FL3 --> F1
+  F1 -- "no" --> F2["Root-cause the failure<br/>(NEVER weaken a test) \u2192 redeploy"] --> F0
   F1 -- "yes" --> F3[/"\ud83d\udfea scripts/forge1/<br/>verify_cleaning_queens.py<br/>(regression suite)"/]
 end
 
@@ -1072,7 +1087,7 @@ subgraph P5["\ud83d\udcbe Phase 5 \u2014 Persist (nothing lives only in chat)"]
   G4 --> G5["APM claim released"]
 end
 
-subgraph IT["\ud83d\udd01 Iteration loop (user feedback \u2192 trace \u2192 fix)"]
+subgraph IT["\ud83d\udd01 Iteration loop \u2014 human feedback = reward signal"]
   H0["User feedback<br/>(e.g. chatbot trapped in booking loop)"] --> H1["Trace from pickoff point:<br/>screenshot \u2192 index.html chat script"]
   H1 --> H2["Fix + add regression test<br/>replaying the exact failure"]
   H2 --> F0
@@ -1080,6 +1095,12 @@ end
 
 A1 --> B0
 A1 --> C0
+LLM -.->|"retrieves"| B0
+LLM -.->|"uses tools"| C2
+LLM -.->|"uses tools"| E0
+LLM -.->|"uses tools"| F0
+LLM -.->|"uses tools"| G0
+H0 -.->|"reward signal"| LLM
 B3 --> D0
 C3 --> D0
 C5 --> D1
@@ -1102,6 +1123,8 @@ style F1 fill:#2a2410,stroke:#ffc857
 style B0 fill:#1d3328,stroke:#4ade80
 style C0 fill:#1d3328,stroke:#4ade80
 style C2 fill:#1d3328,stroke:#4ade80
+style LLM fill:#1c2a42,stroke:#4da3ff
+style TOOLS fill:#1c2a42,stroke:#4da3ff
 `
 };
 

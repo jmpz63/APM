@@ -165,7 +165,48 @@ practice; copying protected material is infringement. The line:
 4. Risk scales with similarity + visibility: same-industry near-clones are
    how lawsuits actually happen. When in doubt, differentiate harder.
 
-## 11. Launch Checklist
+## 11. Automated Verification & QA (STANDING RULE)
+
+**Nothing ships or persists until the verify gate passes.** Fixed order:
+build → deploy → verify against the LIVE deployment → only then git/RAG.
+
+### The 4 QA layers (industry-standard model)
+1. **Functional** — Playwright headless E2E: every critical user flow
+   (booking, chat, admin CRUD, login, payments) round-trips for real.
+2. **Performance** — Lighthouse: ≥ 90 all categories; Core Web Vitals
+   LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1 (Google ranking thresholds).
+3. **Accessibility** — axe-core scan: zero critical violations. ⚠️
+   Automated tools catch only ~30–40% of WCAG issues — manually tab
+   through keyboard nav and check focus states on every template.
+4. **Visual** — screenshot-diff canonical pages against baselines
+   (≤3% pixel tolerance; ignore dynamic regions). The layer most teams
+   skip — and why most UI bugs reach production.
+
+### Playwright discipline (per playwright.dev best practices)
+- **Test what users see** — rendered output, never implementation
+  details (function names, CSS classes).
+- **Web-first assertions** — auto-retrying checks (`toBeVisible()`),
+  never `waitForTimeout()` sleeps; assert the thing you're waiting for.
+- **User-facing locators** — roles/labels/ids that survive markup churn.
+- **Test isolation** — each test gets fresh storage/state; no ordering
+  coupling between tests.
+- **Deep checks, not surface checks** — a 200 status means nothing;
+  verify images decoded (`naturalWidth > 0`), text rendered, data
+  persisted after reload.
+- **Global error listener** — collect `pageerror` events; ANY uncaught
+  JS exception anywhere fails the run, even in untested paths.
+
+### Regression-from-bugs rule
+Every human-found bug becomes a permanent test replaying the exact
+failure before the fix ships. Bugs may happen once; they may not recur.
+Never weaken an assertion to make a test pass — root-cause the failure.
+
+### Every site ships with its own suite
+A per-site `verify_<slug>.py` lives in the repo, runs headless on forge1
+against the live URL, and prints PASS/FAIL per check. Target: every
+critical flow + error listener + one regression test per bug found.
+
+## 12. Launch Checklist
 
 - [ ] Archetype identified, spine sections in order (§2)
 - [ ] Design tokens only — no hardcoded rogue colors
@@ -179,3 +220,5 @@ practice; copying protected material is infringement. The line:
 - [ ] All fake data flagged for replacement before real launch
 - [ ] IP audit (§10): no copied code/copy/images, all media licensed or
       client-owned, no unverified claims (insured, bonded, ratings)
+- [ ] Verify suite (§11): all 4 QA layers green against the LIVE deploy;
+      regression test exists for every bug found in review
