@@ -3,7 +3,7 @@
 (function (global) {
   "use strict";
 
-  const VERSION = 3;
+  const VERSION = 4;
   const KEY = "cq_data_v" + VERSION;
   const SESSION_KEY = "cq_session";
 
@@ -17,23 +17,26 @@
   const SEED = {
     version: VERSION,
     business: {
-      name: "The Cleaning Queens",
-      tagline: "Royal treatment for every home.",
-      phone: "(555) 741-2288",
-      email: "hello@thecleaningqueens.com",
-      address: "412 Crown Ave, Kansas City, MO 64106",
+      name: "The Cleaning Queens KC",
+      tagline: "Because your home deserves the royal treatment!",
+      phone: "(816) 269-5228",
+      phone2: "(319) 215-6438",
+      email: "thecleaningqueenskc1@gmail.com",
+      address: "Kansas City, KS & Kansas City, MO",
       hours: "Mon–Sat 8:00 AM – 6:00 PM",
-      serviceArea: "Kansas City metro — 25 mile radius",
+      serviceArea: "Kansas City metro — both sides of the state line",
+      facebook: "https://www.facebook.com/p/The-Cleaning-Queens-KC-61583723273115/",
+      about: "The Cleaning Queens is a proud, women operated cleaning service! Committed to empowering our communities through professional cleaning. Our focuses are residential maintenance, deep cleans, move in-out & AirBnBs.",
     },
     services: [
-      { id: "svc1", name: "Standard Clean", price: 129, unit: "from", desc: "Every room refreshed: dusting, vacuuming, mopping, kitchen & bath shine.", icon: "sparkle" },
-      { id: "svc2", name: "Deep Clean", price: 249, unit: "from", desc: "Baseboards, inside appliances, grout, vents — the once-a-season royal reset.", icon: "crown" },
-      { id: "svc3", name: "Recurring Clean", price: 109, unit: "per visit", desc: "Weekly, bi-weekly, or monthly. Same queen, same standard, every time.", icon: "repeat" },
-      { id: "svc4", name: "Move In / Move Out", price: 299, unit: "from", desc: "Empty-home top-to-bottom clean that gets deposits back and keys handed over.", icon: "home" },
-      { id: "svc5", name: "Office & Commercial", price: 189, unit: "from", desc: "After-hours cleaning for offices, studios, and storefronts.", icon: "building" },
-      { id: "svc6", name: "Post-Construction", price: 349, unit: "from", desc: "Dust, debris, and paint specks gone. Reveal the finished space.", icon: "hammer" },
+      { id: "svc1", name: "Residential Maintenance", price: 109, unit: "per visit", desc: "Weekly, bi-weekly, or monthly upkeep. Same Queen, same royal standard, every time.", icon: "repeat" },
+      { id: "svc2", name: "Deep Clean", price: 249, unit: "from", desc: "Baseboards, inside appliances, grout, vents — the top-to-bottom royal reset.", icon: "crown" },
+      { id: "svc3", name: "Move In / Move Out", price: 299, unit: "from", desc: "Empty-home clean that gets deposits back and keys handed over with confidence.", icon: "home" },
+      { id: "svc4", name: "Airbnb Turnovers", price: 129, unit: "per turn", desc: "Fast, reliable guest-ready turnovers — restocking, staging, and 5-star sparkle.", icon: "building" },
+      { id: "svc5", name: "Standard Clean", price: 129, unit: "from", desc: "Every room refreshed: dusting, vacuuming, mopping, kitchen & bath shine.", icon: "sparkle" },
     ],
     reviews: [
+      { id: "r0", name: "Esther G.", area: "Facebook", stars: 5, text: "Wow! Amazing!!!", date: d(-5), approved: true },
       { id: "r1", name: "Maria G.", area: "Brookside", stars: 5, text: "My house has never looked this good. The deep clean was worth every penny!", date: d(-4), approved: true },
       { id: "r2", name: "James T.", area: "Overland Park", stars: 5, text: "Bi-weekly service for 8 months now. Always on time, always spotless.", date: d(-9), approved: true },
       { id: "r3", name: "Alicia R.", area: "Waldo", stars: 5, text: "They got our full deposit back on the move-out clean. Landlord was stunned.", date: d(-13), approved: true },
@@ -63,18 +66,18 @@
       { id: "s4", name: "Marcus (Ops)", role: "Operations", color: "#facc15", phone: "(555) 101-2004" },
     ],
     jobs: [
-      { id: "j1", clientId: "c8", serviceId: "svc3", staffId: "s1", start: d(0, 9), hours: 2, status: "in_progress", recurring: "weekly", checklist: [{ t: "Kitchen", done: true }, { t: "Bathrooms x2", done: true }, { t: "Bedrooms", done: false }, { t: "Floors", done: false }] },
-      { id: "j2", clientId: "c1", serviceId: "svc3", staffId: "s2", start: d(0, 13), hours: 3, status: "scheduled", recurring: "biweekly", checklist: [{ t: "Full standard", done: false }, { t: "Eco products only", done: false }] },
-      { id: "j3", clientId: "c4", serviceId: "svc5", staffId: "s3", start: d(0, 18), hours: 2.5, status: "scheduled", recurring: "weekly", checklist: [{ t: "Desks + common area", done: false }, { t: "Kitchenette", done: false }, { t: "Trash + recycle", done: false }] },
+      { id: "j1", clientId: "c8", serviceId: "svc1", staffId: "s1", start: d(0, 9), hours: 2, status: "in_progress", recurring: "weekly", checklist: [{ t: "Kitchen", done: true }, { t: "Bathrooms x2", done: true }, { t: "Bedrooms", done: false }, { t: "Floors", done: false }] },
+      { id: "j2", clientId: "c1", serviceId: "svc1", staffId: "s2", start: d(0, 13), hours: 3, status: "scheduled", recurring: "biweekly", checklist: [{ t: "Full standard", done: false }, { t: "Eco products only", done: false }] },
+      { id: "j3", clientId: "c4", serviceId: "svc4", staffId: "s3", start: d(0, 18), hours: 2.5, status: "scheduled", recurring: "weekly", checklist: [{ t: "Desks + common area", done: false }, { t: "Kitchenette", done: false }, { t: "Trash + recycle", done: false }] },
       { id: "j4", clientId: "c5", serviceId: "svc2", staffId: "s1", start: d(1, 10), hours: 5, status: "scheduled", recurring: null, checklist: [{ t: "Deep clean whole house", done: false }, { t: "No bleach on stone", done: false }] },
-      { id: "j5", clientId: "c7", serviceId: "svc1", staffId: "s2", start: d(2, 9), hours: 2, status: "scheduled", recurring: "monthly", checklist: [{ t: "Standard clean", done: false }] },
-      { id: "j6", clientId: "c2", serviceId: "svc3", staffId: "s3", start: d(3, 14), hours: 3, status: "scheduled", recurring: "biweekly", checklist: [{ t: "Kitchen focus", done: false }, { t: "Full standard", done: false }] },
-      { id: "j7", clientId: "c6", serviceId: "svc6", staffId: "s1", start: d(-2, 8), hours: 6, status: "done", recurring: null, checklist: [{ t: "Debris removal", done: true }, { t: "Dust every surface", done: true }, { t: "Window tracks", done: true }] },
-      { id: "j8", clientId: "c3", serviceId: "svc4", staffId: "s2", start: d(-6, 9), hours: 5, status: "done", recurring: null, checklist: [{ t: "Move-out full", done: true }, { t: "Oven + fridge", done: true }] },
-      { id: "j9", clientId: "c1", serviceId: "svc3", staffId: "s2", start: d(-14, 13), hours: 3, status: "done", recurring: "biweekly", checklist: [{ t: "Full standard", done: true }] },
-      { id: "j10", clientId: "c8", serviceId: "svc3", staffId: "s1", start: d(-7, 9), hours: 2, status: "done", recurring: "weekly", checklist: [{ t: "Full standard", done: true }] },
-      { id: "j11", clientId: "c4", serviceId: "svc5", staffId: "s3", start: d(-1, 18), hours: 2.5, status: "done", recurring: "weekly", checklist: [{ t: "Office full", done: true }] },
-      { id: "j12", clientId: "c5", serviceId: "svc1", staffId: "s2", start: d(5, 10), hours: 2.5, status: "scheduled", recurring: "monthly", checklist: [{ t: "Standard clean", done: false }] },
+      { id: "j5", clientId: "c7", serviceId: "svc5", staffId: "s2", start: d(2, 9), hours: 2, status: "scheduled", recurring: "monthly", checklist: [{ t: "Standard clean", done: false }] },
+      { id: "j6", clientId: "c2", serviceId: "svc1", staffId: "s3", start: d(3, 14), hours: 3, status: "scheduled", recurring: "biweekly", checklist: [{ t: "Kitchen focus", done: false }, { t: "Full standard", done: false }] },
+      { id: "j7", clientId: "c6", serviceId: "svc2", staffId: "s1", start: d(-2, 8), hours: 6, status: "done", recurring: null, checklist: [{ t: "Debris removal", done: true }, { t: "Dust every surface", done: true }, { t: "Window tracks", done: true }] },
+      { id: "j8", clientId: "c3", serviceId: "svc3", staffId: "s2", start: d(-6, 9), hours: 5, status: "done", recurring: null, checklist: [{ t: "Move-out full", done: true }, { t: "Oven + fridge", done: true }] },
+      { id: "j9", clientId: "c1", serviceId: "svc1", staffId: "s2", start: d(-14, 13), hours: 3, status: "done", recurring: "biweekly", checklist: [{ t: "Full standard", done: true }] },
+      { id: "j10", clientId: "c8", serviceId: "svc1", staffId: "s1", start: d(-7, 9), hours: 2, status: "done", recurring: "weekly", checklist: [{ t: "Full standard", done: true }] },
+      { id: "j11", clientId: "c4", serviceId: "svc4", staffId: "s3", start: d(-1, 18), hours: 2.5, status: "done", recurring: "weekly", checklist: [{ t: "Office full", done: true }] },
+      { id: "j12", clientId: "c5", serviceId: "svc5", staffId: "s2", start: d(5, 10), hours: 2.5, status: "scheduled", recurring: "monthly", checklist: [{ t: "Standard clean", done: false }] },
       { id: "j13", clientId: "c7", serviceId: "svc2", staffId: "s1", start: d(6, 9), hours: 5, status: "scheduled", recurring: null, checklist: [{ t: "Deep clean", done: false }] },
     ],
     leads: [

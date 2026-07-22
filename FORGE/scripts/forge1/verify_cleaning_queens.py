@@ -19,7 +19,10 @@ with sync_playwright() as p:
     # public site
     pg.goto(BASE, wait_until="networkidle")
     check("banner has reviews", len(pg.inner_text("#bannerTrack")) > 100)
-    check("services rendered", pg.locator("#svcGrid .card").count() == 6)
+    check("services rendered", pg.locator("#svcGrid .card").count() == 5)
+    check("real phone present", "(816) 269-5228" in pg.content())
+    check("brand image loads", pg.evaluate("document.querySelector('.brandimg img').naturalWidth") > 100)
+    check("work photo loads", pg.evaluate("document.querySelector('#work img').naturalWidth") > 100)
     check("reviews grid", pg.locator("#revGrid .rev").count() == 6)
     check("edit bar hidden logged out", not pg.locator("#editBar.show").count())
     # booking form
