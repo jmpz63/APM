@@ -1,0 +1,2658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Sandbox — Power · Network · Agentic AI</title>
+<style>
+  :root {
+    --bg: #0f1420;
+    --panel: #171e2e;
+    --panel2: #1d2739;
+    --border: #2a3650;
+    --text: #dbe4f5;
+    --muted: #8194b5;
+    --accent: #4da3ff;
+    --accent2: #ffc857;
+    --good: #4ade80;
+    --bad: #f87171;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  header h1 { font-size: 16px; font-weight: 600; letter-spacing: .5px; white-space: nowrap; }
+  header h1 span { color: var(--accent); }
+
+  /* ---------- Nav tabs ---------- */
+  nav#tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+  .tab-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+  .tab-btn:hover { color: var(--text); border-color: var(--border); }
+  .tab-btn.active { background: var(--panel2); color: var(--accent); border-color: var(--border); }
+  .tabpane { flex: 1; display: none; flex-direction: column; min-height: 0; }
+  .tabpane.active { display: flex; }
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .toolbar .ctl { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); }
+  .toolbar input[type=range] { accent-color: var(--accent); }
+  .toolbar input[type=checkbox] { accent-color: var(--accent); }
+  select, button {
+    background: var(--panel2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  select:hover, button:hover { border-color: var(--accent); }
+  button.primary { background: var(--accent); color: #08101f; font-weight: 600; border-color: var(--accent); }
+  button.primary:hover { background: #6cb5ff; }
+  .spacer { flex: 1; }
+  .status { font-size: 12px; color: var(--muted); }
+  .status.ok { color: var(--good); }
+  .status.err { color: var(--bad); }
+
+  main { flex: 1; display: flex; min-height: 0; }
+
+  /* ---------- Palette (shared by all tabs) ---------- */
+  .palette {
+    width: 230px;
+    min-width: 230px;
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 12px;
+  }
+  .palette h2 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin: 14px 0 8px;
+  }
+  .palette h2:first-child { margin-top: 0; }
+  .tab-body { flex: 1; display: flex; min-height: 0; }
+  .pal-item.modeon { border-color: var(--accent2); background: #2a2410; }
+  .pal-item.action { cursor: pointer; }
+  .pal-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    cursor: grab;
+    user-select: none;
+    transition: border-color .15s, transform .1s;
+  }
+  .pal-item:hover { border-color: var(--accent); }
+  .pal-item:active { cursor: grabbing; transform: scale(.97); }
+  .pal-item .icon { font-size: 16px; width: 22px; text-align: center; }
+  .pal-hint {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-top: 12px;
+    padding: 10px;
+    background: var(--panel2);
+    border-radius: 8px;
+    border: 1px dashed var(--border);
+  }
+  .pal-hint b { color: var(--accent2); }
+
+  /* ---------- Canvas ---------- */
+  #canvasWrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  #canvas {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    background:
+      radial-gradient(circle, #223050 1px, transparent 1px);
+    background-size: 24px 24px;
+    cursor: grab;
+    touch-action: none;
+  }
+  #canvas.panning { cursor: grabbing; }
+  #canvas.dragover { outline: 2px dashed var(--accent); outline-offset: -6px; }
+  #diagram {
+    position: absolute;
+    top: 0; left: 0;
+    transform-origin: 0 0;
+    will-change: transform;
+  }
+  #diagram svg { display: block; }
+
+  /* ---------- Zoom controls ---------- */
+  #zoomCtrls {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 6px 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.4);
+    z-index: 10;
+    user-select: none;
+  }
+  #zoomCtrls button {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    font-size: 15px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #zoomCtrls button.wide { width: auto; padding: 0 10px; font-size: 12px; }
+  #zoomPct {
+    min-width: 48px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  #diagram svg, #pipelineDiagram svg { overflow: visible !important; }
+  #diagram .node { cursor: move; }
+  #diagram .node:hover rect,
+  #diagram .node:hover polygon,
+  #diagram .node:hover circle,
+  #diagram .node:hover path { stroke: var(--accent2) !important; stroke-width: 2.5px !important; }
+  #diagram .node.droptarget rect,
+  #diagram .node.droptarget polygon { stroke: var(--good) !important; stroke-width: 3px !important; }
+
+  /* ---------- Editor ---------- */
+  #editorWrap {
+    height: 220px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    background: var(--panel);
+  }
+  #editorBar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  #code {
+    flex: 1;
+    width: 100%;
+    background: #0c1120;
+    color: #cfe3ff;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: Consolas, "Cascadia Code", monospace;
+    font-size: 13px;
+    line-height: 1.55;
+    padding: 12px 14px;
+    tab-size: 2;
+  }
+
+  /* ---------- Tooltip ---------- */
+  #tooltip {
+    position: fixed;
+    z-index: 1000;
+    max-width: 320px;
+    background: #0c1120;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--text);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .12s;
+    box-shadow: 0 8px 24px rgba(0,0,0,.5);
+  }
+  #tooltip.show { opacity: 1; }
+  #tooltip .tt-title { font-weight: 600; color: var(--accent2); margin-bottom: 4px; }
+
+  /* ---------- Network simulator ---------- */
+  #simMain { flex: 1; display: flex; min-height: 0; }
+  #netCanvas { flex: 1; min-width: 0; display: block; background: #0c1120; cursor: crosshair; }
+  #simSide {
+    width: 380px;
+    min-width: 380px;
+    background: var(--panel);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  #simSide h2 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    padding: 10px 12px 6px;
+  }
+  #traceLog {
+    flex: 1.4;
+    overflow-y: auto;
+    font-family: Consolas, monospace;
+    font-size: 11px;
+    line-height: 1.5;
+    padding: 0 12px 8px;
+    min-height: 0;
+  }
+  .tl-entry { border-bottom: 1px solid #1c2538; padding: 5px 0; color: var(--muted); }
+  .tl-entry .tl-t { color: #5a6c8f; margin-right: 6px; }
+  .tl-agent { color: var(--accent2); }
+  .tl-agent b { color: var(--accent2); }
+  .tl-pkt b { color: var(--accent); }
+  .tl-evt { color: var(--bad); }
+  .tl-good { color: var(--good); }
+  #telemetry { padding: 0 12px 12px; }
+  #telemetry .spark-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin: 8px 0 3px;
+    display: flex;
+    justify-content: space-between;
+  }
+  #telemetry .spark-label b { color: var(--text); font-variant-numeric: tabular-nums; }
+  canvas.spark {
+    width: 100%;
+    height: 48px;
+    background: #0c1120;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: block;
+  }
+  #stageStrip { display: flex; gap: 4px; align-items: center; font-size: 10.5px; }
+  #stageStrip .stage {
+    padding: 3px 8px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: .5px;
+  }
+  #stageStrip .stage.on { border-color: var(--accent2); color: var(--accent2); background: #2a2410; }
+  #stageStrip .arrowsym { color: #3a4a68; }
+  .qrow { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted); margin: 5px 0; }
+  .qrow input[type=range] { flex: 1; min-width: 60px; }
+  .qrow b { color: var(--text); min-width: 44px; text-align: right; font-size: 11px; }
+  #qCode {
+    width: 100%; height: 54px; background: #0c1120; color: #cfe3ff;
+    border: 1px solid var(--border); border-radius: 6px;
+    font-family: Consolas, monospace; font-size: 11.5px; padding: 6px; resize: vertical;
+  }
+  #qErr { color: var(--bad); font-size: 11px; min-height: 14px; }
+  #qPanel button { font-size: 11.5px; padding: 4px 10px; margin: 4px 6px 0 0; }
+
+  /* ---------- Pipeline & trace panes ---------- */
+  .pane-scroll { flex: 1; overflow: auto; padding: 20px 28px; min-height: 0; }
+  .pane-scroll h2 { font-size: 15px; margin: 18px 0 8px; color: var(--accent); }
+  .pane-scroll h2:first-child { margin-top: 0; }
+  .pane-scroll p { font-size: 13.5px; line-height: 1.65; color: var(--text); max-width: 900px; margin-bottom: 8px; }
+  .pane-scroll p.dim { color: var(--muted); font-size: 12.5px; }
+  .pane-scroll code, .cmd {
+    font-family: Consolas, monospace;
+    background: #0c1120;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 1px 6px;
+    font-size: 12.5px;
+    color: #9ecbff;
+  }
+  .cmdblock {
+    display: block;
+    background: #0c1120;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 8px 0 14px;
+    font-family: Consolas, monospace;
+    font-size: 12.5px;
+    color: #9ecbff;
+    white-space: pre-wrap;
+    max-width: 900px;
+  }
+  #pipelineDiagram, #traceDiagram { margin: 16px 0; overflow: auto; }
+  #geoMap {
+    width: 100%;
+    max-width: 980px;
+    height: 460px;
+    display: block;
+    background: #050a14;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin: 10px 0;
+  }
+  #traceInput {
+    width: 100%;
+    max-width: 900px;
+    height: 160px;
+    background: #0c1120;
+    color: #cfe3ff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: Consolas, monospace;
+    font-size: 12px;
+    padding: 10px 12px;
+    resize: vertical;
+  }
+  .callout {
+    max-width: 900px;
+    border: 1px solid var(--accent2);
+    background: #221c0e;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 10px 0;
+  }
+  .callout.red { border-color: var(--bad); background: #2a1416; }
+
+  /* native-ish tooltips for palette via data-tip reuse the same element */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ENGINEERING <span>SANDBOX</span></h1>
+  <nav id="tabs">
+    <button class="tab-btn active" data-tab="tab-sandbox" data-tip="Mermaid diagram sandbox — BESS &amp; power industry examples with a drag-and-drop component palette.">⚡ Power / Diagrams</button>
+    <button class="tab-btn" data-tab="tab-netsim" data-tip="Live network architecture simulator — AI routing agent, packet animation, fault injection, trace history, telemetry.">🌐 Network Simulator</button>
+    <button class="tab-btn" data-tab="tab-pipeline" data-tip="The reinforcement-learning control loop the simulator's AI agent runs: Observe → Perceive → Decide → Act → Update.">🤖 Agentic Pipeline</button>
+    <button class="tab-btn" data-tab="tab-trace" data-tip="Visualize a REAL ping/traceroute from a friend — paste tracert output and see every hop, gateway, and latency.">📡 Real-World Trace</button>
+  </nav>
+  <div class="spacer"></div>
+  <span id="status" class="status">ready</span>
+</header>
+
+<!-- ==================== TAB 1: Power / Diagram sandbox ==================== -->
+<div id="tab-sandbox" class="tabpane active">
+<div class="toolbar">
+  <select id="examples" data-tip="Load a pre-built engineering example diagram. Your current code will be replaced.">
+    <option value="">— Load example —</option>
+    <option value="bess_sld">BESS Single-Line Diagram (grid-scale)</option>
+    <option value="bess_control">BESS Control &amp; Comms Hierarchy</option>
+    <option value="grid_services">Grid Services Decision Flow</option>
+    <option value="bess_states">BESS Operating State Machine</option>
+    <option value="commissioning">Commissioning Sequence (SAT)</option>
+    <option value="substation">Substation Protection Zones</option>
+    <option value="agentic">Agentic AI Pipeline (RL loop)</option>
+    <option value="smb_sites">Small-Business Website Decision Tree</option>
+    <option value="website_build">Website Build Process (Cleaning Queens)</option>
+    <option value="forge_vs_studio">forge :8080 vs FORGE ZERO Studios :8090</option>
+  </select>
+  <button id="renderBtn" class="primary" data-tip="Re-render the diagram from the code below (auto-renders as you type too).">Render</button>
+  <button id="copyBtn" data-tip="Copy the Mermaid source code to your clipboard.">Copy Code</button>
+  <button id="svgBtn" data-tip="Download the rendered diagram as a standalone .svg file.">Export SVG</button>
+  <button id="resetBtn" data-tip="Re-render from source, snapping any dragged nodes (and their re-routed edges) back to the automatic layout.">Reset Layout</button>
+</div>
+
+<main>
+  <aside id="palette" class="palette">
+    <h2>Generation &amp; Storage</h2>
+    <div class="pal-item" draggable="true" data-kind="BESS"   data-tip="Battery Energy Storage System — container-level block. Typical grid-scale: LFP chemistry, 3–5 MWh per enclosure, DC bus 1200–1500 V. Drag onto the canvas (or onto an existing node to auto-connect)."><span class="icon">🔋</span>BESS Container</div>
+    <div class="pal-item" draggable="true" data-kind="RACK"   data-tip="Battery rack/string — series-connected modules managed by a rack-level BMS. Racks parallel onto the DC bus."><span class="icon">🗄️</span>Battery Rack</div>
+    <div class="pal-item" draggable="true" data-kind="PV"     data-tip="Photovoltaic array — DC generation, often DC-coupled with storage behind a shared PCS or AC-coupled at the MV bus."><span class="icon">☀️</span>PV Array</div>
+    <div class="pal-item" draggable="true" data-kind="GEN"    data-tip="Backup genset — diesel/gas generator for black start or islanded backup. Interlock with the grid breaker."><span class="icon">⚙️</span>Genset</div>
+
+    <h2>Conversion &amp; Transformation</h2>
+    <div class="pal-item" draggable="true" data-kind="PCS"    data-tip="Power Conversion System — bidirectional inverter (DC↔AC). Grid-scale units: 1–4 MW, 4-quadrant P/Q control, LVRT/HVRT capable per IEEE 1547 / IEEE 2800."><span class="icon">🔄</span>PCS / Inverter</div>
+    <div class="pal-item" draggable="true" data-kind="XFMR"   data-tip="Step-up transformer — e.g. 0.69 kV inverter output to 34.5 kV collection. Pad-mount, typically ONAN-rated with the PCS block."><span class="icon">⚡</span>Transformer</div>
+
+    <h2>Switching &amp; Protection</h2>
+    <div class="pal-item" draggable="true" data-kind="SWGR"   data-tip="MV switchgear — breakers, disconnects, and bus work at the collection voltage. Houses feeder protection."><span class="icon">🎚️</span>Switchgear</div>
+    <div class="pal-item" draggable="true" data-kind="RELAY"  data-tip="Protection relay — e.g. SEL-751/451. Functions: 50/51 overcurrent, 27/59 under/over-voltage, 81 under/over-frequency, 25 sync-check."><span class="icon">🛡️</span>Protection Relay</div>
+    <div class="pal-item" draggable="true" data-kind="METER"  data-tip="Revenue/power-quality meter at the POI — settlement-grade metering (e.g. SEL-735) for market participation."><span class="icon">📊</span>Meter</div>
+
+    <h2>Grid &amp; Loads</h2>
+    <div class="pal-item" draggable="true" data-kind="GRID"   data-tip="Utility grid / Point of Interconnection (POI). Interconnection governed by LGIA/SGIA agreements and IEEE 2800 performance requirements."><span class="icon">🏗️</span>Grid / POI</div>
+    <div class="pal-item" draggable="true" data-kind="LOAD"   data-tip="Facility or feeder load — the demand being served, peak-shaved, or backed up."><span class="icon">🏭</span>Load</div>
+
+    <h2>Controls</h2>
+    <div class="pal-item" draggable="true" data-kind="EMS"    data-tip="Energy Management System — plant-level controller dispatching P/Q setpoints to PCS units. Executes market signals (AGC, frequency regulation) and enforces POI limits."><span class="icon">🧠</span>EMS</div>
+    <div class="pal-item" draggable="true" data-kind="BMS"    data-tip="Battery Management System — monitors cell voltage/temperature, computes SOC/SOH, enforces charge/discharge limits, opens DC contactors on fault."><span class="icon">🩺</span>BMS</div>
+    <div class="pal-item" draggable="true" data-kind="SCADA"  data-tip="SCADA/HMI — supervisory monitoring, alarming, and historian. Talks DNP3/Modbus/IEC 61850 to plant devices."><span class="icon">🖥️</span>SCADA</div>
+    <div class="pal-item" draggable="true" data-kind="HVAC"   data-tip="Thermal management — liquid cooling or HVAC keeping cells in their happy window (~15–35 °C). Thermal runaway prevention starts here."><span class="icon">❄️</span>HVAC / Cooling</div>
+
+    <div class="pal-hint">
+      <b>Drag</b> a component onto the canvas to add it to the diagram.<br>
+      <b>Drop onto an existing node</b> to auto-connect them.<br>
+      <b>Drag rendered nodes</b> to nudge their position (cosmetic — edges stay put; use Reset Layout to snap back).<br>
+      <b>Hover</b> anything for engineering tooltips.<br>
+      <b>Scroll wheel</b> zooms at cursor · <b>drag canvas</b> pans · <b>double-click</b> fits · keys: <b>+ − 0 1 arrows</b>.
+    </div>
+  </aside>
+
+  <div id="canvasWrap">
+    <div id="canvas" tabindex="0">
+      <div id="diagram"></div>
+      <div id="zoomCtrls">
+        <button id="zoomOut" data-tip="Zoom out (or scroll wheel down). Keyboard: -">−</button>
+        <span id="zoomPct">100%</span>
+        <button id="zoomIn" data-tip="Zoom in (or scroll wheel up). Keyboard: +">+</button>
+        <button id="zoomFit" class="wide" data-tip="Fit the whole diagram in view. Keyboard: 0 or double-click empty canvas">Fit</button>
+        <button id="zoom100" class="wide" data-tip="Reset zoom to 100%. Keyboard: 1">1:1</button>
+      </div>
+    </div>
+    <div id="editorWrap">
+      <div id="editorBar">
+        Mermaid source — edits auto-render (350 ms debounce). Syntax errors show in the status at top-right.
+      </div>
+      <textarea id="code" spellcheck="false"></textarea>
+    </div>
+  </div>
+</main>
+</div><!-- /tab-sandbox -->
+
+<!-- ==================== TAB 2: Network simulator ==================== -->
+<div id="tab-netsim" class="tabpane">
+  <div class="toolbar">
+    <button id="simPlay" class="primary" data-tip="Run the simulation continuously at the selected speed.">▶ Play</button>
+    <button id="simPause" data-tip="Freeze the simulation clock. Packets and agent state are preserved.">⏸ Pause</button>
+    <button id="simStep" data-tip="Advance exactly one simulation tick — useful for auditing the agent's decisions frame by frame.">⏭ Step</button>
+    <span class="ctl">Speed <input type="range" id="simSpeed" min="2" max="30" value="10" data-tip="Simulation ticks per second (2–30)."></span>
+    <span class="ctl" data-tip="Heuristic: rule-based congestion agent (penalize hot links). Q-learning: packets are routed hop-by-hop by a live Q-routing agent that starts dumb and LEARNS from every delivery — tune it in the Learning Agent panel (right). Off: static shortest-path, no adaptation."><select id="agentMode">
+      <option value="heuristic">AI: Heuristic agent</option>
+      <option value="qlearn">AI: Q-learning (learns live)</option>
+      <option value="off">AI: Off (static routes)</option>
+    </select></span>
+    <select id="eventSel" data-tip="Dynamic event injector — introduce faults and watch the agent (or lack of one) respond.">
+      <option value="linkfail">Event: Link failure (busiest link)</option>
+      <option value="congestion">Event: Congestion surge (random link)</option>
+      <option value="nodefail">Event: Router failure (random core)</option>
+      <option value="ddos">Event: DDoS flood (edge ingress)</option>
+      <option value="heal">Heal: restore all faults</option>
+    </select>
+    <button id="eventBtn" data-tip="Fire the selected event into the running simulation.">Inject</button>
+    <div class="spacer"></div>
+    <span id="stageStrip" data-tip="Live view of the agent's RL control loop — the stage lights up as the agent works through it each decision cycle.">
+      <span class="stage" data-s="0">OBSERVE</span><span class="arrowsym">→</span><span class="stage" data-s="1">PERCEIVE</span><span class="arrowsym">→</span><span class="stage" data-s="2">DECIDE</span><span class="arrowsym">→</span><span class="stage" data-s="3">ACT</span><span class="arrowsym">→</span><span class="stage" data-s="4">UPDATE</span>
+    </span>
+  </div>
+  <div id="simMain">
+    <aside class="palette" id="netPalette">
+      <h2>Network Components</h2>
+      <div class="pal-item" draggable="true" data-net="ROUTER" data-tip="Core router — drag onto the canvas to add it live. Auto-links to the two nearest nodes (or drop directly ONTO a node to link to it). Immediately participates in Dijkstra routing and AI weight overrides."><span class="icon">🔀</span>Router</div>
+      <div class="pal-item" draggable="true" data-net="HOST" data-tip="Additional traffic source — a host that starts sending packets toward the destination every tick, raising network load. Drop several to stress the topology."><span class="icon">💻</span>Traffic Source</div>
+      <div class="pal-item" draggable="true" data-net="FW" data-tip="Inline firewall — any packet whose path crosses it pays ~3 ms inspection latency, and ~90% of DDoS packets that reach it get BLOCKED. Place it between the flood and the destination, then inject a DDoS."><span class="icon">🧱</span>Firewall</div>
+      <h2>Tools</h2>
+      <div class="pal-item action" id="netLinkMode" data-tip="Link mode — click two nodes on the canvas to connect them with a new link. Click the tool again to exit."><span class="icon">🔗</span>Link Mode</div>
+      <div class="pal-item action" id="netFailMode" data-tip="Fail mode — click any node or link on the canvas to toggle it failed/restored. Surgical alternative to the random event injector."><span class="icon">💥</span>Fail Mode</div>
+      <div class="pal-hint">
+        <b>Drag</b> a component onto the canvas — it joins the LIVE simulation instantly.<br>
+        <b>Drop onto a node</b> to link directly to it; drop on empty space to auto-link to the two nearest.<br>
+        <b>Link/Fail modes</b>: click nodes/links on the canvas.<br>
+        <b>Hover</b> nodes and links for live stats.
+      </div>
+    </aside>
+    <canvas id="netCanvas"></canvas>
+    <aside id="simSide">
+      <h2>Trace History Log</h2>
+      <div id="traceLog"></div>
+      <h2>Live Telemetry Feed</h2>
+      <div id="telemetry">
+        <div class="spark-label"><span>Latency (ms, delivered avg)</span><b id="latVal">–</b></div>
+        <canvas class="spark" id="sparkLat"></canvas>
+        <div class="spark-label"><span>Packet loss (%)</span><b id="lossVal">–</b></div>
+        <canvas class="spark" id="sparkLoss"></canvas>
+        <div class="spark-label"><span>Jitter (ms, σ latency)</span><b id="jitVal">–</b></div>
+        <canvas class="spark" id="sparkJit"></canvas>
+      </div>
+      <h2 id="qHead" style="display:none">Learning Agent — editable</h2>
+      <div id="qPanel" style="display:none">
+        <div class="spark-label" data-tip="Average reward per delivered packet (reward = −delivery ms). Watch it climb as the agent learns — that upward slope IS learning."><span>Reward (−ms / delivery)</span><b id="rewVal">–</b></div>
+        <canvas class="spark" id="sparkRew"></canvas>
+        <div class="qrow" data-tip="How hard each new experience overwrites old beliefs. High = fast but unstable learning; low = slow but smooth.">α learn rate <input type="range" id="qAlpha" min="0.05" max="1" step="0.05" value="0.3"><b id="qAlphaV">0.30</b></div>
+        <div class="qrow" data-tip="Discount factor — how much the agent cares about costs further down the path vs the immediate hop.">γ discount <input type="range" id="qGamma" min="0.50" max="0.99" step="0.01" value="0.95"><b id="qGammaV">0.95</b></div>
+        <div class="qrow" data-tip="Starting exploration rate — fraction of hops chosen randomly instead of greedily. Decays with every delivery.">ε start <input type="range" id="qEps0" min="0" max="1" step="0.05" value="0.8"><b id="qEps0V">0.80</b></div>
+        <div class="qrow" data-tip="Multiplied into ε after each delivery. Closer to 1 = explores longer before settling.">ε decay <input type="range" id="qDecay" min="0.990" max="1.000" step="0.0005" value="0.9990"><b id="qDecayV">0.9990</b></div>
+        <div class="qrow">ε now <b id="qEpsV">–</b> · deliveries <b id="qDelivV">0</b></div>
+        <div class="qrow" style="display:block" data-tip="JavaScript body of the per-hop cost function the agent minimizes. Args: hopMs (actual latency paid on the hop), dropped (true if the packet died there). Return a number — lower is better. Edit it, hit Apply, watch behavior change.">Per-hop cost fn(hopMs, dropped):</div>
+        <textarea id="qCode" spellcheck="false">return hopMs + (dropped ? 150 : 0);</textarea>
+        <div><button id="qApply">Apply fn</button><button id="qReset">Reset learning</button></div>
+        <div id="qErr"></div>
+      </div>
+    </aside>
+  </div>
+</div><!-- /tab-netsim -->
+
+<!-- ==================== TAB 3: Agentic pipeline ==================== -->
+<div id="tab-pipeline" class="tabpane">
+ <div class="tab-body">
+  <aside class="palette" id="pipePalette">
+    <h2>Agentic Components</h2>
+    <div class="pal-item" draggable="true" data-pipe="SENSOR" data-tip="Telemetry sensor — an extra data feed into the observation stage (packet captures, NetFlow, SNMP counters). Default wires into OBSERVATION."><span class="icon">📶</span>Telemetry Sensor</div>
+    <div class="pal-item" draggable="true" data-pipe="REWARD" data-tip="Reward shaper — turns raw outcomes (latency, loss, SLA hits) into the scalar reward signal that trains the policy. Bad reward design = reward hacking."><span class="icon">🎯</span>Reward Shaper</div>
+    <div class="pal-item" draggable="true" data-pipe="BUFFER" data-tip="Replay buffer — stores (state, action, reward, next-state) transitions so the agent can learn off-policy from past experience instead of only the live stream."><span class="icon">🧮</span>Replay Buffer</div>
+    <div class="pal-item" draggable="true" data-pipe="GUARD" data-tip="Guardrails / policy check — validates every proposed action against hard constraints (never isolate the POI, never exceed link caps) BEFORE execution. The safety layer between decide and act."><span class="icon">🛑</span>Guardrails</div>
+    <div class="pal-item" draggable="true" data-pipe="HUMAN" data-tip="Human-in-the-loop — escalation path for low-confidence or high-blast-radius actions. The agent proposes; an operator approves."><span class="icon">🙋</span>Human-in-the-Loop</div>
+    <div class="pal-item" draggable="true" data-pipe="REGISTRY" data-tip="Model registry — versioned storage of trained policies with rollback. When a new policy regresses, you redeploy the last known-good one."><span class="icon">📦</span>Model Registry</div>
+    <div class="pal-hint">
+      <b>Drag</b> a component onto the pipeline diagram to extend the loop.<br>
+      <b>Drop onto a stage node</b> to wire it there — otherwise it wires to its natural stage (sensors→Observation, guardrails→Decision, etc.).<br>
+      <b>Hover</b> everything for RL engineering notes.
+    </div>
+  </aside>
+  <div class="pane-scroll">
+    <h2>Agentic AI Pipeline — the loop behind the Network Simulator</h2>
+    <p>This is the reinforcement-learning control loop the simulator's routing agent executes every decision
+       cycle. The simulator acts as the <b>environment</b> (Gymnasium-style): it exposes an observation of the
+       network state, accepts an action, applies it, and advances the tick. Hover any node for details —
+       switch to the Network Simulator tab and watch the stage strip (top-right) light up as the live agent
+       walks this exact loop.</p>
+    <div id="pipelineDiagram"></div>
+    <h2>How the hooks map to the simulator</h2>
+    <p class="dim"><b>State/Observation space:</b> per-link utilization, latency, up/down status, node health — read each cycle.
+       <b>Action space:</b> OSPF-style link weight overrides (divert traffic), applied to the routing tables.
+       <b>Control loop:</b> the sim pauses the agent between ticks; Step mode lets you audit one decision at a time.
+       <b>Decision audit:</b> every packet carries a hop-by-hop metadata trail, and every agent decision is written
+       to the Trace History Log with its tick, observation, decision, and action — replayable context for training.</p>
+  </div>
+ </div>
+</div><!-- /tab-pipeline -->
+
+<!-- ==================== TAB 4: Real-world trace ==================== -->
+<div id="tab-trace" class="tabpane">
+ <div class="tab-body">
+  <aside class="palette" id="tracePalette">
+    <h2>Trace Tools</h2>
+    <div class="pal-item action" id="traceParseBtn" data-tip="Parse the pasted tracert/traceroute output and render the hop path diagram."><span class="icon">🔎</span>Visualize Trace</div>
+    <div class="pal-item action" id="traceDemoBtn" data-tip="Load a realistic sample Florida-to-Midwest tracert so you can see what everything looks like."><span class="icon">🧪</span>Load Sample</div>
+    <div class="pal-item action" id="traceGeoBtn" data-tip="GeoIP-locate every public hop (free ipwho.is lookups, needs internet) and plot the route on the USA map with animated packet pulses. City-level accuracy at best."><span class="icon">🗺️</span>Plot on USA Map</div>
+    <div class="pal-item action" id="traceClearBtn" data-tip="Clear the diagram, notes, and map."><span class="icon">🧹</span>Clear</div>
+    <h2>Legend</h2>
+    <div class="pal-item" data-tip="RFC1918 private space (10.x, 192.168.x, 172.16–31.x) — LAN-side gateways. At the start of a trace: your friend's router."><span class="icon">🟩</span>Private LAN hop</div>
+    <div class="pal-item" data-tip="RFC6598 (100.64–127.x) — carrier-grade NAT, the ISP's shared translation layer. Your friend's ISP hides real customer IPs behind it."><span class="icon">🟨</span>CGNAT hop</div>
+    <div class="pal-item" data-tip="No reply (*) — the router deprioritizes/drops ICMP TTL-exceeded. Normal backbone hygiene, not necessarily a firewall."><span class="icon">🟥</span>Timeout hop</div>
+    <div class="pal-item" data-tip="Orange thick edge — the biggest latency jump, usually the long-haul fiber segment (Florida → Midwest ≈ +25–40 ms)."><span class="icon">🟧</span>Long-haul jump</div>
+    <div class="pal-hint">
+      Paste tracert output → <b>Visualize</b> → <b>Plot on USA Map</b> for the movie version. Hover every hop for classification.
+    </div>
+  </aside>
+  <div class="pane-scroll">
+    <h2>Real-World Ping / Traceroute — your friend in Florida → your machine</h2>
+    <div class="callout">
+      <b>Honest limits first:</b> a browser page cannot sniff ICMP packets, so this page can't <i>see</i> the ping
+      arrive. What it CAN do: (1) give you the exact commands for both sides, (2) parse the traceroute output your
+      friend sends you and render every hop, gateway, and latency as a diagram below, and (3) tell you how to watch
+      the pings land on your machine with built-in Windows tools.
+    </div>
+
+    <h2>Step 1 — You: find your public IP (safe, changes nothing)</h2>
+    <span class="cmdblock"># Your public IP (run in PowerShell — read-only, no firewall changes):
+(Invoke-WebRequest -Uri "https://api.ipify.org").Content</span>
+    <div class="callout">
+      <b>You do NOT need to open your firewall for most of this.</b> Traceroute hops are answered by the routers
+      <i>along the way</i>, not by you — so your friend's tracert will map the whole path (and this page will diagram it)
+      even with your firewall fully closed. Only the very last hop (your reply) needs inbound ICMP. And in practice your
+      home <i>router</i> answers or drops WAN pings before Windows ever sees them, so the router's "Respond to WAN ping"
+      setting matters more than the Windows rule anyway.
+    </div>
+    <p class="dim"><b>Later, when you're ready for the full end-to-end ping test</b>, this pair adds the rule and removes it
+       when you're done (run as Administrator):</p>
+    <span class="cmdblock"># ONLY when ready to test — allow inbound ping:
+netsh advfirewall firewall add rule name="Allow ICMPv4 Ping" protocol=icmpv4:8,any dir=in action=allow
+
+# When finished testing — remove it again:
+netsh advfirewall firewall delete rule name="Allow ICMPv4 Ping"</span>
+    <p class="dim">Your machine is only directly reachable from the internet if the router DMZ/forwards to it —
+       don't leave that on. Keeping the trace test router-terminated is the safer default.</p>
+
+    <h2>Step 2 — Friend in Florida runs:</h2>
+    <span class="cmdblock">ping &lt;your-public-ip&gt; -n 10
+tracert -d &lt;your-public-ip&gt;
+tracert &lt;your-public-ip&gt;   &lt;-- second pass WITH hostnames (slower, resolves DNS)</span>
+
+    <h2>Step 3 — You: watch it arrive (optional)</h2>
+    <span class="cmdblock"># Live ICMP capture with built-in Windows tooling (as Administrator):
+pktmon filter add ICMP -t ICMP
+pktmon start --etw -m real-time
+# ...watch echo requests land, Ctrl+C to stop, then:
+pktmon stop; pktmon filter remove
+
+# Or use Wireshark with capture filter:  icmp</span>
+
+    <h2>Step 4 — Paste the tracert output here to visualize it</h2>
+    <textarea id="traceInput" spellcheck="false" placeholder="Paste the full output of tracert / traceroute here...
+
+Tracing route to 203.0.113.57 over a maximum of 30 hops
+  1    &lt;1 ms    &lt;1 ms    &lt;1 ms  192.168.1.1
+  2    12 ms    11 ms    13 ms  100.64.22.1
+  3    14 ms    15 ms    14 ms  ae-1.ear3.Miami2.net [4.69.203.126]
+  ..."></textarea>
+    <div id="traceDiagram"></div>
+    <div id="traceNotes"></div>
+
+    <h2>USA map overlay — "is this just in the movies?"</h2>
+    <p class="dim">No — it's real, with caveats. Each public hop's IP is geolocated (GeoIP) and plotted below with
+       animated pulses tracing the route, movie-style. The caveat Hollywood skips: GeoIP is <b>city-level at best</b>,
+       and backbone routers often geolocate to the ISP's registration HQ rather than the physical box. Private/CGNAT/timeout
+       hops have no public location and are skipped. Lookups use free <code>ipwho.is</code> — needs internet; the sample
+       trace uses built-in coordinates so it works offline.</p>
+    <canvas id="geoMap"></canvas>
+    <div id="geoNotes"></div>
+    <div class="callout red">
+      <b>Cybersecurity notes:</b> hops showing <code>*</code> are routers that drop/deprioritize ICMP TTL-exceeded — normal,
+      not necessarily a firewall. RFC1918 addresses (10.x, 192.168.x, 172.16–31.x) at the START are your friend's LAN;
+      at the END they'd mean CGNAT or your own LAN. A big latency jump between hops = the long-haul link (Florida → Midwest
+      is typically +25–40 ms). If the trace dies before your IP but pings succeed, your router answers ICMP echo while
+      staying dark to traceroute — a reasonable security posture. Never share your public IP + open-port list publicly.
+    </div>
+  </div>
+ </div>
+</div><!-- /tab-trace -->
+
+<div id="tooltip"></div>
+
+<script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+mermaid.initialize({
+  startOnLoad: false,
+  securityLevel: "loose",
+  theme: "dark",
+  themeVariables: {
+    primaryColor: "#1d2739",
+    primaryTextColor: "#dbe4f5",
+    primaryBorderColor: "#4da3ff",
+    lineColor: "#8194b5",
+    secondaryColor: "#223050",
+    tertiaryColor: "#171e2e",
+    fontFamily: "Segoe UI, system-ui, sans-serif"
+  },
+  flowchart: { htmlLabels: true, curve: "basis" }
+});
+
+/* ================= Examples ================= */
+const EXAMPLES = {
+  bess_sld: `flowchart TB
+  GRID["🏗️ Utility Grid<br/>115 kV POI"]
+  METER["📊 Revenue Meter<br/>SEL-735"]
+  MAINXF["⚡ Main Transformer<br/>115 / 34.5 kV, 60 MVA"]
+  SWGR["🎚️ 34.5 kV Switchgear<br/>Feeder Breakers"]
+  RELAY1["🛡️ Feeder Relay<br/>50/51, 27/59, 81"]
+
+  subgraph BLOCK1["Power Block 1 — 5 MW / 20 MWh"]
+    XF1["⚡ Pad-mount XFMR<br/>34.5 kV / 690 V"]
+    PCS1["🔄 PCS 1<br/>2.5 MW bidirectional"]
+    PCS2["🔄 PCS 2<br/>2.5 MW bidirectional"]
+    BESS1["🔋 BESS Enclosure A<br/>LFP, 5 MWh, 1500 Vdc"]
+    BESS2["🔋 BESS Enclosure B<br/>LFP, 5 MWh, 1500 Vdc"]
+    BESS3["🔋 BESS Enclosure C<br/>LFP, 5 MWh, 1500 Vdc"]
+    BESS4["🔋 BESS Enclosure D<br/>LFP, 5 MWh, 1500 Vdc"]
+  end
+
+  GRID --- METER
+  METER --- MAINXF
+  MAINXF --- SWGR
+  SWGR -.protection.- RELAY1
+  SWGR --- XF1
+  XF1 --- PCS1
+  XF1 --- PCS2
+  PCS1 === BESS1
+  PCS1 === BESS2
+  PCS2 === BESS3
+  PCS2 === BESS4
+
+  style GRID fill:#26314d,stroke:#ffc857
+  style BLOCK1 fill:#141b2b,stroke:#2a3650
+`,
+  bess_control: `flowchart TB
+  MKT["📈 Market / ISO Signal<br/>AGC · day-ahead awards"]
+  SCADA["🖥️ SCADA / HMI<br/>alarms · historian · trending"]
+  EMS["🧠 Plant EMS<br/>P/Q dispatch · POI limit enforcement"]
+
+  subgraph PB["Power Block"]
+    PCSC["🔄 PCS Controller<br/>P/Q setpoints, LVRT"]
+    BMS1["🩺 System BMS<br/>SOC/SOH aggregation"]
+    RBMS1["🗄️ Rack BMS 1..N<br/>cell V/T monitoring"]
+    HVAC["❄️ Thermal Controller<br/>liquid cooling loop"]
+    FSS["🚨 Fire Suppression<br/>NFPA 855 · gas detection"]
+  end
+
+  MKT -->|"ICCP / DNP3"| EMS
+  SCADA <-->|"DNP3 / IEC 61850"| EMS
+  EMS -->|"Modbus TCP setpoints"| PCSC
+  EMS <-->|"telemetry"| BMS1
+  BMS1 --> RBMS1
+  BMS1 -.->|"derate request"| PCSC
+  HVAC -.->|"temp alarm"| BMS1
+  FSS -.->|"trip / E-stop"| PCSC
+
+  style MKT fill:#26314d,stroke:#ffc857
+  style FSS fill:#3d1f26,stroke:#f87171
+`,
+  grid_services: `flowchart TD
+  START(["EMS dispatch cycle<br/>every 4 s"]) --> FREQ{"Grid frequency<br/>deviation &gt; ±0.036 Hz?"}
+  FREQ -->|yes| REG["⚖️ Frequency Regulation<br/>inject/absorb per droop curve"]
+  FREQ -->|no| PEAK{"Load forecast &gt;<br/>demand threshold?"}
+  PEAK -->|yes| SHAVE["📉 Peak Shaving<br/>discharge to clip demand"]
+  PEAK -->|no| PRICE{"LMP price<br/>arbitrage spread &gt; $X?"}
+  PRICE -->|yes| ARB["💰 Energy Arbitrage<br/>charge low / discharge high"]
+  PRICE -->|no| SOCQ{"SOC &lt; restore<br/>target?"}
+  SOCQ -->|yes| CHG["🔌 Recharge<br/>at off-peak rate"]
+  SOCQ -->|no| IDLE["😴 Standby<br/>auxiliary loads only"]
+  REG --> LIMITS
+  SHAVE --> LIMITS
+  ARB --> LIMITS
+  CHG --> LIMITS
+  LIMITS{"Within POI limit,<br/>SOC 5–95%,<br/>cell temp OK?"} -->|yes| GO(["Send P/Q setpoints<br/>to PCS fleet"])
+  LIMITS -->|no| DERATE["⚠️ Derate command<br/>clamp to safe envelope"] --> GO
+
+  style REG fill:#1d3328,stroke:#4ade80
+  style DERATE fill:#3d1f26,stroke:#f87171
+`,
+  bess_states: `stateDiagram-v2
+  [*] --> Offline
+  Offline --> Standby : pre-charge OK,<br/>DC contactors closed
+  Standby --> Charging : EMS charge setpoint
+  Standby --> Discharging : EMS discharge setpoint
+  Charging --> Standby : SOC ≥ 95% or setpoint = 0
+  Discharging --> Standby : SOC ≤ 5% or setpoint = 0
+  Charging --> Fault : cell OV / OT,<br/>ground fault
+  Discharging --> Fault : cell UV / OT,<br/>PCS trip
+  Standby --> Fault : BMS alarm
+  Fault --> Standby : fault cleared +<br/>manual reset
+  Fault --> Offline : lockout<br/>(3 strikes)
+  Offline --> [*]
+
+  note right of Fault
+    BMS opens DC contactors,
+    PCS gates blocked,
+    SCADA alarm raised
+  end note
+`,
+  commissioning: `sequenceDiagram
+  autonumber
+  participant CX as Commissioning Agent
+  participant BMS as BMS
+  participant PCS as PCS
+  participant EMS as EMS
+  participant UTIL as Utility
+
+  CX->>BMS: Point-to-point checks (cell V/T sensors)
+  BMS-->>CX: All strings report, SOC calibrated
+  CX->>PCS: Open-circuit + dead-bus tests
+  PCS-->>CX: Gate drive & cooling verified
+  CX->>PCS: Grid-tie: sync check (25), soft close
+  PCS-->>CX: Online, 0 kW float
+  CX->>EMS: Ramp test — charge 0→100% rated
+  EMS->>PCS: P setpoint ramp
+  PCS-->>EMS: Followed within tolerance
+  CX->>UTIL: Witness test — trip scheme validation
+  UTIL-->>CX: 86 lockout & transfer trip verified
+  CX->>EMS: Capacity test (full cycle, measure RTE)
+  EMS-->>CX: RTE 87.2% — PASS
+  Note over CX,UTIL: Substantial Completion ✔
+`,
+  substation: `flowchart LR
+  subgraph Z1["Zone 1 — Transmission"]
+    GRID["🏗️ 115 kV Line"]
+    CB1["Breaker 52-1"]
+  end
+  subgraph Z2["Zone 2 — Transformer"]
+    XFMR["⚡ 115/34.5 kV<br/>60 MVA"]
+    R87T["🛡️ 87T Differential"]
+  end
+  subgraph Z3["Zone 3 — Distribution Bus"]
+    BUS["34.5 kV Bus"]
+    R87B["🛡️ 87B Bus Diff"]
+    CB2["Feeder 52-2"]
+    CB3["Feeder 52-3"]
+  end
+  BESSF["🔋 BESS Feeder"]
+  PVF["☀️ PV Feeder"]
+
+  GRID --- CB1 --- XFMR --- BUS
+  BUS --- CB2 --- BESSF
+  BUS --- CB3 --- PVF
+  R87T -.CT zones.- XFMR
+  R87B -.CT zones.- BUS
+  CB1 -.trip.- R87T
+
+  style Z1 fill:#141b2b,stroke:#2a3650
+  style Z2 fill:#141b2b,stroke:#2a3650
+  style Z3 fill:#141b2b,stroke:#2a3650
+`,
+  agentic: `flowchart TB
+  subgraph LOOP["Reinforcement Learning Control Loop"]
+    OBS["\ud83d\udce1 OBSERVATION (State)<br/>current latency \u00b7 link congestion<br/>node health \u00b7 jitter"]
+    PER["\ud83e\udde9 PERCEPTION (Feature Extraction)<br/>state encoding \u2192 observation vector"]
+    DEC["\ud83e\udde0 DECISION-MAKING<br/>RL agent selects action<br/>(congestion-aware routing)"]
+    ACT["\u2699\ufe0f ACTION EXECUTION<br/>re-route traffic<br/>update routing tables"]
+    UPD["\ud83d\uddc4\ufe0f STATE UPDATE<br/>apply new config \u00b7 advance tick"]
+  end
+  ENV["\ud83c\udf10 ENVIRONMENT<br/>Network Simulator<br/>(Gymnasium-style API)"]
+  SENSOR["\ud83d\udcf6 TELEMETRY SENSOR<br/>NetFlow \u00b7 SNMP \u00b7 pcap"]
+  AUDIT["\ud83d\udcdc TRACE HISTORY LOG<br/>decision audit ledger"]
+  subgraph SAFE["Safety layer \u2014 between decide and act"]
+    GUARD{{"\ud83d\uded1 GUARDRAILS<br/>hard-constraint check"}}
+    HUMAN["\ud83d\ude4b HUMAN-IN-THE-LOOP<br/>operator approval gate"]
+  end
+  subgraph TRAIN["Learning infrastructure \u2014 how the policy improves"]
+    REWARD["\ud83c\udfaf REWARD SHAPER<br/>outcomes \u2192 scalar r"]
+    BUFFER["\ud83e\uddee REPLAY BUFFER<br/>(s, a, r, s\u2032)"]
+    REGISTRY["\ud83d\udce6 MODEL REGISTRY<br/>versioned policies"]
+  end
+
+  ENV ==>|"state"| OBS
+  SENSOR -->|"signal"| OBS
+  OBS --> PER
+  PER --> DEC
+  DEC -->|"action"| GUARD
+  GUARD -->|"pass"| ACT
+  GUARD -.->|"reject"| DEC
+  GUARD -.->|"escalate"| HUMAN
+  HUMAN -.->|"approve"| ACT
+  ACT --> UPD
+  UPD ==>|"s\u2032 + r"| ENV
+  ENV -->|"outcomes"| REWARD
+  REWARD -->|"r"| BUFFER
+  UPD -->|"transition"| BUFFER
+  BUFFER -->|"train"| DEC
+  DEC -.->|"vN"| REGISTRY
+  REGISTRY -.->|"deploy"| DEC
+  DEC -.->|"audit"| AUDIT
+  ACT -.->|"audit"| AUDIT
+
+  style ENV fill:#26314d,stroke:#ffc857
+  style AUDIT fill:#1d3328,stroke:#4ade80
+  style LOOP fill:#141b2b,stroke:#2a3650
+  style SAFE fill:#1c1420,stroke:#f87171
+  style TRAIN fill:#131d2b,stroke:#4da3ff
+  style SENSOR fill:#1c2a42,stroke:#4da3ff
+  style REWARD fill:#1c2a42,stroke:#ffc857
+  style BUFFER fill:#1c2a42,stroke:#c084fc
+  style GUARD fill:#3a1d1d,stroke:#f87171
+  style HUMAN fill:#2a2410,stroke:#ffc857
+  style REGISTRY fill:#1d3328,stroke:#4ade80
+`,
+  smb_sites: `flowchart TD
+  START(["\ud83e\udd1d New small-business client"]) --> Q1{"Sell products<br/>online?"}
+  Q1 -->|"Yes"| ECOM["\ud83d\uded2 E-COMMERCE STORE<br/>retail \u00b7 boutiques \u00b7 makers"]
+  Q1 -->|"No"| Q2{"Business runs on<br/>appointments?"}
+  Q2 -->|"Yes"| BOOK["\ud83d\udcc5 BOOKING / SERVICE<br/>salons \u00b7 clinics \u00b7 trainers \u00b7 restaurants"]
+  Q2 -->|"No"| Q3{"Recurring paid content<br/>or member access?"}
+  Q3 -->|"Yes"| MEMB["\ud83d\udd10 MEMBERSHIP / COMMUNITY<br/>gyms \u00b7 courses \u00b7 clubs"]
+  Q3 -->|"No"| Q4{"Win clients by<br/>showing the work?"}
+  Q4 -->|"Yes"| PORT["\ud83c\udfa8 PORTFOLIO / CONTENT<br/>photographers \u00b7 builders \u00b7 agencies"]
+  Q4 -->|"No"| BROCH["\ud83d\udccd BROCHURE / LOCAL PRESENCE<br/>plumbers \u00b7 lawyers \u00b7 landscapers"]
+
+  subgraph EF["E-commerce functionality"]
+    ECOM_CAT["\ud83d\udcbc Product catalog + search"]
+    ECOM_CART["\ud83d\uded2 Cart + checkout"]
+    ECOM_PAY["\ud83d\udcb3 Payments (Stripe/PayPal)"]
+    ECOM_INV["\ud83d\udce6 Inventory + shipping/tax"]
+    ECOM_ACCT["\ud83d\udc64 Customer accounts + order history"]
+    ECOM_MAIL["\ud83d\udce7 Abandoned-cart + promo email"]
+  end
+  subgraph BF["Booking functionality"]
+    BOOK_CAL["\ud83d\uddd3\ufe0f Live availability calendar"]
+    BOOK_SCHED["\u23f0 Self-serve scheduling + staff routing"]
+    BOOK_REM["\ud83d\udd14 SMS/email reminders (no-show killer)"]
+    BOOK_DEP["\ud83d\udcb0 Deposits / prepayment"]
+    BOOK_CRM["\ud83d\udcc7 Client records + visit history"]
+  end
+  subgraph MF["Membership functionality"]
+    MEMB_AUTH["\ud83d\udd11 Login / accounts"]
+    MEMB_GATE["\ud83d\udeaa Gated content / course delivery"]
+    MEMB_SUB["\ud83d\udd01 Recurring billing + dunning"]
+    MEMB_COMM["\ud83d\udcac Forum / community space"]
+    MEMB_PROG["\ud83d\udcc8 Member progress / usage tracking"]
+  end
+  subgraph PF["Portfolio functionality"]
+    PORT_GAL["\ud83d\uddbc\ufe0f Galleries / case studies"]
+    PORT_CMS["\ud83d\udcdd CMS + blog (SEO engine)"]
+    PORT_LEAD["\ud83e\uddf2 Lead capture + proposal request"]
+    PORT_NEWS["\ud83d\udcec Newsletter"]
+    PORT_PROOF["\u2b50 Testimonials + social proof"]
+  end
+  subgraph RF["Brochure functionality"]
+    BROCH_LOCAL["\ud83d\udccd Google Business Profile + local SEO"]
+    BROCH_CALL["\ud83d\udcde Click-to-call + contact form"]
+    BROCH_SVC["\ud83d\udee0\ufe0f Services + pricing pages"]
+    BROCH_REV["\u2b50 Reviews embed"]
+    BROCH_HOURS["\ud83d\udd52 Hours \u00b7 map \u00b7 service area"]
+  end
+
+  ECOM --> EF
+  BOOK --> BF
+  MEMB --> MF
+  PORT --> PF
+  BROCH --> RF
+
+  style ECOM fill:#26314d,stroke:#ffc857
+  style BOOK fill:#26314d,stroke:#4ade80
+  style MEMB fill:#26314d,stroke:#c084fc
+  style PORT fill:#26314d,stroke:#4da3ff
+  style BROCH fill:#26314d,stroke:#ff8c42
+  style EF fill:#141b2b,stroke:#2a3650
+  style BF fill:#141b2b,stroke:#2a3650
+  style MF fill:#141b2b,stroke:#2a3650
+  style PF fill:#141b2b,stroke:#2a3650
+  style RF fill:#141b2b,stroke:#2a3650
+`,
+  forge_vs_studio: `flowchart TB
+  OPSU["\ud83d\udc68\u200d\ud83d\udd27 YOU (operator)<br/>internal \u00b7 trusted"]
+  CUST["\ud83e\udd1d VISITOR (customer)<br/>public \u00b7 untrusted"]
+
+  subgraph D8080["forge \u2014 :8080 \u00b7 operator cockpit (internal)"]
+    DIAG["\ud83d\udcca Diagnostics dashboard<br/>CPU \u00b7 GPU \u00b7 PCIe \u00b7 per-core telemetry"]
+    DAPI["\ud83d\udd0c /api/stats<br/>JSON polled every 1 s"]
+    COLLECT["\ud83e\uddec sysfs + /proc collectors<br/>zero dependencies"]
+    WATCHDOG["\ud83d\udc36 diagnostics-watchdog.timer<br/>HTTP probe + auto-restart"]
+    BRAIN["\ud83e\udde0 FORGE Agent \u2014 /api/chat<br/>tools \u00b7 missions \u00b7 Agent Engine \u00b7 routing"]
+  end
+
+  subgraph S8090["FORGE ZERO Studios \u2014 :8090 \u00b7 customer storefront (public-ready)"]
+    LANDING["\u26aa Black-and-white landing page<br/>one chat bubble, nothing else"]
+    CONC["\ud83d\udcac Studio concierge persona<br/>gathers the website brief \u00b7 hides all internals"]
+    LEADS["\ud83d\uddc2\ufe0f Sessions saved as leads<br/>~/forge_studio/sessions"]
+    SITESJ["\ud83d\ude80 sites.json \u2192 LAUNCH button<br/>[[LAUNCH: url | View site]]"]
+    PREVIEWS["\ud83c\udf10 /preview/&lt;slug&gt;/<br/>generated editable sites"]
+  end
+
+  OLLAMA["\ud83e\udd99 Ollama \u00b7 gemma4:26b<br/>pinned \u00b7 shared num_ctx 24576"]
+
+  OPSU --> DIAG
+  DIAG --> DAPI
+  DAPI --> COLLECT
+  WATCHDOG -.->|"heals"| DIAG
+  CUST --> LANDING
+  LANDING --> CONC
+  CONC -->|"brief"| LEADS
+  CONC ==>|"one brain, two doors"| BRAIN
+  BRAIN --> OLLAMA
+  BRAIN -->|"builds site"| PREVIEWS
+  PREVIEWS --> SITESJ
+  SITESJ -.->|"launch"| CONC
+
+  style D8080 fill:#2a2410,stroke:#ffc857
+  style S8090 fill:#101820,stroke:#4da3ff
+  style BRAIN fill:#26314d,stroke:#ffc857
+  style CONC fill:#1c2a42,stroke:#4da3ff
+  style OLLAMA fill:#1d3328,stroke:#4ade80
+  style WATCHDOG fill:#1d3328,stroke:#4ade80
+  style CUST fill:#3a1d1d,stroke:#f87171
+`,
+  website_build: `flowchart TB
+
+subgraph P0["\ud83d\udce5 Phase 0 \u2014 Intake & Coordination"]
+  A0["Client request:<br/>pink/black site + admin suite<br/>for The Cleaning Queens"] --> A1["APM agent claim<br/>Tools/agent_status.py claim"]
+end
+
+subgraph P1["\ud83e\udde0 Phase 1 \u2014 Knowledge Gathering"]
+  B0["RAG query: forge1 knowledge base<br/>'website archetypes / build standards'"]
+  B0 --> B1{"\ud83d\udd36 Doc exists<br/>in RAG?"}
+  B1 -- "MISS" --> B2["Write the reference material:<br/>WEBSITE BIBLE<br/>archetypes \u00b7 conversion spine \u00b7<br/>design laws \u00b7 legal boundaries"]
+  B1 -- "HIT (future builds)" --> B9["Reuse Bible from RAG"]
+  B2 --> B3[/"\ud83d\udfea Business/Intelligence/<br/>Website_Bible.md"/]
+
+  C0["Web fetch: client's Facebook page"] --> C1{"\ud83d\udd36 Blocked?"}
+  C1 -- "yes (login wall)" --> C2["Headless Playwright scrape<br/>from forge1 (Chrome UA)"]
+  C1 -- "no" --> C3
+  C2 --> C3["Extracted: phones \u00b7 email \u00b7 tagline \u00b7<br/>about text \u00b7 services \u00b7 100% recommend \u00b7<br/>real review comment"]
+  C2 --> C4["Photo URLs are signed fbcdn links<br/>\u26a0\ufe0f THEY EXPIRE \u2014 download immediately"]
+  C4 --> C5[/"\ud83d\udfea previews/cleaning-queens/img/<br/>fb_01 brand banner \u00b7 fb_03 work photo"/]
+  C2 --> C6[/"\ud83d\udfea scripts/forge1/<br/>scrape_cq_facebook.py<br/>scrape_cq_photos.py"/]
+end
+
+subgraph P2["\ud83c\udfd7\ufe0f Phase 2 \u2014 Build (Bible \u00a72\u2013\u00a79 applied)"]
+  D0["data.js \u2014 CQStore<br/>localStorage store \u00b7 seeded demo data \u00b7<br/>real business block from scrape"]
+  D0 --> D1["index.html \u2014 public site<br/>reviews marquee \u00b7 hero \u00b7 services \u00b7<br/>booking form \u00b7 Pearl chatbot"]
+  D0 --> D2["admin.html \u2014 Queens HQ<br/>dashboard \u00b7 schedule \u00b7 jobs kanban \u00b7<br/>clients \u00b7 payments \u00b7 reviews \u00b7 staff"]
+  D1 --> D3[/"\ud83d\udfea FORGE/studio/previews/<br/>cleaning-queens/ (source of truth)"/]
+  D2 --> D3
+end
+
+subgraph P3["\ud83d\ude80 Phase 3 \u2014 Deploy"]
+  E0["scp \u2192 forge1<br/>/home/jmpz63/forge_studio/previews/"] --> E1["Live: 192.168.50.201:8090<br/>/preview/cleaning-queens/"]
+end
+
+subgraph P4["\u2705 Phase 4 \u2014 Verify (gate before ship)"]
+  F0["Headless Playwright suite on forge1<br/>verify_cleaning_queens.py"] --> F1{"\ud83d\udd36 29/29<br/>pass?"}
+  F1 -- "no" --> F2["Fix root cause \u2192 redeploy"] --> F0
+  F1 -- "yes" --> F3[/"\ud83d\udfea scripts/forge1/<br/>verify_cleaning_queens.py<br/>(regression suite)"/]
+end
+
+subgraph P5["\ud83d\udcbe Phase 5 \u2014 Persist (nothing lives only in chat)"]
+  G0["git commit \u2192 clean temp worktree \u2192<br/>push origin master"] --> G1[/"\ud83d\udfea github.com/jmpz63/APM<br/>2ebf54b \u2192 cf3fc19"/]
+  G0 --> G2["forge_apm_sync.sh \u2192<br/>RAG auto-reindex"] --> G3[/"\ud83d\udfea forge1 ~/APM +<br/>searchable knowledge base"/]
+  G0 --> G4[/"\ud83d\udfea Cascade memory<br/>(architecture \u00b7 creds \u00b7 gotchas)"/]
+  G4 --> G5["APM claim released"]
+end
+
+subgraph IT["\ud83d\udd01 Iteration loop (user feedback \u2192 trace \u2192 fix)"]
+  H0["User feedback<br/>(e.g. chatbot trapped in booking loop)"] --> H1["Trace from pickoff point:<br/>screenshot \u2192 index.html chat script"]
+  H1 --> H2["Fix + add regression test<br/>replaying the exact failure"]
+  H2 --> F0
+end
+
+A1 --> B0
+A1 --> C0
+B3 --> D0
+C3 --> D0
+C5 --> D1
+D3 --> E0
+E1 --> F0
+F1 -- "yes" --> G0
+E1 -.-> H0
+
+style B3 fill:#2a2141,stroke:#a855f7
+style C5 fill:#2a2141,stroke:#a855f7
+style C6 fill:#2a2141,stroke:#a855f7
+style D3 fill:#2a2141,stroke:#a855f7
+style F3 fill:#2a2141,stroke:#a855f7
+style G1 fill:#2a2141,stroke:#a855f7
+style G3 fill:#2a2141,stroke:#a855f7
+style G4 fill:#2a2141,stroke:#a855f7
+style B1 fill:#2a2410,stroke:#ffc857
+style C1 fill:#2a2410,stroke:#ffc857
+style F1 fill:#2a2410,stroke:#ffc857
+style B0 fill:#1d3328,stroke:#4ade80
+style C0 fill:#1d3328,stroke:#4ade80
+style C2 fill:#1d3328,stroke:#4ade80
+`
+};
+
+/* ============ Palette component templates ============ */
+const COMPONENTS = {
+  BESS:  { label: "🔋 BESS Container<br/>LFP · 5 MWh · 1500 Vdc", shape: ["[\"", "\"]"] },
+  RACK:  { label: "🗄️ Battery Rack<br/>rack BMS · series modules", shape: ["[\"", "\"]"] },
+  PV:    { label: "☀️ PV Array<br/>DC generation", shape: ["[\"", "\"]"] },
+  GEN:   { label: "⚙️ Genset<br/>black start / backup", shape: ["[\"", "\"]"] },
+  PCS:   { label: "🔄 PCS / Inverter<br/>bidirectional · 4-quadrant", shape: ["[\"", "\"]"] },
+  XFMR:  { label: "⚡ Transformer<br/>step-up · pad-mount", shape: ["[\"", "\"]"] },
+  SWGR:  { label: "🎚️ MV Switchgear<br/>breakers &amp; bus", shape: ["[\"", "\"]"] },
+  RELAY: { label: "🛡️ Protection Relay<br/>50/51 · 27/59 · 81", shape: ["{{\"", "\"}}"] },
+  METER: { label: "📊 Meter<br/>settlement-grade @ POI", shape: ["[\"", "\"]"] },
+  GRID:  { label: "🏗️ Grid / POI<br/>utility interconnection", shape: ["([\"", "\"])"] },
+  LOAD:  { label: "🏭 Load<br/>facility demand", shape: ["[\"", "\"]"] },
+  EMS:   { label: "🧠 EMS<br/>plant dispatch controller", shape: ["[\"", "\"]"] },
+  BMS:   { label: "🩺 BMS<br/>SOC/SOH · protection limits", shape: ["[\"", "\"]"] },
+  SCADA: { label: "🖥️ SCADA / HMI<br/>monitoring &amp; alarms", shape: ["[\"", "\"]"] },
+  HVAC:  { label: "❄️ HVAC / Cooling<br/>thermal management", shape: ["[\"", "\"]"] }
+};
+
+/* ============ Node tooltips (rendered diagram) ============ */
+const NODE_TIPS = {
+  BESS:  ["BESS Enclosure", "Grid-scale battery container. LFP cells, ~5 MWh, 1200–1500 Vdc bus. Fire code: NFPA 855 separation + deflagration venting."],
+  RACK:  ["Battery Rack", "Series modules with a rack BMS. Racks parallel onto the DC bus; rack contactors isolate faults."],
+  RBMS:  ["Rack BMS", "Monitors every cell's voltage & temperature; reports to the system BMS; opens rack contactors on limit violation."],
+  PV:    ["PV Array", "Solar DC generation. DC-coupled (shared PCS) improves clipping recapture; AC-coupled is simpler to permit."],
+  GEN:   ["Genset", "Backup generator. Interlocked with the grid breaker — never parallel without sync check (25)."],
+  PCS:   ["Power Conversion System", "Bidirectional inverter, 4-quadrant P/Q. Rides through faults per IEEE 2800 (LVRT/HVRT). Efficiency ~98.5% at rated."],
+  XF:    ["Transformer", "Steps inverter output (≈690 V) to collection voltage (e.g. 34.5 kV). Sized to the block's MVA with thermal margin."],
+  XFMR:  ["Transformer", "Steps inverter output (≈690 V) to collection voltage (e.g. 34.5 kV). Sized to the block's MVA with thermal margin."],
+  MAINXF:["Main Power Transformer", "GSU at the substation: collection voltage to transmission (e.g. 34.5 → 115 kV). Protected by 87T differential."],
+  SWGR:  ["MV Switchgear", "Metal-clad switchgear: feeder breakers, bus, PTs/CTs. Arc-flash rated; houses feeder protection relays."],
+  RELAY: ["Protection Relay", "Microprocessor relay. ANSI functions: 50/51 overcurrent, 27/59 voltage, 81 frequency, 25 sync-check, 86 lockout."],
+  R87T:  ["87T Differential", "Transformer differential — compares current in vs out; trips in <2 cycles on internal fault."],
+  R87B:  ["87B Bus Differential", "Bus differential zone — instantaneous protection for bus faults."],
+  METER: ["Revenue Meter", "Settlement-grade metering at the POI (0.2-class CTs/PTs). Basis for market settlement & interconnection compliance."],
+  GRID:  ["Utility Grid / POI", "Point of Interconnection. Plant must honor its LGIA limits: max injection, power factor range, ride-through."],
+  LOAD:  ["Load", "The demand being served or shaved. Peak shaving value = demand charge $/kW × kW clipped."],
+  EMS:   ["Energy Management System", "Plant brain: takes market/ISO signals, dispatches P/Q to each PCS, enforces POI limits and SOC envelope."],
+  BMS:   ["Battery Management System", "Aggregates rack data → SOC/SOH. Enforces charge/discharge current limits; requests PCS derate on thermal margin."],
+  SCADA: ["SCADA / HMI", "Supervisory layer: alarming, trending, historian. Protocols: DNP3, Modbus TCP, IEC 61850 MMS/GOOSE."],
+  HVAC:  ["Thermal Management", "Liquid cooling or HVAC. Cell life is exponential in temperature — every 10 °C hotter ≈ half the calendar life."],
+  FSS:   ["Fire Suppression", "Gas detection (H2/CO), aerosol or water-mist suppression, deflagration vents. Hard-wired E-stop to PCS."],
+  MKT:   ["Market / ISO", "AGC regulation signals (2–4 s), day-ahead & real-time energy awards, capacity obligations."],
+  CB:    ["Circuit Breaker", "ANSI device 52. Interrupts fault current; tripped by protection relays; 86 lockout blocks reclose."],
+  BUS:   ["MV Bus", "Common collection bus. Protected by 87B differential; feeders tap off through breakers."],
+  BESSF: ["BESS Feeder", "Dedicated collection feeder to the storage blocks."],
+  PVF:   ["PV Feeder", "Dedicated collection feeder to the solar blocks."],
+  OBS:   ["Observation (State)", "The environment exposes a state vector each cycle: per-link latency & utilization, node health, jitter. In an RL setup this is the observation space \u2014 what the agent is allowed to see."],
+  PER:   ["Perception / Feature Extraction", "Raw telemetry is encoded into a fixed-shape observation vector (normalization, one-hot link states, rolling averages). Garbage in = garbage policy out."],
+  DEC:   ["Decision-Making (RL Agent)", "The policy maps observation \u2192 action. Here: congestion-aware routing \u2014 penalize hot links so Dijkstra prefers alternates. Real systems: DQN/PPO or plain heuristics."],
+  ACT:   ["Action Execution", "The chosen action is applied through the environment's action API: OSPF-style weight overrides that rewrite the routing tables. Actions must be atomic and reversible."],
+  UPD:   ["State Update", "The simulator applies the new config, advances one tick, computes reward (delivered latency, loss), and produces the next observation \u2014 closing the loop."],
+  ENV:   ["Environment (Simulator)", "The network simulator acting as a Gymnasium-style environment: reset(), step(action) \u2192 (observation, reward, done, info). The Network Simulator tab is a live instance of this."],
+  AUDIT: ["Trace History Log", "Time-series decision ledger: every agent choice is recorded with tick, observation summary, decision, and action \u2014 so you can replay scenarios and audit WHY the agent acted."],
+  SENSOR:  ["Telemetry Sensor", "Extra observation feed \u2014 packet captures, NetFlow, SNMP counters. More signal in = better perception, but also more noise to filter."],
+  REWARD:  ["Reward Shaper", "Converts outcomes (latency, loss, SLA violations) into the scalar reward. Poorly shaped rewards get gamed \u2014 the agent optimizes what you MEASURE, not what you MEAN."],
+  BUFFER:  ["Replay Buffer", "Stores (s, a, r, s') transitions for off-policy learning \u2014 the agent replays past congestion events instead of waiting for new ones."],
+  GUARD:   ["Guardrails / Policy Check", "Hard-constraint validation between decision and execution: never isolate the destination, never exceed capacity, rate-limit config churn. Rejected actions bounce back to the policy."],
+  HUMAN:   ["Human-in-the-Loop", "Escalation gate for low-confidence or high-blast-radius actions \u2014 the agent proposes, an operator approves. Essential while trust is being established."],
+  REGISTRY:["Model Registry", "Versioned policy storage with rollback. Ship a new policy, watch reward regress, redeploy the last known-good \u2014 same discipline as any production deploy."],
+  START: ["Client intake", "The first client meeting is really this decision tree. Ask what the website must DO for the business \u2014 not what it should look like. The answer picks the type, the type picks the feature set, the feature set picks the hosting requirements."],
+  Q1: ["Decision: sell online?", "The highest-stakes fork. E-commerce roughly triples build + maintenance cost (payments, inventory, PCI, disputes). Many 'we want a shop' clients actually need a brochure site + a Square/Stripe payment link \u2014 probe before committing."],
+  Q2: ["Decision: appointment-driven?", "If revenue arrives in time slots (chairs, tables, exam rooms, sessions), booking IS the business. A booking site that kills phone-tag and no-shows pays for itself in weeks."],
+  Q3: ["Decision: recurring members?", "Subscriptions, courses, gated content, member directories. Highest lifetime value per visitor, but also the most infrastructure: auth, recurring billing, churn management."],
+  Q4: ["Decision: portfolio-driven?", "Businesses hired on the strength of past work \u2014 photographers, remodelers, designers, agencies. The site's one job: make the work look spectacular and capture the lead it inspires."],
+  ECOM_: ["E-commerce feature", "Core stack for selling online. On your home server: WooCommerce or Medusa self-hosts fine, but let Stripe/PayPal hold the card data \u2014 never terminate card numbers on your own box (that's what keeps you out of PCI-DSS scope)."],
+  ECOM: ["E-commerce store", "Sells products directly. Heaviest type: catalog, cart, payments, inventory, shipping, taxes, accounts, email automation. Self-host: WooCommerce/Medusa + Stripe checkout. Your analytics gold here: funnel drop-off \u2014 where do carts die?"],
+  BOOK_: ["Booking feature", "The booking stack: calendar, self-serve scheduling, automated reminders (the single highest-ROI feature \u2014 no-shows drop 50%+), deposits, client history. Self-host: Cal.com is excellent and open-source."],
+  BOOK: ["Booking / service site", "Revenue arrives in time slots \u2014 the site's job is filling them without phone-tag. Self-host: Cal.com or Easy!Appointments. Analytics gold: which services get booked, when demand peaks, reminder effectiveness."],
+  MEMB_: ["Membership feature", "Membership plumbing: auth, gated delivery, recurring billing with dunning (failed-card recovery \u2014 where subscription revenue silently dies), community, progress tracking. Self-host: Ghost (paid tiers) or WordPress + MemberPress."],
+  MEMB: ["Membership / community site", "Recurring revenue from gated value. Most infrastructure of the five: accounts, subscriptions, content gating, community. Analytics gold: engagement-before-churn \u2014 members who stop logging in cancel next month."],
+  PORT_: ["Portfolio feature", "The showcase stack: fast image-optimized galleries, a CMS the owner can update without you, lead capture near the work, newsletter, testimonials. Self-host: Astro/Eleventy static build \u2014 fastest possible, trivially secure."],
+  PORT: ["Portfolio / content site", "Hired on the strength of past work. Static-site generators shine here \u2014 blazing fast on a home server, nothing to hack. Analytics gold: which projects visitors linger on before hitting the contact form."],
+  BROCH_: ["Brochure feature", "Local-presence stack: Google Business Profile sync, click-to-call (most conversions on mobile ARE calls), service pages, reviews, hours/map. The whole site exists to be found and dialed."],
+  BROCH: ["Brochure / local presence", "The digital storefront sign: be findable, look credible, make the phone ring. 60%+ of small businesses need exactly this and nothing more. Cheapest to build/host \u2014 static HTML on your server. Analytics gold: search terms and tel: link clicks."],
+  OPSU: ["Operator (you)", "The :8080 side is YOUR cockpit \u2014 full hardware telemetry and the tool-wielding FORGE agent. It assumes a trusted user and is never meant to face the public internet."],
+  CUST: ["Visitor (customer)", "The :8090 side assumes the opposite: an untrusted stranger. They see a brand, a tagline, and one chat bubble. The concierge never reveals servers, models, or prompts \u2014 'Our studio system handles that automatically.'"],
+  D8080: ["forge \u2014 port 8080", "diagnostics_server.py on forge1: Python-stdlib-only monitoring dashboard (Grafana-equivalent, zero deps) PLUS the shared FORGE agent chat endpoint. Internal operator surface. Healed automatically by a systemd watchdog."],
+  S8090: ["FORGE ZERO Studios \u2014 port 8090", "studio_server.py: the customer-facing web-design storefront. Completely separate process from :8080. A visitor describes their business; the studio designs, builds, and launches their site. Every conversation is a saved lead."],
+  DIAG: ["Diagnostics dashboard", "Live hardware telemetry page auto-refreshing every second: CPU/load, memory, storage, RTX 3090 stats, network, PCIe link topology + bifurcation matrix, per-core clocks. Built entirely from Python stdlib + /sys + /proc reads."],
+  DAPI: ["/api/stats", "The JSON telemetry endpoint the dashboard polls every 1000 ms. Server caches for 0.8 s and single-flights collection so 12 concurrent pollers return in ~8 ms."],
+  COLLECT: ["sysfs + /proc collectors", "Direct kernel virtual-filesystem reads \u2014 no psutil, no agents. get_pcie_topology() catches lane/speed degradation (e.g. dual-GPU x8/x8 bifurcation); get_cpu_telemetry() reads per-core clocks + k10temp package temp."],
+  WATCHDOG: ["Watchdog timer", "systemd can report the service 'active' while the process is hung \u2014 so diagnostics-watchdog.timer probes at the HTTP layer every minute and restarts on failure. Health-check the protocol, not the process table."],
+  BRAIN: ["FORGE Agent (/api/chat)", "The shared brain: tool calls, missions, the Agent Engine that actually generates customer websites, model routing, telemetry. Studio chat is routed through here with the concierge persona layered on top (STUDIO_BRAIN=forge)."],
+  LANDING: ["Studio landing page", "Deliberately minimal black-and-white page: wordmark, tagline ('Your website, designed, built, and launched. Just talk.'), one chat bubble. No pricing tables, no menus \u2014 the conversation IS the product."],
+  CONC: ["Studio concierge", "A persona, not a separate model: greets, gathers the brief ONE question at a time (business, vibe, pages, colors), never discusses internals, never invents prices, resists prompt-injection role changes. In 'solo' mode it runs tool-less direct Ollama \u2014 required before public exposure."],
+  LEADS: ["Sessions as leads", "Every conversation transcript is persisted server-side (~/forge_studio/sessions). Even a visitor who wanders off mid-brief is a captured lead with context."],
+  SITESJ: ["sites.json \u2192 LAUNCH", "When a session's site is ready, sites.json maps session \u2192 preview URL, and the concierge emits a [[LAUNCH: url | label]] line the frontend renders as a launch button."],
+  PREVIEWS: ["Generated previews", "The Agent Engine writes the finished site to ~/forge_studio/previews and serves it at /preview/<slug>/ \u2014 a live, editable preview the customer can iterate on through chat (studio_read_site / studio_edit_site tools)."],
+  OLLAMA: ["Ollama \u00b7 shared model", "One pinned gemma4:26b serves both doors. Studio MUST use the same num_ctx (24576) as the diagnostics server's PIN_NUM_CTX \u2014 any other value reloads the model with a different KV cache and evicts its partner from VRAM."],
+  LOOP: ["The control loop", "The five stages every agent executes, thousands of times: observe the world, extract features, pick an action, execute it, absorb the consequences. The Network Simulator tab runs this exact loop live."],
+  SAFE: ["Safety layer", "Nothing the policy proposes reaches the real system without passing here. Guardrails enforce hard constraints automatically; anything risky or low-confidence escalates to a human. This layer is what makes agents deployable."],
+  TRAIN: ["Learning infrastructure", "The offline half of the system: outcomes become rewards, transitions accumulate in the buffer, the policy trains on replayed batches, and every trained version is checkpointed so a bad one can be rolled back."]
+};
+
+/* Edge-label tooltips \u2014 what each arrow in the pipeline means */
+const EDGE_TIPS = {
+  "state": ["Environment \u2192 Observation", "Each tick the environment emits its current state: link utilizations, latencies, node health. This is ALL the agent knows \u2014 anything not in the state vector is invisible to it."],
+  "signal": ["Sensor \u2192 Observation", "Extra telemetry merged into the observation: NetFlow records, SNMP counters, packet captures. More signal = richer perception, but also more noise to filter."],
+  "action": ["Decision \u2192 Guardrails", "The policy's PROPOSED action. It is not executed yet \u2014 it must survive the safety layer first."],
+  "pass": ["Guardrails \u2192 Action", "The action violated no hard constraint \u2014 cleared for execution."],
+  "reject": ["Guardrails \u2192 Decision", "The action broke a hard rule (would isolate the destination, exceed capacity, churn config too fast). Bounced back \u2014 the policy must propose something else."],
+  "escalate": ["Guardrails \u2192 Human", "Legal but risky: high blast radius or low policy confidence. A human gets the final call \u2014 the agent proposes, the operator disposes."],
+  "approve": ["Human \u2192 Action", "Operator signed off \u2014 the escalated action proceeds to execution."],
+  "s\u2032 + r": ["State Update \u2192 Environment", "The loop closes: the new configuration is applied, the world advances one tick, and the next state + reward come back around."],
+  "outcomes": ["Environment \u2192 Reward Shaper", "Raw consequences of the action: delivered latency, drops, SLA hits. Not yet a learning signal \u2014 just facts."],
+  "r": ["Reward Shaper \u2192 Buffer", "Facts compressed into one number. THE most dangerous design step: the agent will optimize exactly this, including any loophole you left in it."],
+  "transition": ["State Update \u2192 Buffer", "The full experience tuple (s, a, r, s\u2032) \u2014 what the world looked like, what was done, what it earned, what happened next. The atom of reinforcement learning."],
+  "train": ["Buffer \u2192 Decision", "Random batches of past experience replayed into the policy \u2014 off-policy learning. The agent re-lives old congestion events instead of waiting for new ones."],
+  "vN": ["Decision \u2192 Registry", "Every trained policy version is checkpointed with its metrics before deployment."],
+  "deploy": ["Registry \u2192 Decision", "Ship the new policy \u2014 or roll back to the last known-good version when the new one regresses. Same discipline as any production deploy."],
+  "audit": ["\u2192 Trace History Log", "Every decision and executed action is written to an append-only ledger with its triggering observation \u2014 so you can answer 'why did it do that?' after the fact."],
+  "one brain, two doors": ["Concierge \u2192 FORGE Agent", "The core design: Studio does NOT run its own model. Chat is forwarded to the shared FORGE agent on :8080 (tools, missions, routing) with the concierge persona layered on top. Flip STUDIO_BRAIN=solo for tool-less direct-Ollama mode before exposing :8090 to the internet."],
+  "brief": ["Concierge \u2192 Leads", "The gathered website brief (business, vibe, pages, colors, contact) is saved with the full transcript \u2014 every conversation is a lead, finished or not."],
+  "builds site": ["Agent Engine \u2192 Previews", "Site generation happens internally on the :8080 side \u2014 the Agent Engine writes the finished site into the previews directory. The customer never sees this machinery."],
+  "launch": ["sites.json \u2192 Concierge", "Once the preview is live, the concierge is told via a SITE STATUS system message and starts including the [[LAUNCH]] line, which renders as the customer's 'View your website' button."],
+  "heals": ["Watchdog \u2192 Dashboard", "HTTP-layer probe every minute; hung-but-active processes get restarted automatically. The dashboard has already survived its single-threaded-hang and fork-storm eras thanks to this."]
+};
+
+function wireExtraTips(container) {
+  // edge-label tooltips
+  container.querySelectorAll(".edgeLabels .edgeLabel").forEach(lbl => {
+    const key = (lbl.textContent || "").trim();
+    const tip = EDGE_TIPS[key];
+    if (!tip) return;
+    lbl.style.cursor = "help";
+    lbl.addEventListener("mouseenter", (e) => showTooltip(tip[0], tip[1], e.clientX, e.clientY));
+    lbl.addEventListener("mousemove", (e) => moveTooltip(e.clientX, e.clientY));
+    lbl.addEventListener("mouseleave", hideTooltip);
+  });
+  // subgraph (cluster) tooltips
+  container.querySelectorAll("g.cluster").forEach(c => {
+    const id = (mermaidNodeId(c) || c.id || "").toUpperCase();
+    const tip = NODE_TIPS[id];
+    if (!tip) return;
+    c.addEventListener("mouseenter", (e) => showTooltip(tip[0], tip[1], e.clientX, e.clientY));
+    c.addEventListener("mousemove", (e) => moveTooltip(e.clientX, e.clientY));
+    c.addEventListener("mouseleave", hideTooltip);
+  });
+}
+
+function tipFor(id) {
+  const key = Object.keys(NODE_TIPS).sort((a, b) => b.length - a.length)
+    .find(k => (id || "").toUpperCase().startsWith(k));
+  return key ? NODE_TIPS[key] : null;
+}
+
+/* ================= DOM refs ================= */
+const codeEl = document.getElementById("code");
+const diagramEl = document.getElementById("diagram");
+const canvasEl = document.getElementById("canvas");
+const statusEl = document.getElementById("status");
+const tooltipEl = document.getElementById("tooltip");
+
+let renderSeq = 0;
+let nodeCounter = 100;
+
+/* ================= Pan / Zoom ================= */
+const view = { x: 40, y: 40, z: 1 };
+const Z_MIN = 0.15, Z_MAX = 6;
+
+function applyView() {
+  diagramEl.style.transform = `translate(${view.x}px, ${view.y}px) scale(${view.z})`;
+  document.getElementById("zoomPct").textContent = Math.round(view.z * 100) + "%";
+}
+
+function zoomAt(cx, cy, factor) {
+  const rect = canvasEl.getBoundingClientRect();
+  const px = cx - rect.left, py = cy - rect.top;
+  const nz = Math.min(Z_MAX, Math.max(Z_MIN, view.z * factor));
+  const k = nz / view.z;
+  view.x = px - (px - view.x) * k;
+  view.y = py - (py - view.y) * k;
+  view.z = nz;
+  applyView();
+}
+
+function zoomCenter(factor) {
+  const rect = canvasEl.getBoundingClientRect();
+  zoomAt(rect.left + rect.width / 2, rect.top + rect.height / 2, factor);
+}
+
+function fitView() {
+  const svg = diagramEl.querySelector("svg");
+  if (!svg) return;
+  const rect = canvasEl.getBoundingClientRect();
+  const w = svg.getBoundingClientRect().width / view.z || 1;
+  const h = svg.getBoundingClientRect().height / view.z || 1;
+  const margin = 40;
+  const z = Math.min(Z_MAX, Math.max(Z_MIN,
+    Math.min((rect.width - margin * 2) / w, (rect.height - margin * 2) / h)));
+  view.z = z;
+  view.x = (rect.width - w * z) / 2;
+  view.y = (rect.height - h * z) / 2;
+  applyView();
+}
+
+/* wheel = zoom at cursor; shift+wheel = horizontal pan; ctrl+wheel also zooms (trackpad pinch) */
+canvasEl.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  if (e.shiftKey && !e.ctrlKey) {
+    view.x -= e.deltaY;
+    applyView();
+    return;
+  }
+  const factor = Math.pow(1.0015, -e.deltaY);
+  zoomAt(e.clientX, e.clientY, factor);
+}, { passive: false });
+
+/* drag empty canvas = pan (node drags stopPropagation so they win) */
+canvasEl.addEventListener("pointerdown", (e) => {
+  if (e.button !== 0 && e.button !== 1) return;
+  if (e.target.closest("#zoomCtrls")) return;
+  canvasEl.classList.add("panning");
+  canvasEl.focus();
+  const sx = e.clientX, sy = e.clientY;
+  const ox = view.x, oy = view.y;
+  function onMove(ev) {
+    view.x = ox + (ev.clientX - sx);
+    view.y = oy + (ev.clientY - sy);
+    applyView();
+  }
+  function onUp() {
+    canvasEl.classList.remove("panning");
+    window.removeEventListener("pointermove", onMove);
+    window.removeEventListener("pointerup", onUp);
+  }
+  window.addEventListener("pointermove", onMove);
+  window.addEventListener("pointerup", onUp);
+});
+
+canvasEl.addEventListener("dblclick", (e) => {
+  if (!e.target.closest("#diagram .node") && !e.target.closest("#zoomCtrls")) fitView();
+});
+
+document.getElementById("zoomIn").addEventListener("click", () => zoomCenter(1.25));
+document.getElementById("zoomOut").addEventListener("click", () => zoomCenter(0.8));
+document.getElementById("zoomFit").addEventListener("click", fitView);
+document.getElementById("zoom100").addEventListener("click", () => {
+  view.z = 1; view.x = 40; view.y = 40; applyView();
+});
+
+/* keyboard navigation when canvas focused (click canvas first) */
+canvasEl.addEventListener("keydown", (e) => {
+  const PAN = 60;
+  switch (e.key) {
+    case "+": case "=": zoomCenter(1.25); break;
+    case "-": case "_": zoomCenter(0.8); break;
+    case "0": fitView(); break;
+    case "1": view.z = 1; view.x = 40; view.y = 40; applyView(); break;
+    case "ArrowUp": view.y += PAN; applyView(); break;
+    case "ArrowDown": view.y -= PAN; applyView(); break;
+    case "ArrowLeft": view.x += PAN; applyView(); break;
+    case "ArrowRight": view.x -= PAN; applyView(); break;
+    default: return;
+  }
+  e.preventDefault();
+});
+
+/* ================= Render ================= */
+async function render(fit = false) {
+  const src = codeEl.value.trim();
+  if (!src) { diagramEl.innerHTML = ""; setStatus("empty", ""); return; }
+  const id = "mmd-" + (++renderSeq);
+  try {
+    await mermaid.parse(src);
+    const { svg } = await mermaid.render(id, src);
+    diagramEl.innerHTML = svg;
+    setStatus("rendered ✓", "ok");
+    wireNodeInteractions();
+    applyView();
+    if (fit) fitView();
+  } catch (e) {
+    // remove mermaid's orphaned error element if any
+    const orphan = document.getElementById("d" + id);
+    if (orphan) orphan.remove();
+    setStatus("syntax error: " + String(e.message || e).split("\n")[0].slice(0, 90), "err");
+  }
+}
+
+function setStatus(msg, cls) {
+  statusEl.textContent = msg;
+  statusEl.className = "status " + (cls || "");
+}
+
+let debounceTimer;
+codeEl.addEventListener("input", () => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(render, 350);
+});
+document.getElementById("renderBtn").addEventListener("click", render);
+
+/* ================= Examples ================= */
+document.getElementById("examples").addEventListener("change", (e) => {
+  const key = e.target.value;
+  if (key && EXAMPLES[key]) {
+    codeEl.value = EXAMPLES[key];
+    render(true);
+  }
+  e.target.value = "";
+});
+
+/* ================= Toolbar ================= */
+document.getElementById("copyBtn").addEventListener("click", async () => {
+  await navigator.clipboard.writeText(codeEl.value);
+  setStatus("code copied ✓", "ok");
+});
+
+document.getElementById("svgBtn").addEventListener("click", () => {
+  const svg = diagramEl.querySelector("svg");
+  if (!svg) { setStatus("nothing rendered to export", "err"); return; }
+  const blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n' + svg.outerHTML],
+                        { type: "image/svg+xml" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "diagram.svg";
+  a.click();
+  URL.revokeObjectURL(a.href);
+  setStatus("SVG exported ✓", "ok");
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => render(true));
+
+/* ================= Palette drag & drop ================= */
+document.querySelectorAll(".pal-item").forEach(item => {
+  item.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/component", item.dataset.kind);
+    e.dataTransfer.effectAllowed = "copy";
+  });
+});
+
+canvasEl.addEventListener("dragover", (e) => {
+  if (e.dataTransfer.types.includes("text/component")) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+    canvasEl.classList.add("dragover");
+    // highlight node under cursor as potential connect-target
+    const node = nodeUnderPoint(e.clientX, e.clientY);
+    diagramEl.querySelectorAll(".node.droptarget").forEach(n => n.classList.remove("droptarget"));
+    if (node) node.classList.add("droptarget");
+  }
+});
+canvasEl.addEventListener("dragleave", () => {
+  canvasEl.classList.remove("dragover");
+  diagramEl.querySelectorAll(".node.droptarget").forEach(n => n.classList.remove("droptarget"));
+});
+canvasEl.addEventListener("drop", (e) => {
+  e.preventDefault();
+  canvasEl.classList.remove("dragover");
+  const kind = e.dataTransfer.getData("text/component");
+  if (!kind || !COMPONENTS[kind]) return;
+  const targetNode = nodeUnderPoint(e.clientX, e.clientY);
+  const targetId = targetNode ? mermaidNodeId(targetNode) : null;
+  addComponent(kind, targetId);
+});
+
+function nodeUnderPoint(x, y) {
+  const el = document.elementFromPoint(x, y);
+  return el ? el.closest("#diagram .node") : null;
+}
+
+function mermaidNodeId(nodeEl) {
+  // mermaid v11 flowchart node ids look like: flowchart-BESS1-12
+  const raw = nodeEl.id || "";
+  const m = raw.match(/^(?:flowchart|graph)-(.+?)-\d+$/);
+  return m ? m[1] : null;
+}
+
+function addComponent(kind, connectFromId) {
+  const comp = COMPONENTS[kind];
+  const newId = kind + (++nodeCounter);
+  let code = codeEl.value.trimEnd();
+
+  if (!code) code = "flowchart TB";
+  const isFlow = /^\s*(flowchart|graph)\s/m.test(code);
+  if (!isFlow) {
+    setStatus("drag & drop only works on flowchart diagrams — load a flowchart example first", "err");
+    return;
+  }
+
+  code += `\n  ${newId}${comp.shape[0]}${comp.label}${comp.shape[1]}`;
+  if (connectFromId) {
+    code += `\n  ${connectFromId} --> ${newId}`;
+  }
+  codeEl.value = code + "\n";
+  render();
+  setStatus(connectFromId
+    ? `added ${kind} connected from ${connectFromId} ✓`
+    : `added ${kind} (drop onto a node next time to auto-connect) ✓`, "ok");
+}
+
+/* ================= Rendered-node dragging + tooltips ================= */
+function wireNodeInteractions() {
+  const svg = diagramEl.querySelector("svg");
+  if (!svg) return;
+
+  /* --- edge index: map every edge path (+ its label) to its two endpoint elements,
+         so edges can be re-routed live while a node is dragged --- */
+  const endpointById = {};
+  diagramEl.querySelectorAll(".node").forEach(n => {
+    const id = mermaidNodeId(n);
+    if (id) endpointById[id] = n;
+  });
+  svg.querySelectorAll("g.cluster").forEach(c => {
+    const id = mermaidNodeId(c) || c.id;
+    if (id && !endpointById[id]) endpointById[id] = c;
+  });
+  const edgeLabels = [...svg.querySelectorAll(".edgeLabels .edgeLabel")];
+  const EDGE_INDEX = [];
+  [...svg.querySelectorAll(".edgePaths path")].forEach((p, i) => {
+    let a = null, b = null;
+    for (const cls of p.classList) {
+      if (cls.startsWith("LS-")) a = cls.slice(3);
+      else if (cls.startsWith("LE-")) b = cls.slice(3);
+    }
+    if (!a || !b) {
+      // fallback: parse "L_A_B_0" / "L-A-B-0" ids against known endpoint ids
+      const core = (p.id || "").replace(/^L[-_]/, "").replace(/[-_]\d+$/, "");
+      for (const k of Object.keys(endpointById)) {
+        if (core.startsWith(k + "_") || core.startsWith(k + "-")) {
+          const rest = core.slice(k.length + 1);
+          if (endpointById[rest]) { a = k; b = rest; break; }
+        }
+      }
+    }
+    const aEl = a && endpointById[a], bEl = b && endpointById[b];
+    if (aEl && bEl) EDGE_INDEX.push({ path: p, label: edgeLabels[i] || null, aEl, bEl });
+  });
+
+  function vPoint(x, y, m) { const p = svg.createSVGPoint(); p.x = x; p.y = y; return p.matrixTransform(m); }
+  function vRect(el) { // element bbox in viewport coords (axis-aligned envelope)
+    const b = el.getBBox(), m = el.getCTM();
+    const cs = [vPoint(b.x, b.y, m), vPoint(b.x + b.width, b.y, m),
+                vPoint(b.x, b.y + b.height, m), vPoint(b.x + b.width, b.y + b.height, m)];
+    return { x1: Math.min(...cs.map(c => c.x)), y1: Math.min(...cs.map(c => c.y)),
+             x2: Math.max(...cs.map(c => c.x)), y2: Math.max(...cs.map(c => c.y)) };
+  }
+  function vCenter(el) { const b = el.getBBox(); return vPoint(b.x + b.width / 2, b.y + b.height / 2, el.getCTM()); }
+  function exitPoint(c, o, r) { // walk from center c toward o until leaving rect r
+    const dx = o.x - c.x, dy = o.y - c.y;
+    let t = 1;
+    if (dx > 0) t = Math.min(t, (r.x2 - c.x) / dx); else if (dx < 0) t = Math.min(t, (r.x1 - c.x) / dx);
+    if (dy > 0) t = Math.min(t, (r.y2 - c.y) / dy); else if (dy < 0) t = Math.min(t, (r.y1 - c.y) / dy);
+    t = Math.max(0, Math.min(t, 1));
+    return { x: c.x + dx * t, y: c.y + dy * t };
+  }
+  function rerouteEdge(ed) {
+    const ca = vCenter(ed.aEl), cb = vCenter(ed.bEl);
+    const p1 = exitPoint(ca, cb, vRect(ed.aEl));
+    const p2 = exitPoint(cb, ca, vRect(ed.bEl));
+    const inv = ed.path.parentNode.getCTM().inverse();
+    const a = vPoint(p1.x, p1.y, inv), b = vPoint(p2.x, p2.y, inv);
+    ed.path.setAttribute("d", `M${a.x},${a.y}L${b.x},${b.y}`);
+    if (ed.label) {
+      const invL = ed.label.parentNode.getCTM().inverse();
+      const m = vPoint((p1.x + p2.x) / 2, (p1.y + p2.y) / 2, invL);
+      ed.label.setAttribute("transform", `translate(${m.x},${m.y})`);
+    }
+  }
+  function rerouteFor(el) {
+    for (const ed of EDGE_INDEX) if (ed.aEl === el || ed.bEl === el) rerouteEdge(ed);
+  }
+
+  wireExtraTips(diagramEl);
+
+  diagramEl.querySelectorAll(".node").forEach(node => {
+    // --- tooltip ---
+    node.addEventListener("mouseenter", (e) => {
+      const id = mermaidNodeId(node) || "";
+      const key = Object.keys(NODE_TIPS)
+        .sort((a, b) => b.length - a.length)
+        .find(k => id.toUpperCase().startsWith(k));
+      if (key) {
+        showTooltip(NODE_TIPS[key][0], NODE_TIPS[key][1], e.clientX, e.clientY);
+      } else {
+        showTooltip(id || "node", "Custom node — edit its label in the code panel below.", e.clientX, e.clientY);
+      }
+    });
+    node.addEventListener("mousemove", (e) => moveTooltip(e.clientX, e.clientY));
+    node.addEventListener("mouseleave", hideTooltip);
+
+    // --- drag to nudge (cosmetic translate) ---
+    node.addEventListener("pointerdown", (e) => {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      e.stopPropagation();
+      hideTooltip();
+      const startX = e.clientX, startY = e.clientY;
+      const base = node.getAttribute("transform") || "";
+      const prev = node.dataset.dx ? { x: +node.dataset.dx, y: +node.dataset.dy } : { x: 0, y: 0 };
+      // strip any translate we previously appended
+      const baseClean = base.replace(/ translate\([^)]*\)$/, "");
+      const ctm = svg.getScreenCTM();
+      const scale = ctm ? ctm.a : 1;
+
+      function onMove(ev) {
+        const dx = prev.x + (ev.clientX - startX) / scale;
+        const dy = prev.y + (ev.clientY - startY) / scale;
+        node.dataset.dx = dx;
+        node.dataset.dy = dy;
+        node.setAttribute("transform", `${baseClean} translate(${dx},${dy})`);
+        rerouteFor(node); // edges + labels follow live
+      }
+      function onUp() {
+        window.removeEventListener("pointermove", onMove);
+        window.removeEventListener("pointerup", onUp);
+      }
+      window.addEventListener("pointermove", onMove);
+      window.addEventListener("pointerup", onUp);
+    });
+  });
+}
+
+/* ================= Tooltip helpers ================= */
+function showTooltip(title, body, x, y) {
+  tooltipEl.innerHTML = `<div class="tt-title">${title}</div>${body}`;
+  tooltipEl.classList.add("show");
+  moveTooltip(x, y);
+}
+function moveTooltip(x, y) {
+  const pad = 14;
+  const r = tooltipEl.getBoundingClientRect();
+  let tx = x + pad, ty = y + pad;
+  if (tx + r.width > innerWidth - 8) tx = x - r.width - pad;
+  if (ty + r.height > innerHeight - 8) ty = y - r.height - pad;
+  tooltipEl.style.left = tx + "px";
+  tooltipEl.style.top = ty + "px";
+}
+function hideTooltip() { tooltipEl.classList.remove("show"); }
+
+/* data-tip tooltips for palette + toolbar */
+document.querySelectorAll("[data-tip]").forEach(el => {
+  el.addEventListener("mouseenter", (e) => {
+    const title = el.classList.contains("pal-item")
+      ? el.textContent.trim()
+      : (el.textContent.trim() || "Info");
+    showTooltip(title, el.dataset.tip, e.clientX, e.clientY);
+  });
+  el.addEventListener("mousemove", (e) => moveTooltip(e.clientX, e.clientY));
+  el.addEventListener("mouseleave", hideTooltip);
+});
+
+/* ================= Generic static tooltip wiring ================= */
+function wireStaticTips(container, lookup) {
+  wireExtraTips(container);
+  container.querySelectorAll(".node").forEach(node => {
+    const id = mermaidNodeId(node) || "";
+    node.addEventListener("mouseenter", (e) => {
+      const tip = lookup(id);
+      if (tip) showTooltip(tip[0], tip[1], e.clientX, e.clientY);
+    });
+    node.addEventListener("mousemove", (e) => moveTooltip(e.clientX, e.clientY));
+    node.addEventListener("mouseleave", hideTooltip);
+  });
+}
+
+/* ================= Tabs ================= */
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    hideTooltip();
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
+    document.querySelectorAll(".tabpane").forEach(p => p.classList.toggle("active", p.id === btn.dataset.tab));
+    if (btn.dataset.tab === "tab-pipeline") renderPipeline();
+    if (btn.dataset.tab === "tab-netsim") SIM.onShow();
+    if (btn.dataset.tab === "tab-sandbox") applyView();
+  });
+});
+
+/* ================= Agentic pipeline pane (editable via palette) ================= */
+let pipelineRendered = false, pipelineSrc = null, pipeSeq = 0, pipeRenderSeq = 0;
+const PIPE_COMPONENTS = {
+  SENSOR:   { label: "\ud83d\udcf6 Telemetry Sensor<br/>NetFlow \u00b7 SNMP \u00b7 pcap", def: "OBS",  dir: "in"  },
+  REWARD:   { label: "\ud83c\udfaf Reward Shaper<br/>latency \u00b7 loss \u2192 scalar", def: "DEC",  dir: "in"  },
+  BUFFER:   { label: "\ud83e\uddee Replay Buffer<br/>(s, a, r, s') transitions", def: "DEC",  dir: "in"  },
+  GUARD:    { label: "\ud83d\uded1 Guardrails<br/>hard-constraint check", def: "ACT",  dir: "out" },
+  HUMAN:    { label: "\ud83d\ude4b Human-in-the-Loop<br/>approve / reject", def: "DEC",  dir: "out" },
+  REGISTRY: { label: "\ud83d\udce6 Model Registry<br/>versioned policies + rollback", def: "DEC",  dir: "in"  }
+};
+async function renderPipeline(force) {
+  if (pipelineRendered && !force) return;
+  pipelineRendered = true;
+  if (!pipelineSrc) pipelineSrc = EXAMPLES.agentic;
+  try {
+    const { svg } = await mermaid.render("pipe-render-" + (++pipeRenderSeq), pipelineSrc);
+    const el = document.getElementById("pipelineDiagram");
+    el.innerHTML = svg;
+    wireStaticTips(el, tipFor);
+  } catch (e) { setStatus("pipeline render error", "err"); }
+}
+document.querySelectorAll("#pipePalette .pal-item[data-pipe]").forEach(item => {
+  item.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/pipecomp", item.dataset.pipe);
+    e.dataTransfer.effectAllowed = "copy";
+  });
+});
+{
+  const pane = document.querySelector("#tab-pipeline .pane-scroll");
+  pane.addEventListener("dragover", (e) => {
+    if (e.dataTransfer.types.includes("text/pipecomp")) { e.preventDefault(); e.dataTransfer.dropEffect = "copy"; }
+  });
+  pane.addEventListener("drop", (e) => {
+    const kind = e.dataTransfer.getData("text/pipecomp");
+    if (!kind || !PIPE_COMPONENTS[kind]) return;
+    e.preventDefault();
+    const comp = PIPE_COMPONENTS[kind];
+    const targetEl = e.target.closest ? e.target.closest("#pipelineDiagram .node") : null;
+    const target = (targetEl && mermaidNodeId(targetEl)) || comp.def;
+    const id = kind + (++pipeSeq);
+    pipelineSrc = (pipelineSrc || EXAMPLES.agentic).trimEnd() +
+      `\n  ${id}["${comp.label}"]\n  ` +
+      (comp.dir === "in" ? `${id} -.-> ${target}` : `${target} -.-> ${id}`) + "\n";
+    renderPipeline(true);
+    setStatus(`added ${kind} wired ${comp.dir === "in" ? "into" : "from"} ${target} \u2713`, "ok");
+  });
+}
+
+/* ================================================================
+   NETWORK ARCHITECTURE SIMULATOR
+   ================================================================ */
+const SIM = (() => {
+  const cv = document.getElementById("netCanvas");
+  const ctx = cv.getContext("2d");
+  const logEl = document.getElementById("traceLog");
+  const W = 820, H = 560; // design space
+
+  const NODES = [
+    { id: "SRC", x: 60,  y: 280, host: 1 },
+    { id: "R0",  x: 190, y: 110 },
+    { id: "R1",  x: 210, y: 300 },
+    { id: "R2",  x: 230, y: 470 },
+    { id: "R3",  x: 390, y: 80  },
+    { id: "R4",  x: 410, y: 260 },
+    { id: "R5",  x: 430, y: 440 },
+    { id: "R6",  x: 590, y: 140 },
+    { id: "R7",  x: 610, y: 380 },
+    { id: "DST", x: 750, y: 265, host: 1 }
+  ];
+  NODES.forEach(n => {
+    n.up = true;
+    n.type = n.id === "SRC" ? "src" : n.id === "DST" ? "dst" : "router";
+  });
+  const BYID = Object.fromEntries(NODES.map(n => [n.id, n]));
+  let addSeq = { ROUTER: 7, HOST: 0, FW: 0 };
+  const LINKS = [
+    ["SRC","R0",6],["SRC","R1",4],["SRC","R2",7],
+    ["R0","R1",5],["R1","R2",5],
+    ["R0","R3",8],["R0","R4",9],["R1","R4",6],["R2","R4",8],["R2","R5",7],
+    ["R3","R4",6],["R4","R5",6],
+    ["R3","R6",8],["R4","R6",9],["R4","R7",8],["R5","R7",7],
+    ["R6","R7",6],["R6","DST",5],["R7","DST",5]
+  ].map(([a, b, lat]) => ({ a, b, lat, cap: 7, up: true, surge: 0, penalty: 0, load: 0 }));
+
+  let tick = 0, packets = [], playing = false, started = false;
+  let pktSeq = 0, ddosTicks = 0, unreachableLogged = false, fwBlocked = 0;
+  let mode = null, pendingLinkNode = null;
+  const window60 = []; // {ms} of delivered, rolling
+  let drops60 = 0, delivered60 = 0;
+  const bufLat = [], bufLoss = [], bufJit = [], bufRew = []; // sparkline ring buffers
+  const MAXBUF = 140;
+
+  function linkKey(l) { return l.a + "\u2192" + l.b; }
+  function util(l) { return (l.load + l.surge) / l.cap; }
+  function cost(l) { return l.lat * (1 + l.penalty); }
+
+  /* ---------- Q-learning agent (Q-routing: Boyan & Littman '94) ----------
+     Q[s][a] = estimated total cost to reach DST from node s via neighbor a.
+     Updated on every real hop a packet takes. Editable via the side panel. */
+  const QA = {
+    q: {}, eps: 0.8, deliveries: 0, rewWindow: [],
+    costFn: (hopMs, dropped) => hopMs + (dropped ? 150 : 0)
+  };
+  const agentModeSel = document.getElementById("agentMode");
+  function qGet(s, a) { return (QA.q[s] ??= {})[a] ?? 12; } // optimistic init -> exploration
+  function qSet(s, a, v) { (QA.q[s] ??= {})[a] = v; }
+  function qBest(s) {
+    let best = Infinity;
+    for (const [nb] of neighbors(s)) best = Math.min(best, qGet(s, nb));
+    return best === Infinity ? 250 : best;
+  }
+  function qChoose(p) {
+    const s = p.path[p.seg];
+    const nbs = neighbors(s).map(([nb]) => nb);
+    if (!nbs.length) return null;
+    const visited = new Set(p.hops);
+    const fresh = nbs.filter(nb => !visited.has(nb));
+    const pool = fresh.length ? fresh : nbs; // avoid loops unless cornered
+    if (Math.random() < QA.eps) return pool[Math.floor(Math.random() * pool.length)];
+    let best = null, bv = Infinity;
+    for (const nb of pool) { const v = qGet(s, nb); if (v < bv) { bv = v; best = nb; } }
+    return best;
+  }
+  function qUpdate(s, a, hopCost, terminal) {
+    const alpha = +document.getElementById("qAlpha").value;
+    const gamma = +document.getElementById("qGamma").value;
+    const target = hopCost + (terminal ? 0 : gamma * qBest(a));
+    qSet(s, a, qGet(s, a) + alpha * (target - qGet(s, a)));
+  }
+  function qDelivered(ms) {
+    QA.deliveries++;
+    QA.rewWindow.push(-ms);
+    if (QA.rewWindow.length > 60) QA.rewWindow.shift();
+    QA.eps = Math.max(0.02, QA.eps * +document.getElementById("qDecay").value);
+  }
+
+  function neighbors(id) {
+    const out = [];
+    for (const l of LINKS) {
+      if (!l.up) continue;
+      if (l.a === id && BYID[l.b].up) out.push([l.b, l]);
+      else if (l.b === id && BYID[l.a].up) out.push([l.a, l]);
+    }
+    return out;
+  }
+
+  function shortestPath(from, to) {
+    const dist = { [from]: 0 }, prev = {}, done = new Set();
+    while (true) {
+      let u = null, best = Infinity;
+      for (const k in dist) if (!done.has(k) && dist[k] < best) { best = dist[k]; u = k; }
+      if (u === null) return null;
+      if (u === to) break;
+      done.add(u);
+      for (const [v, l] of neighbors(u)) {
+        const nd = dist[u] + cost(l);
+        if (nd < (dist[v] ?? Infinity)) { dist[v] = nd; prev[v] = u; }
+      }
+    }
+    const path = [to];
+    while (path[0] !== from) { if (!(path[0] in prev)) return null; path.unshift(prev[path[0]]); }
+    return path;
+  }
+
+  function findLink(a, b) {
+    return LINKS.find(l => (l.a === a && l.b === b) || (l.a === b && l.b === a));
+  }
+
+  /* ---------- logging ---------- */
+  function simTime() {
+    const s = Math.floor(tick / 10);
+    return `T${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}.${tick % 10}`;
+  }
+  function log(html, cls) {
+    const div = document.createElement("div");
+    div.className = "tl-entry " + (cls || "");
+    div.innerHTML = `<span class="tl-t">${simTime()}</span>${html}`;
+    logEl.prepend(div);
+    while (logEl.children.length > 200) logEl.lastChild.remove();
+  }
+
+  /* ---------- packet lifecycle ---------- */
+  function spawn(n, ddos, from = "SRC") {
+    const qmode = agentModeSel.value === "qlearn" && !ddos;
+    for (let i = 0; i < n; i++) {
+      if (qmode) {
+        // Q-routing: path is decided hop-by-hop by the learning agent
+        const p = { id: ++pktSeq, path: [from], seg: 0, prog: 0, ms: 0, hopAcc: 0, ddos: false, q: true, hops: [from] };
+        const first = qChoose(p);
+        if (!first) continue;
+        p.path.push(first);
+        packets.push(p);
+        continue;
+      }
+      const path = shortestPath(from, "DST");
+      if (!path) {
+        if (!unreachableLogged) {
+          unreachableLogged = true;
+          log(`<span class="tl-evt"><b>ROUTING</b> \u2014 destination UNREACHABLE, no surviving path. Heal faults or wait for the agent.</span>`);
+        }
+        return;
+      }
+      unreachableLogged = false;
+      packets.push({ id: ++pktSeq, path, seg: 0, prog: 0, ms: 0, hopAcc: 0, ddos: !!ddos, hops: [path[0]] });
+    }
+  }
+
+  function tickOnce() {
+    tick++;
+    // background traffic from every live source + ddos
+    for (const s of NODES) {
+      if (!s.up) continue;
+      if (s.type === "src") spawn(2 + (tick % 2), false, s.id);
+      else if (s.type === "host") spawn(1, false, s.id);
+    }
+    if (ddosTicks > 0) { ddosTicks--; spawn(4, true); if (ddosTicks === 0) log(`<span class="tl-good"><b>DDoS</b> flood subsided.</span>`); }
+
+    // recompute per-link load
+    LINKS.forEach(l => { l.load = 0; l.surge = Math.max(0, l.surge - 0.05); });
+    for (const p of packets) {
+      const l = findLink(p.path[p.seg], p.path[p.seg + 1]);
+      if (l) l.load++;
+    }
+
+    // advance packets
+    const survivors = [];
+    for (const p of packets) {
+      const a = p.path[p.seg], b = p.path[p.seg + 1];
+      const l = findLink(a, b);
+      if (!l || !l.up || !BYID[a].up || !BYID[b].up) { // link/node died underneath it
+        drops60++;
+        if (p.q) qUpdate(a, b, QA.costFn(l ? l.lat : 20, true), false);
+        continue;
+      }
+      const u = util(l);
+      if (u > 1 && Math.random() < Math.min(0.35, (u - 1) * 0.25)) { // congestion drop
+        drops60++;
+        if (p.q) qUpdate(a, b, QA.costFn(l.lat * 2, true), false);
+        continue;
+      }
+      const hopMs = l.lat * (1 + 0.9 * Math.min(u, 2));
+      const durTicks = Math.max(1, Math.round(hopMs / 6));
+      p.prog += 1 / durTicks;
+      p.ms += hopMs / durTicks;
+      p.hopAcc = (p.hopAcc || 0) + hopMs / durTicks;
+      if (p.prog >= 1) {
+        p.seg++; p.prog = 0; p.hops.push(p.path[p.seg]);
+        const arrived = p.path[p.seg], prevN = p.path[p.seg - 1];
+        const via = BYID[arrived];
+        if (via && via.type === "fw") {
+          p.ms += 3; p.hopAcc += 3; // inspection latency
+          if (p.ddos && Math.random() < 0.9) {
+            drops60++; fwBlocked++;
+            if (fwBlocked % 20 === 1) log(`<span class="tl-good"><b>FIREWALL ${via.id}</b> blocking DDoS traffic (${fwBlocked} dropped so far).</span>`);
+            continue;
+          }
+        }
+        const delivered = p.q ? arrived === "DST" : p.seg >= p.path.length - 1;
+        if (delivered) {
+          if (p.q) { qUpdate(prevN, arrived, QA.costFn(p.hopAcc, false), true); qDelivered(p.ms); }
+          delivered60++;
+          window60.push(p.ms);
+          if (window60.length > 60) window60.shift();
+          if (!p.ddos && p.id % 15 === 0) {
+            log(`<span class="tl-pkt"><b>PACKET #${p.id}</b>${p.q ? " [Q]" : ""} delivered \u00b7 ${p.hops.join(" \u2192 ")} \u00b7 ${p.ms.toFixed(0)} ms \u00b7 ${p.hops.length - 1} hops</span>`);
+          }
+          continue;
+        }
+        if (p.q) {
+          qUpdate(prevN, arrived, QA.costFn(p.hopAcc, false), false);
+          p.hopAcc = 0;
+          if (p.hops.length > 24) { drops60++; qUpdate(prevN, arrived, QA.costFn(30, true), false); continue; } // TTL: wandered too long
+          const nxt = qChoose(p);
+          if (!nxt) { drops60++; continue; }
+          p.path.push(nxt);
+        } else {
+          p.hopAcc = 0;
+        }
+      }
+      survivors.push(p);
+    }
+    packets = survivors;
+
+    // agent decision cycle (10 ticks); stage strip driven by tick phase
+    const am = agentModeSel.value;
+    setStage(am === "off" ? -1 : Math.floor((tick % 10) / 2));
+    if (tick % 10 === 4 && am === "heuristic") agentDecide();
+    if (am !== "heuristic") LINKS.forEach(l => l.penalty = 0);
+    if (am === "qlearn" && tick % 100 === 0 && QA.deliveries > 0) {
+      const avg = QA.rewWindow.length ? QA.rewWindow.reduce((x, y) => x + y, 0) / QA.rewWindow.length : 0;
+      log(`<b>Q-AGENT</b><br>` +
+          `<span style="color:#4da3ff">LEARNING:</span> ${QA.deliveries} deliveries \u00b7 \u03b5=${QA.eps.toFixed(2)} (${QA.eps > 0.3 ? "exploring" : "mostly exploiting"})<br>` +
+          `<span style="color:#4ade80">REWARD:</span> ${avg.toFixed(0)} avg (\u2212ms per delivery, higher is better)`, "tl-agent");
+    }
+
+    // telemetry every 5 ticks
+    if (tick % 5 === 0) pushTelemetry();
+  }
+
+  function agentDecide() {
+    // decay old penalties
+    LINKS.forEach(l => { if (l.penalty > 0) l.penalty = Math.max(0, l.penalty - 0.6); });
+    let worst = null, wu = 0;
+    for (const l of LINKS) {
+      if (!l.up) continue;
+      const u = util(l);
+      if (u > wu) { wu = u; worst = l; }
+    }
+    if (worst && wu >= 0.75 && worst.penalty < 2) {
+      worst.penalty = 4;
+      const alt = shortestPath("SRC", "DST");
+      log(`<b>AI AGENT</b><br>` +
+          `<span style="color:#4da3ff">OBSERVATION:</span> congestion ${linkKey(worst)} at ${(wu * 100).toFixed(0)}% util.<br>` +
+          `<span style="color:#ffc857">DECISION:</span> penalize ${linkKey(worst)} (weight \u00d7${(1 + worst.penalty).toFixed(0)})${alt ? ", divert via " + alt.join("\u2192") : ""}.<br>` +
+          `<span style="color:#4ade80">ACTION:</span> OSPF weights updated.`, "tl-agent");
+    }
+  }
+
+  function setStage(s) {
+    document.querySelectorAll("#stageStrip .stage").forEach(el =>
+      el.classList.toggle("on", +el.dataset.s === s));
+  }
+
+  /* ---------- telemetry ---------- */
+  function pushTelemetry() {
+    const avg = window60.length ? window60.reduce((a, b) => a + b, 0) / window60.length : 0;
+    const jit = window60.length > 1
+      ? Math.sqrt(window60.reduce((a, b) => a + (b - avg) ** 2, 0) / window60.length) : 0;
+    const total = delivered60 + drops60;
+    const loss = total ? (drops60 / total) * 100 : 0;
+    delivered60 = Math.floor(delivered60 * 0.7); drops60 = Math.floor(drops60 * 0.7); // rolling decay
+    push(bufLat, avg); push(bufLoss, loss); push(bufJit, jit);
+    document.getElementById("latVal").textContent = avg.toFixed(0) + " ms";
+    document.getElementById("lossVal").textContent = loss.toFixed(1) + " %";
+    document.getElementById("jitVal").textContent = jit.toFixed(1) + " ms";
+    spark("sparkLat", bufLat, "#4da3ff");
+    spark("sparkLoss", bufLoss, "#f87171");
+    spark("sparkJit", bufJit, "#4ade80");
+    if (agentModeSel.value === "qlearn") {
+      const rew = QA.rewWindow.length ? QA.rewWindow.reduce((x, y) => x + y, 0) / QA.rewWindow.length : 0;
+      push(bufRew, Math.max(0, 200 + rew)); // shifted so climbing = improving
+      document.getElementById("rewVal").textContent = rew.toFixed(0);
+      document.getElementById("qEpsV").textContent = QA.eps.toFixed(2);
+      document.getElementById("qDelivV").textContent = QA.deliveries;
+      spark("sparkRew", bufRew, "#ffc857");
+    }
+  }
+  function push(buf, v) { buf.push(v); if (buf.length > MAXBUF) buf.shift(); }
+  function spark(id, buf, color) {
+    const c = document.getElementById(id);
+    const dpr = devicePixelRatio || 1;
+    const w = c.clientWidth || 340, h = c.clientHeight || 48;
+    if (c.width !== w * dpr) { c.width = w * dpr; c.height = h * dpr; }
+    const g = c.getContext("2d");
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.clearRect(0, 0, w, h);
+    if (buf.length < 2) return;
+    const max = Math.max(...buf, 1e-6) * 1.15;
+    g.beginPath();
+    buf.forEach((v, i) => {
+      const x = (i / (MAXBUF - 1)) * w;
+      const y = h - 3 - (v / max) * (h - 8);
+      i ? g.lineTo(x, y) : g.moveTo(x, y);
+    });
+    g.strokeStyle = color; g.lineWidth = 1.4; g.stroke();
+  }
+
+  /* ---------- events ---------- */
+  function inject(kind) {
+    if (kind === "linkfail") {
+      const cands = LINKS.filter(l => l.up);
+      if (!cands.length) return;
+      const worst = cands.reduce((a, b) => util(a) > util(b) ? a : b);
+      worst.up = false;
+      log(`<span class="tl-evt"><b>EVENT</b> \u2014 link FAILURE injected: ${linkKey(worst)} is DOWN.</span>`);
+    } else if (kind === "congestion") {
+      const cands = LINKS.filter(l => l.up);
+      const l = cands[Math.floor(Math.random() * cands.length)];
+      l.surge += 7;
+      log(`<span class="tl-evt"><b>EVENT</b> \u2014 congestion surge injected on ${linkKey(l)} (+7 background load).</span>`);
+    } else if (kind === "nodefail") {
+      const cores = NODES.filter(n => !n.host && n.up);
+      if (!cores.length) return;
+      const n = cores[Math.floor(Math.random() * cores.length)];
+      n.up = false;
+      log(`<span class="tl-evt"><b>EVENT</b> \u2014 router ${n.id} FAILED (all attached links unusable).</span>`);
+    } else if (kind === "ddos") {
+      ddosTicks = 250;
+      log(`<span class="tl-evt"><b>EVENT</b> \u2014 DDoS flood started at edge ingress (orange packets, ~25s).</span>`);
+    } else if (kind === "heal") {
+      LINKS.forEach(l => { l.up = true; l.surge = 0; l.penalty = 0; });
+      NODES.forEach(n => n.up = true);
+      ddosTicks = 0;
+      log(`<span class="tl-good"><b>HEAL</b> \u2014 all links and routers restored, penalties cleared.</span>`);
+    }
+  }
+
+  /* ---------- drawing ---------- */
+  function xy(n) {
+    const w = cv.clientWidth, h = cv.clientHeight;
+    return [n.x / W * w, n.y / H * h];
+  }
+  function draw() {
+    const dpr = devicePixelRatio || 1;
+    const w = cv.clientWidth, h = cv.clientHeight;
+    if (!w || !h) return;
+    if (cv.width !== w * dpr) { cv.width = w * dpr; cv.height = h * dpr; }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    // links
+    for (const l of LINKS) {
+      const [x1, y1] = xy(BYID[l.a]), [x2, y2] = xy(BYID[l.b]);
+      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
+      if (!l.up) {
+        ctx.strokeStyle = "#553"; ctx.setLineDash([5, 6]); ctx.lineWidth = 1;
+      } else {
+        const u = Math.min(util(l), 1.5);
+        const r = Math.round(60 + u * 130), g = Math.round(140 - u * 60), b2 = Math.round(220 - u * 140);
+        ctx.strokeStyle = `rgb(${r},${g},${b2})`;
+        ctx.setLineDash(l.penalty > 0 ? [10, 4] : []);
+        ctx.lineWidth = 1.2 + Math.min(util(l), 1.5) * 2.5;
+      }
+      ctx.stroke(); ctx.setLineDash([]);
+    }
+
+    // packets
+    for (const p of packets) {
+      const a = BYID[p.path[p.seg]], b = BYID[p.path[p.seg + 1]];
+      if (!a || !b) continue;
+      const [x1, y1] = xy(a), [x2, y2] = xy(b);
+      const x = x1 + (x2 - x1) * p.prog, y = y1 + (y2 - y1) * p.prog;
+      ctx.beginPath();
+      ctx.arc(x, y, p.ddos ? 3.5 : 2.6, 0, 7);
+      ctx.fillStyle = p.ddos ? "#ff8c42" : "#5fd4ff";
+      ctx.fill();
+    }
+
+    // nodes
+    for (const n of NODES) {
+      const [x, y] = xy(n);
+      const r = n.host ? 14 : 11;
+      ctx.beginPath();
+      if (n.type === "fw") ctx.rect(x - 10, y - 10, 20, 20);
+      else ctx.arc(x, y, r, 0, 7);
+      ctx.fillStyle = n.up ? "#171e2e" : "#2a1416";
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = !n.up ? "#f87171"
+        : n.id === "SRC" ? "#5fd4ff"
+        : n.id === "DST" ? "#ff8c42"
+        : n.type === "host" ? "#4ade80"
+        : n.type === "fw" ? "#ffc857"
+        : "#4da3ff";
+      ctx.stroke();
+      if (pendingLinkNode === n) {
+        ctx.beginPath(); ctx.arc(x, y, r + 5, 0, 7);
+        ctx.strokeStyle = "#ffc857"; ctx.setLineDash([4, 4]); ctx.stroke(); ctx.setLineDash([]);
+      }
+      ctx.fillStyle = n.up ? "#dbe4f5" : "#f87171";
+      ctx.font = "10px Segoe UI";
+      ctx.textAlign = "center";
+      ctx.fillText(n.id, x, y + 3);
+      if (n.host) {
+        ctx.fillStyle = "#8194b5";
+        ctx.fillText(n.id === "SRC" ? "SOURCE" : "DESTINATION", x, y + 28);
+      }
+    }
+  }
+
+  /* ---------- hover tooltips on canvas ---------- */
+  cv.addEventListener("mousemove", (e) => {
+    const rect = cv.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    // node hit?
+    for (const n of NODES) {
+      const [x, y] = xy(n);
+      if ((mx - x) ** 2 + (my - y) ** 2 < 18 ** 2) {
+        const deg = neighbors(n.id).length;
+        const role = n.type === "src" ? " \u2014 traffic source"
+          : n.type === "dst" ? " \u2014 destination host"
+          : n.type === "host" ? " \u2014 added traffic source"
+          : n.type === "fw" ? " \u2014 firewall (inspects, blocks DDoS)"
+          : " \u2014 core router";
+        let qinfo = "";
+        if (agentModeSel.value === "qlearn" && n.type !== "dst" && QA.q[n.id]) {
+          const vals = neighbors(n.id).map(([nb]) => `${nb}:${qGet(n.id, nb).toFixed(0)}`).join(" \u00b7 ");
+          if (vals) qinfo = `<br><span style="color:#ffc857">Q(s,a) est. cost-to-DST via:</span> ${vals}<br><span style="color:#8194b5">(lowest wins when exploiting)</span>`;
+        }
+        showTooltip(n.id + role,
+          `Status: <b>${n.up ? "UP" : "FAILED"}</b> \u00b7 active links: ${deg}` +
+          (n.type === "router" ? "<br>Fails via the event injector or Fail mode; the agent must route around it." : "") + qinfo,
+          e.clientX, e.clientY);
+        return;
+      }
+    }
+    // link hit?
+    for (const l of LINKS) {
+      const [x1, y1] = xy(BYID[l.a]), [x2, y2] = xy(BYID[l.b]);
+      const dx = x2 - x1, dy = y2 - y1;
+      const t = Math.max(0, Math.min(1, ((mx - x1) * dx + (my - y1) * dy) / (dx * dx + dy * dy)));
+      const px = x1 + t * dx, py = y1 + t * dy;
+      if ((mx - px) ** 2 + (my - py) ** 2 < 7 ** 2) {
+        showTooltip("Link " + linkKey(l),
+          `Status: <b>${l.up ? "UP" : "DOWN"}</b> \u00b7 base latency ${l.lat} ms \u00b7 capacity ${l.cap} pkt/tick<br>` +
+          `Utilization: <b>${(util(l) * 100).toFixed(0)}%</b>` +
+          (l.penalty > 0 ? ` \u00b7 <b style="color:#ffc857">AI penalty \u00d7${(1 + l.penalty).toFixed(1)}</b> (dashed = diverted)` : "") +
+          (l.surge > 0.2 ? ` \u00b7 surge +${l.surge.toFixed(1)}` : ""),
+          e.clientX, e.clientY);
+        return;
+      }
+    }
+    hideTooltip();
+  });
+  cv.addEventListener("mouseleave", hideTooltip);
+
+  /* ---------- palette: drag components into the live sim ---------- */
+  function toDesign(clientX, clientY) {
+    const rect = cv.getBoundingClientRect();
+    return [(clientX - rect.left) / cv.clientWidth * W, (clientY - rect.top) / cv.clientHeight * H];
+  }
+  function nodeAt(clientX, clientY) {
+    const rect = cv.getBoundingClientRect();
+    const mx = clientX - rect.left, my = clientY - rect.top;
+    for (const n of NODES) {
+      const [x, y] = xy(n);
+      if ((mx - x) ** 2 + (my - y) ** 2 < 18 ** 2) return n;
+    }
+    return null;
+  }
+  function linkAt(clientX, clientY) {
+    const rect = cv.getBoundingClientRect();
+    const mx = clientX - rect.left, my = clientY - rect.top;
+    for (const l of LINKS) {
+      const [x1, y1] = xy(BYID[l.a]), [x2, y2] = xy(BYID[l.b]);
+      const dx = x2 - x1, dy = y2 - y1;
+      const t = Math.max(0, Math.min(1, ((mx - x1) * dx + (my - y1) * dy) / (dx * dx + dy * dy)));
+      if ((mx - (x1 + t * dx)) ** 2 + (my - (y1 + t * dy)) ** 2 < 7 ** 2) return l;
+    }
+    return null;
+  }
+  function addNetNode(kind, clientX, clientY) {
+    const target = nodeAt(clientX, clientY); // detect drop-on-node BEFORE adding the new one
+    const [dx, dy] = toDesign(clientX, clientY);
+    const id = (kind === "ROUTER" ? "R" : kind === "HOST" ? "H" : "FW") + (++addSeq[kind]);
+    const node = { id, x: Math.max(20, Math.min(W - 20, dx)), y: Math.max(20, Math.min(H - 20, dy)),
+                   up: true, type: kind === "ROUTER" ? "router" : kind === "HOST" ? "host" : "fw",
+                   host: kind === "HOST" ? 1 : 0 };
+    NODES.push(node); BYID[id] = node;
+    const others = NODES.filter(n => n !== node && n.up)
+      .sort((a, b) => ((a.x - node.x) ** 2 + (a.y - node.y) ** 2) - ((b.x - node.x) ** 2 + (b.y - node.y) ** 2));
+    const linkTo = [];
+    if (target && target !== node) linkTo.push(target);
+    for (const o of others) {
+      if (linkTo.length >= 2) break;
+      if (!linkTo.includes(o)) linkTo.push(o);
+    }
+    for (const o of linkTo) {
+      LINKS.push({ a: id, b: o.id, lat: 5 + Math.floor(Math.random() * 4), cap: 7, up: true, surge: 0, penalty: 0, load: 0 });
+    }
+    log(`<span class="tl-good"><b>TOPOLOGY</b> \u2014 ${kind} ${id} deployed, linked to ${linkTo.map(o => o.id).join(", ") || "nothing"}.</span>`);
+  }
+  document.querySelectorAll("#netPalette .pal-item[data-net]").forEach(item => {
+    item.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("text/netcomp", item.dataset.net);
+      e.dataTransfer.effectAllowed = "copy";
+    });
+  });
+  cv.addEventListener("dragover", (e) => {
+    if (e.dataTransfer.types.includes("text/netcomp")) { e.preventDefault(); e.dataTransfer.dropEffect = "copy"; }
+  });
+  cv.addEventListener("drop", (e) => {
+    const kind = e.dataTransfer.getData("text/netcomp");
+    if (!kind) return;
+    e.preventDefault();
+    addNetNode(kind, e.clientX, e.clientY);
+  });
+
+  /* ---------- link / fail modes ---------- */
+  const linkModeBtn = document.getElementById("netLinkMode");
+  const failModeBtn = document.getElementById("netFailMode");
+  function setMode(m) {
+    mode = (mode === m) ? null : m;
+    pendingLinkNode = null;
+    linkModeBtn.classList.toggle("modeon", mode === "link");
+    failModeBtn.classList.toggle("modeon", mode === "fail");
+    cv.style.cursor = mode ? "pointer" : "crosshair";
+  }
+  linkModeBtn.addEventListener("click", () => setMode("link"));
+  failModeBtn.addEventListener("click", () => setMode("fail"));
+  cv.addEventListener("click", (e) => {
+    if (!mode) return;
+    const n = nodeAt(e.clientX, e.clientY);
+    if (mode === "link") {
+      if (!n) { pendingLinkNode = null; return; }
+      if (!pendingLinkNode) { pendingLinkNode = n; return; }
+      if (pendingLinkNode !== n && !findLink(pendingLinkNode.id, n.id)) {
+        LINKS.push({ a: pendingLinkNode.id, b: n.id, lat: 5 + Math.floor(Math.random() * 4), cap: 7, up: true, surge: 0, penalty: 0, load: 0 });
+        log(`<span class="tl-good"><b>TOPOLOGY</b> \u2014 new link ${pendingLinkNode.id}\u2192${n.id} added.</span>`);
+      }
+      pendingLinkNode = null;
+    } else if (mode === "fail") {
+      if (n) {
+        if (n.type === "src" || n.type === "dst") return;
+        n.up = !n.up;
+        log(`<span class="${n.up ? "tl-good" : "tl-evt"}"><b>TOPOLOGY</b> \u2014 ${n.id} ${n.up ? "restored" : "FAILED"} (fail mode).</span>`);
+      } else {
+        const l = linkAt(e.clientX, e.clientY);
+        if (l) {
+          l.up = !l.up;
+          log(`<span class="${l.up ? "tl-good" : "tl-evt"}"><b>TOPOLOGY</b> \u2014 link ${linkKey(l)} ${l.up ? "restored" : "FAILED"} (fail mode).</span>`);
+        }
+      }
+    }
+  });
+
+  /* ---------- Q-learning panel wiring ---------- */
+  function qResetLearning() {
+    QA.q = {}; QA.deliveries = 0; QA.rewWindow = [];
+    QA.eps = +document.getElementById("qEps0").value;
+    bufRew.length = 0;
+    document.getElementById("qDelivV").textContent = "0";
+    document.getElementById("rewVal").textContent = "\u2013";
+    log(`<span class="tl-evt"><b>Q-AGENT</b> \u2014 learning reset. Q-table wiped, \u03b5=${QA.eps.toFixed(2)}. Watch it re-learn.</span>`);
+  }
+  agentModeSel.addEventListener("change", () => {
+    const on = agentModeSel.value === "qlearn";
+    document.getElementById("qHead").style.display = on ? "" : "none";
+    document.getElementById("qPanel").style.display = on ? "" : "none";
+    if (on && QA.deliveries === 0) QA.eps = +document.getElementById("qEps0").value;
+    log(`<span class="tl-evt"><b>MODE</b> \u2014 agent switched to ${agentModeSel.options[agentModeSel.selectedIndex].text}.</span>` +
+        (on ? `<span class="tl-evt"> Packets now routed hop-by-hop by the Q-table. Expect early chaos while \u03b5 is high \u2014 that's exploration.</span>` : ""));
+  });
+  [["qAlpha", "qAlphaV", 2], ["qGamma", "qGammaV", 2], ["qEps0", "qEps0V", 2], ["qDecay", "qDecayV", 4]].forEach(([id, lbl, dp]) => {
+    document.getElementById(id).addEventListener("input", () =>
+      document.getElementById(lbl).textContent = (+document.getElementById(id).value).toFixed(dp));
+  });
+  document.getElementById("qReset").addEventListener("click", qResetLearning);
+  document.getElementById("qApply").addEventListener("click", () => {
+    const err = document.getElementById("qErr");
+    try {
+      const fn = new Function("hopMs", "dropped", document.getElementById("qCode").value);
+      const test = fn(10, false);
+      if (typeof test !== "number" || !isFinite(test)) throw new Error("must return a finite number");
+      QA.costFn = fn;
+      err.textContent = "";
+      log(`<span class="tl-good"><b>Q-AGENT</b> \u2014 cost function updated: fn(10, false) = ${test.toFixed(1)}. Consider Reset learning so old Q-values don't linger.</span>`);
+    } catch (ex) {
+      err.textContent = "\u2717 " + (ex.message || ex);
+    }
+  });
+
+  /* ---------- main loop ---------- */
+  let last = performance.now(), acc = 0;
+  function frame(now) {
+    const tps = +document.getElementById("simSpeed").value;
+    if (playing) {
+      acc += now - last;
+      const stepMs = 1000 / tps;
+      let guard = 0;
+      while (acc > stepMs && guard++ < 60) { tickOnce(); acc -= stepMs; }
+    } else acc = 0;
+    last = now;
+    if (document.getElementById("tab-netsim").classList.contains("active")) draw();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ---------- controls ---------- */
+  document.getElementById("simPlay").addEventListener("click", () => { playing = true; });
+  document.getElementById("simPause").addEventListener("click", () => { playing = false; setStage(-1); });
+  document.getElementById("simStep").addEventListener("click", () => { playing = false; tickOnce(); });
+  document.getElementById("eventBtn").addEventListener("click", () =>
+    inject(document.getElementById("eventSel").value));
+
+  return {
+    onShow() {
+      if (!started) {
+        started = true;
+        playing = true;
+        log(`<span class="tl-good"><b>SIM</b> \u2014 network online: 10 nodes, 19 links, AI routing agent ACTIVE. Inject an event and watch the Trace History.</span>`);
+      }
+    }
+  };
+})();
+
+/* ================================================================
+   REAL-WORLD TRACEROUTE VISUALIZER
+   ================================================================ */
+const SAMPLE_TRACE = `Tracing route to 203.0.113.57 over a maximum of 30 hops
+
+  1    <1 ms    <1 ms    <1 ms  192.168.1.1
+  2    11 ms    12 ms    11 ms  100.64.22.1
+  3    13 ms    14 ms    13 ms  ae2.mia1.fl.example-isp.net [68.13.4.77]
+  4    15 ms    14 ms    16 ms  be-301.ear3.Miami2.Level3.net [4.69.203.126]
+  5    41 ms    43 ms    42 ms  be-2.core1.Atlanta.Level3.net [4.69.150.9]
+  6     *        *        *     Request timed out.
+  7    52 ms    51 ms    53 ms  be-11.core2.KansasCity.Level3.net [4.69.151.114]
+  8    55 ms    56 ms    55 ms  isp-gw.kc.example-cable.com [98.190.2.1]
+  9    58 ms    57 ms    59 ms  203.0.113.57
+
+Trace complete.`;
+
+function classifyIp(ip) {
+  if (!ip) return ["timeout", "No reply \u2014 router drops/deprioritizes ICMP TTL-exceeded (common, not necessarily hostile)."];
+  const o = ip.split(".").map(Number);
+  if (o[0] === 10 || (o[0] === 172 && o[1] >= 16 && o[1] <= 31) || (o[0] === 192 && o[1] === 168))
+    return ["private LAN (RFC1918)", "Private address space \u2014 a LAN-side gateway (at the start: your friend's router)."];
+  if (o[0] === 100 && o[1] >= 64 && o[1] <= 127)
+    return ["CGNAT (RFC6598)", "Carrier-grade NAT \u2014 the ISP's shared translation layer between the customer and the public internet."];
+  return ["public internet", "Publicly routable hop \u2014 ISP or backbone infrastructure."];
+}
+
+function parseTraceText(text) {
+  const hops = [];
+  for (const line of text.split(/\r?\n/)) {
+    const m = line.match(/^\s*(\d+)\s+(.+)$/);
+    if (!m) continue;
+    const n = +m[1];
+    if (n > 64) continue;
+    const rest = m[2];
+    const times = [...rest.matchAll(/<?(\d+(?:\.\d+)?)\s*ms/g)].map(t => parseFloat(t[1]));
+    const stars = (rest.match(/\*/g) || []).length;
+    let host = "", ip = "";
+    let mm = rest.match(/([A-Za-z0-9][A-Za-z0-9._-]*)\s+\[(\d{1,3}(?:\.\d{1,3}){3})\]/); // windows w/ dns
+    if (mm) { host = mm[1]; ip = mm[2]; }
+    else {
+      mm = rest.match(/([A-Za-z0-9][A-Za-z0-9._-]*[A-Za-z])\s+\((\d{1,3}(?:\.\d{1,3}){3})\)/); // unix
+      if (mm) { host = mm[1]; ip = mm[2]; }
+      else { mm = rest.match(/(\d{1,3}(?:\.\d{1,3}){3})\s*$/); if (mm) ip = mm[1]; }
+    }
+    if (!ip && !stars) continue;
+    hops.push({
+      n, ip, host,
+      ms: times.length ? Math.round(times.reduce((a, b) => a + b, 0) / times.length * 10) / 10 : null,
+      timeout: !ip
+    });
+  }
+  return hops;
+}
+
+let traceSeq = 0;
+async function visualizeTrace() {
+  const hops = parseTraceText(document.getElementById("traceInput").value);
+  const out = document.getElementById("traceDiagram");
+  const notes = document.getElementById("traceNotes");
+  if (hops.length === 0) {
+    out.innerHTML = "";
+    notes.innerHTML = `<p class="dim">Could not find any hops in that text \u2014 paste the full tracert/traceroute output including the numbered lines.</p>`;
+    return;
+  }
+  const tips = {};
+  let src = `flowchart LR\n  F(["\ud83d\udcbb Friend<br/>(Florida)"])\n`;
+  let prevId = "F", prevMs = 0;
+  hops.forEach((h, i) => {
+    const id = "HOP" + h.n;
+    const label = h.timeout
+      ? `\u2715 hop ${h.n}<br/>* timeout *`
+      : `${h.host ? h.host + "<br/>" : ""}${h.ip}${h.ms !== null ? "<br/>" + h.ms + " ms" : ""}`;
+    src += `  ${id}["${label}"]\n`;
+    const delta = (h.ms !== null && prevMs !== null) ? h.ms - prevMs : null;
+    const edge = delta !== null && i > 0 ? `|"+${Math.max(0, delta).toFixed(0)} ms"|` : "";
+    src += `  ${prevId} -->${edge} ${id}\n`;
+    const [klass, desc] = classifyIp(h.timeout ? "" : h.ip);
+    tips[id.toUpperCase()] = [
+      `Hop ${h.n} \u2014 ${klass}`,
+      `${h.host ? "<b>" + h.host + "</b><br>" : ""}${h.ip || "no address"}${h.ms !== null ? " \u00b7 avg RTT " + h.ms + " ms" : ""}` +
+      (delta !== null && i > 0 ? ` \u00b7 \u0394 +${Math.max(0, delta).toFixed(1)} ms vs previous hop` : "") +
+      `<br>${desc}`
+    ];
+    if (h.timeout) src += `  style ${id} fill:#2a1416,stroke:#f87171\n`;
+    else if (klass.startsWith("private")) src += `  style ${id} fill:#1d3328,stroke:#4ade80\n`;
+    else if (klass.startsWith("CGNAT")) src += `  style ${id} fill:#221c0e,stroke:#ffc857\n`;
+    if (delta !== null && delta > 20 && i > 0) src += `  linkStyle ${i} stroke:#ff8c42,stroke-width:3px\n`;
+    prevId = id;
+    if (h.ms !== null) prevMs = h.ms;
+  });
+  const lastHop = hops[hops.length - 1];
+  src += `  YOU(["\ud83c\udfe0 You<br/>(this machine)"])\n  ${prevId} --> YOU\n  style YOU fill:#26314d,stroke:#4da3ff\n`;
+  tips["F"] = ["Origin", "Where the trace was run \u2014 your friend's machine in Florida."];
+  tips["YOU"] = ["Destination", "Your public IP / router. If the last replying hop isn't your IP, your router is staying dark to traceroute while (possibly) still answering ping."];
+  try {
+    const { svg } = await mermaid.render("trace-render-" + (++traceSeq), src);
+    out.innerHTML = svg;
+    wireStaticTips(out, id => tips[(id || "").toUpperCase()] || null);
+    // summary
+    const replied = hops.filter(h => !h.timeout && h.ms !== null);
+    const timeouts = hops.filter(h => h.timeout).length;
+    let jump = null;
+    for (let i = 1; i < replied.length; i++) {
+      const d = replied[i].ms - replied[i - 1].ms;
+      if (!jump || d > jump.d) jump = { d, from: replied[i - 1], to: replied[i] };
+    }
+    notes.innerHTML = `<p class="dim"><b>${hops.length} hops</b> \u00b7 end-to-end ~<b>${replied.length ? replied[replied.length - 1].ms + " ms" : "?"}</b>` +
+      ` \u00b7 ${timeouts} silent hop(s)` +
+      (jump && jump.d > 5 ? ` \u00b7 biggest latency jump <b>+${jump.d.toFixed(0)} ms</b> between hop ${jump.from.n} \u2192 ${jump.to.n} (likely the long-haul segment)` : "") +
+      `. Hover each hop for classification.</p>`;
+  } catch (e) {
+    notes.innerHTML = `<p class="dim">Render error: ${String(e.message || e)}</p>`;
+  }
+}
+document.getElementById("traceParseBtn").addEventListener("click", visualizeTrace);
+document.getElementById("traceDemoBtn").addEventListener("click", () => {
+  document.getElementById("traceInput").value = SAMPLE_TRACE;
+  visualizeTrace();
+});
+document.getElementById("traceClearBtn").addEventListener("click", () => {
+  document.getElementById("traceInput").value = "";
+  document.getElementById("traceDiagram").innerHTML = "";
+  document.getElementById("traceNotes").innerHTML = "";
+  document.getElementById("geoNotes").innerHTML = "";
+  geoHops = [];
+});
+
+/* ================================================================
+   USA MAP OVERLAY (GeoIP, movie-style)
+   ================================================================ */
+// simplified mainland-US outline [lon, lat]
+const US_OUTLINE = [
+  [-124.7,48.4],[-123.3,49.0],[-95.2,49.0],[-94.6,48.7],[-92.0,48.6],[-89.6,47.9],
+  [-84.8,46.5],[-82.5,45.3],[-82.1,43.6],[-82.5,42.9],[-83.1,42.0],[-82.7,41.7],
+  [-78.9,42.9],[-79.2,43.3],[-76.8,43.6],[-75.0,45.0],[-71.5,45.0],[-69.2,47.4],
+  [-67.8,47.1],[-67.1,45.2],[-66.9,44.8],[-68.0,44.4],[-70.0,43.7],[-70.6,43.1],
+  [-70.9,42.5],[-70.0,41.8],[-71.4,41.4],[-72.9,41.2],[-74.0,40.6],[-74.0,39.7],
+  [-75.5,39.4],[-75.0,38.4],[-76.0,37.2],[-75.7,35.8],[-76.5,34.7],[-77.9,33.9],
+  [-78.9,33.7],[-81.0,32.0],[-81.4,30.7],[-81.3,29.9],[-80.5,28.5],[-80.0,26.8],
+  [-80.1,25.2],[-81.1,25.1],[-81.7,25.9],[-82.7,27.5],[-82.8,29.1],[-84.0,30.1],
+  [-85.4,29.9],[-86.5,30.4],[-88.0,30.2],[-89.2,29.0],[-90.1,29.2],[-91.3,29.5],
+  [-93.8,29.7],[-95.0,29.1],[-97.2,27.6],[-97.1,25.9],[-99.1,26.4],[-100.7,29.1],
+  [-102.4,29.8],[-103.3,29.0],[-104.9,29.3],[-106.5,31.8],[-108.2,31.8],[-108.2,31.3],
+  [-111.0,31.3],[-114.8,32.5],[-117.1,32.5],[-118.4,33.7],[-120.6,34.6],[-121.9,36.6],
+  [-122.4,37.8],[-123.7,38.9],[-124.4,40.4],[-124.1,43.3],[-124.0,46.3],[-124.7,48.4]
+];
+// offline fallback for the built-in sample trace (documentation/backbone IPs)
+const SAMPLE_GEO = {
+  "68.13.4.77":    [25.77, -80.19, "Miami, FL"],
+  "4.69.203.126":  [25.77, -80.19, "Miami, FL"],
+  "4.69.150.9":    [33.75, -84.39, "Atlanta, GA"],
+  "4.69.151.114":  [39.10, -94.58, "Kansas City, MO"],
+  "98.190.2.1":    [39.10, -94.58, "Kansas City, MO"],
+  "203.0.113.57":  [39.10, -94.58, "Kansas City, MO"]
+};
+const geoCv = document.getElementById("geoMap");
+const geoCtx = geoCv.getContext("2d");
+let geoHops = []; // [{lat, lon, city, ip, ms}]
+
+function geoProject(lon, lat, w, h) {
+  const pad = 18;
+  return [
+    pad + (lon + 125) / (125 - 66) * (w - pad * 2),
+    pad + (50 - lat) / (50 - 24) * (h - pad * 2)
+  ];
+}
+
+function drawGeo(t) {
+  const dpr = devicePixelRatio || 1;
+  const w = geoCv.clientWidth, h = geoCv.clientHeight;
+  if (!w || !h) return;
+  if (geoCv.width !== w * dpr) { geoCv.width = w * dpr; geoCv.height = h * dpr; }
+  const g = geoCtx;
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  g.clearRect(0, 0, w, h);
+  // graticule
+  g.strokeStyle = "rgba(40,70,120,.25)"; g.lineWidth = 1;
+  for (let lon = -120; lon <= -70; lon += 5) {
+    const [x] = geoProject(lon, 37, w, h);
+    g.beginPath(); g.moveTo(x, 0); g.lineTo(x, h); g.stroke();
+  }
+  for (let lat = 26; lat <= 48; lat += 4) {
+    const [, y] = geoProject(-95, lat, w, h);
+    g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke();
+  }
+  // outline with glow
+  g.beginPath();
+  US_OUTLINE.forEach(([lon, lat], i) => {
+    const [x, y] = geoProject(lon, lat, w, h);
+    i ? g.lineTo(x, y) : g.moveTo(x, y);
+  });
+  g.closePath();
+  g.fillStyle = "rgba(22,42,72,.35)"; g.fill();
+  g.shadowColor = "#2a6adf"; g.shadowBlur = 8;
+  g.strokeStyle = "#3a6db0"; g.lineWidth = 1.5; g.stroke();
+  g.shadowBlur = 0;
+
+  if (geoHops.length === 0) {
+    g.fillStyle = "#5a6c8f"; g.font = "13px Segoe UI"; g.textAlign = "center";
+    g.fillText("Visualize a trace, then click  \ud83d\uddfa\ufe0f Plot on USA Map", w / 2, h / 2);
+    return;
+  }
+
+  const pts = geoHops.map(hp => geoProject(hp.lon, hp.lat, w, h));
+  // arcs
+  for (let i = 1; i < pts.length; i++) {
+    const [x1, y1] = pts[i - 1], [x2, y2] = pts[i];
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    const dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy) || 1;
+    const cx = mx - dy / len * len * 0.18, cyy = my + dx / len * len * 0.18;
+    g.beginPath(); g.moveTo(x1, y1); g.quadraticCurveTo(cx, cyy, x2, y2);
+    g.strokeStyle = "rgba(255,140,66,.55)"; g.lineWidth = 1.6;
+    g.shadowColor = "#ff8c42"; g.shadowBlur = 6; g.stroke(); g.shadowBlur = 0;
+    // animated pulse along the arc
+    const u = ((t / 1400) + i * 0.21) % 1;
+    const px = (1 - u) * (1 - u) * x1 + 2 * (1 - u) * u * cx + u * u * x2;
+    const py = (1 - u) * (1 - u) * y1 + 2 * (1 - u) * u * cyy + u * u * y2;
+    g.beginPath(); g.arc(px, py, 3, 0, 7);
+    g.fillStyle = "#ffd28f"; g.shadowColor = "#ffc857"; g.shadowBlur = 10; g.fill(); g.shadowBlur = 0;
+  }
+  // hop nodes + labels
+  geoHops.forEach((hp, i) => {
+    const [x, y] = pts[i];
+    g.beginPath(); g.arc(x, y, i === 0 || i === geoHops.length - 1 ? 6 : 4.5, 0, 7);
+    g.fillStyle = i === 0 ? "#4ade80" : i === geoHops.length - 1 ? "#4da3ff" : "#5fd4ff";
+    g.shadowColor = g.fillStyle; g.shadowBlur = 12; g.fill(); g.shadowBlur = 0;
+    g.fillStyle = "#dbe4f5"; g.font = "11px Segoe UI"; g.textAlign = "left";
+    const lbl = (i === 0 ? "ORIGIN \u00b7 " : i === geoHops.length - 1 ? "YOU \u00b7 " : "") + hp.city + (hp.ms !== null ? ` \u00b7 ${hp.ms} ms` : "");
+    g.fillText(lbl, x + 9, y - 6);
+    g.fillStyle = "#5a6c8f"; g.font = "9.5px Consolas";
+    g.fillText(hp.ip, x + 9, y + 6);
+  });
+}
+
+// geo animation loop (runs only while trace tab is visible)
+(function geoFrame(t) {
+  if (document.getElementById("tab-trace").classList.contains("active")) drawGeo(t);
+  requestAnimationFrame(geoFrame);
+})(0);
+
+async function lookupIp(ip) {
+  try {
+    const r = await fetch("https://ipwho.is/" + ip, { signal: AbortSignal.timeout(5000) });
+    const j = await r.json();
+    if (j && j.success && j.latitude) {
+      return { lat: j.latitude, lon: j.longitude, city: (j.city || "?") + (j.region_code ? ", " + j.region_code : "") };
+    }
+  } catch (e) { /* offline or blocked */ }
+  if (SAMPLE_GEO[ip]) {
+    const [lat, lon, city] = SAMPLE_GEO[ip];
+    return { lat, lon, city: city + " (built-in)" };
+  }
+  return null;
+}
+
+document.getElementById("traceGeoBtn").addEventListener("click", async () => {
+  const hops = parseTraceText(document.getElementById("traceInput").value);
+  const notes = document.getElementById("geoNotes");
+  const publics = hops.filter(h => !h.timeout && h.ip && classifyIp(h.ip)[0] === "public internet");
+  if (publics.length === 0) {
+    notes.innerHTML = `<p class="dim">No public-internet hops to geolocate \u2014 paste a trace (or Load Sample) and Visualize first.</p>`;
+    return;
+  }
+  notes.innerHTML = `<p class="dim">Geolocating ${publics.length} public hops\u2026</p>`;
+  const located = [], skipped = [];
+  for (const h of publics) {
+    const geo = await lookupIp(h.ip);
+    if (geo) located.push({ ...geo, ip: h.ip, ms: h.ms });
+    else skipped.push(h.ip);
+  }
+  // de-duplicate consecutive same-city hops (keep last ms)
+  geoHops = [];
+  for (const l of located) {
+    const prev = geoHops[geoHops.length - 1];
+    if (prev && prev.city === l.city) { prev.ms = l.ms; prev.ip = l.ip; }
+    else geoHops.push(l);
+  }
+  const outUS = geoHops.filter(hp => hp.lon < -125 || hp.lon > -66 || hp.lat < 24 || hp.lat > 50).length;
+  notes.innerHTML = `<p class="dim">Plotted <b>${geoHops.length}</b> locations from ${publics.length} public hops` +
+    (skipped.length ? ` \u00b7 ${skipped.length} unresolvable (${skipped.join(", ")})` : "") +
+    (outUS ? ` \u00b7 ${outUS} outside the mainland-US view (clamped to map edge)` : "") +
+    `. Private/CGNAT/timeout hops carry no public location. Remember: city-level accuracy at best.</p>`;
+  geoHops.forEach(hp => {
+    hp.lon = Math.max(-125, Math.min(-66, hp.lon));
+    hp.lat = Math.max(24, Math.min(50, hp.lat));
+  });
+});
+
+/* ================= Boot ================= */
+const bootKey = new URLSearchParams(location.search).get("example");
+codeEl.value = EXAMPLES[bootKey] || EXAMPLES.bess_sld;
+render(true);
+window.addEventListener("resize", () => applyView());
+</script>
+</body>
+</html>
