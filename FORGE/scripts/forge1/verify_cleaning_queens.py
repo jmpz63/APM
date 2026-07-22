@@ -45,6 +45,21 @@ with sync_playwright() as p:
         pg.click("#chatSend")
         pg.wait_for_timeout(1300)
     check("chat booking confirmed", "all set" in pg.inner_text("#chatBody"))
+
+    # regression: mid-booking detour + escape (the "how smart are you" trap)
+    def say(msg, wait=1500):
+        pg.fill("#chatInput", msg)
+        pg.click("#chatSend")
+        pg.wait_for_timeout(wait)
+    say("book a clean")  # name remembered from first booking -> phone step
+    say("how smart are you", 3200)  # question at the phone step
+    t = pg.inner_text("#chatBody")
+    check("detour answers question", "digital concierge" in t)
+    check("detour returns to step", t.rstrip().endswith("?"))  # re-prompts for phone
+    say("cancel")
+    check("cancel escapes booking", "cancelled" in pg.inner_text("#chatBody"))
+    say("do you take pets?")
+    check("pet intent works", "pet-friendly" in pg.inner_text("#chatBody"))
     pg.click("#chatClose")
 
     # admin sign-in
