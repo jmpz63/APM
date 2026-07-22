@@ -131,7 +131,41 @@ star ratings, neighborhood mentions), 8+ clients, 15+ jobs across
 past/today/future, invoices in all states, 3+ staff, realistic pricing.
 Names diverse, dates relative to "today" so demos never look stale.
 
-## 10. Launch Checklist
+## 10. Design Inspiration & Legal Boundaries (STANDING RULE)
+
+**Rebuild, don't trace.** Taking inspiration from other sites is standard
+practice; copying protected material is infringement. The line:
+
+### Safe to borrow (ideas aren't copyrightable)
+- Layout concepts & section flow (hero → services → reviews → CTA)
+- "Look and feel" patterns: sticky navs, card grids, marquees, kanbans
+- Color schemes and typography *choices* (fonts themselves need licenses;
+  stick to properly licensed / open web fonts)
+- Functionality and features (booking forms, dashboards, carousels)
+- Private screenshots kept as a reference/swipe file
+
+### Never copy
+- **Code** lifted from view-source — HTML/CSS/JS is copyrighted
+- **Images, photos, illustrations, icons** — each individually copyrighted;
+  image-matching bots (Getty et al.) auto-detect and send demand letters.
+  Only use: client-supplied media, our own work, or properly licensed stock.
+- **Written copy** — headlines, service descriptions, FAQ answers
+- **Logos or trademarked marks** of any other business
+- **Pixel-perfect clones** — even in original code, a recognizably "theirs"
+  recreation risks copyright + trade-dress claims, especially vs. a direct
+  competitor in the same industry
+
+### Process
+1. Collect 3–5 reference sites; note *what works* (spacing, contrast,
+   hierarchy, CTA placement) — never their assets.
+2. Implement from scratch: our code, our copy, client's own images.
+3. Client-provided material must be theirs to give (their photos, their
+   logo, their reviews) — confirm before publishing claims like
+   "bonded & insured."
+4. Risk scales with similarity + visibility: same-industry near-clones are
+   how lawsuits actually happen. When in doubt, differentiate harder.
+
+## 11. Launch Checklist
 
 - [ ] Archetype identified, spine sections in order (§2)
 - [ ] Design tokens only — no hardcoded rogue colors
@@ -143,3 +177,5 @@ Names diverse, dates relative to "today" so demos never look stale.
 - [ ] Reviews banner: slow, pausable, reduced-motion fallback
 - [ ] 404 page, favicon, OG image
 - [ ] All fake data flagged for replacement before real launch
+- [ ] IP audit (§10): no copied code/copy/images, all media licensed or
+      client-owned, no unverified claims (insured, bonded, ratings)
