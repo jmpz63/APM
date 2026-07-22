@@ -154,6 +154,32 @@ footer a:hover{color:var(--ink)}
 .edit-bar .who{font-size:.82rem;color:var(--muted);padding:0 6px}
 body.editing [data-edit]{outline:1.5px dashed var(--accent);outline-offset:4px;border-radius:4px;cursor:text;min-height:1em}
 body.editing [data-edit]:hover{background:var(--accent-dim)}
+
+/* ── chat bubble ── */
+.chat-fab{position:fixed;bottom:22px;right:22px;z-index:70;width:60px;height:60px;border-radius:50%;background:var(--accent);color:#0a0a0c;border:none;font-size:1.7rem;cursor:pointer;box-shadow:0 10px 30px rgba(255,45,146,.45);transition:transform .15s;display:flex;align-items:center;justify-content:center}
+.chat-fab:hover{transform:scale(1.08)}
+.chat-fab .badge{position:absolute;top:-2px;right:-2px;width:16px;height:16px;border-radius:50%;background:#22c55e;border:2.5px solid var(--bg)}
+.chat-win{position:fixed;bottom:94px;right:22px;z-index:70;width:min(370px,calc(100vw - 32px));height:min(520px,70vh);background:var(--card);border:1.5px solid var(--line);border-radius:18px;box-shadow:var(--shadow);display:none;flex-direction:column;overflow:hidden}
+.chat-win.open{display:flex}
+.chat-head{background:linear-gradient(135deg,var(--accent),#b3125f);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:12px}
+.chat-head .av{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.chat-head b{display:block;font-size:.98rem}
+.chat-head small{opacity:.85;font-size:.76rem}
+.chat-head button{margin-left:auto;background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer;line-height:1}
+.chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:85%;padding:10px 14px;border-radius:14px;font-size:.9rem;line-height:1.45;white-space:pre-line}
+.msg.bot{background:var(--bg2);border:1px solid var(--line);border-bottom-left-radius:4px;align-self:flex-start}
+.msg.me{background:var(--accent);color:#0a0a0c;font-weight:600;border-bottom-right-radius:4px;align-self:flex-end}
+.msg.bot a{color:var(--accent);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-self:flex-start}
+.chips button{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:6px 13px;font-size:.8rem;font-weight:700;cursor:pointer}
+.chips button:hover{background:var(--accent);color:#0a0a0c}
+.typing{align-self:flex-start;color:var(--muted);font-size:.85rem;padding:6px 14px}
+.chat-foot{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
+.chat-foot input{flex:1;background:var(--bg);border:1.5px solid var(--line);color:var(--ink);border-radius:999px;padding:10px 16px;font-size:.92rem;font-family:inherit}
+.chat-foot input:focus{border-color:var(--accent);outline:none}
+.chat-foot button{background:var(--accent);border:none;color:#0a0a0c;border-radius:50%;width:42px;height:42px;font-size:1.1rem;cursor:pointer;font-weight:900}
+@media(max-width:560px){.chat-win{bottom:88px;right:16px}.chat-fab{bottom:18px;right:16px}}
 </style>
 </head>
 <body>
@@ -321,6 +347,21 @@ body.editing [data-edit]:hover{background:var(--accent-dim)}
   </div>
 </footer>
 
+<!-- chat concierge -->
+<button class="chat-fab" id="chatFab" aria-label="Chat with us">👑<span class="badge" aria-hidden="true"></span></button>
+<div class="chat-win" id="chatWin" role="dialog" aria-label="Chat with The Cleaning Queens">
+  <div class="chat-head">
+    <div class="av">♛</div>
+    <div><b>Pearl — Queens Concierge</b><small>Typically replies instantly</small></div>
+    <button id="chatClose" aria-label="Close chat">×</button>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-foot">
+    <input id="chatInput" placeholder="Ask about pricing, services…" aria-label="Type a message" maxlength="300">
+    <button id="chatSend" aria-label="Send">➤</button>
+  </div>
+</div>
+
 <!-- admin edit mode toolbar (only visible when an admin is signed in) -->
 <div class="edit-bar" id="editBar">
   <span class="who" id="editWho"></span>
@@ -426,6 +467,144 @@ body.editing [data-edit]:hover{background:var(--accent-dim)}
       document.body.classList.remove("editing"); bar.classList.remove("editing");
     });
   }
+})();
+</script>
+<script>
+/* Pearl — Queens Concierge. Company-aware chat bot with in-chat booking capture. */
+(function(){
+  "use strict";
+  const S = window.CQStore, biz = S.data.business;
+  const svcs = S.data.services;
+  const $ = id => document.getElementById(id);
+  const body = $("chatBody"), input = $("chatInput"), win = $("chatWin"), fab = $("chatFab");
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+  const priceList = svcs.map(s => `• ${s.name} — ${S.money(s.price)} ${s.unit}`).join("\n");
+  const svcList = svcs.map(s => `• ${s.name}: ${s.desc}`).join("\n");
+
+  /* intent → [keywords, reply or handler] */
+  const INTENTS = [
+    { k: ["price","cost","how much","charge","rate","quote","estimate","$"],
+      r: () => `Here's our starting pricing:\n${priceList}\n\nExact quotes depend on your home's size & condition — tap "Book a clean" and we'll confirm your price the same day. 👑` },
+    { k: ["service","offer","what do you do","clean what","include","checklist"],
+      r: () => `We're a women-operated crew and here's what we do best:\n${svcList}` },
+    { k: ["airbnb","air bnb","turnover","str","short term","vrbo"],
+      r: () => `Yes! Airbnb turnovers are one of our specialties — guest-ready cleans, restocking, and staging from ${S.money(129)} per turn. Hosts love us because we never miss a check-in.` },
+    { k: ["move","moving","move-out","move out","move in","deposit","landlord"],
+      r: () => `Our Move In/Out clean (from ${S.money(299)}) is a top-to-bottom empty-home clean — inside the oven, fridge, cabinets, baseboards. It's how our clients get their full deposits back. 🏠` },
+    { k: ["deep clean","deep","spring clean","first time"],
+      r: () => `The Deep Clean (from ${S.money(249)}) is our royal reset: baseboards, inside appliances, grout, vents — everything. Most new clients start with a deep clean, then switch to regular maintenance.` },
+    { k: ["recur","weekly","biweekly","bi-weekly","monthly","regular","maintenance","subscription"],
+      r: () => `Residential maintenance starts at ${S.money(109)}/visit — weekly, bi-weekly, or monthly. You get the same Queen and the same standard every time, and recurring clients save on every visit.` },
+    { k: ["hour","open","when","time","schedule","available","availability"],
+      r: () => `We work ${biz.hours}. Want me to check availability? Tap "Book a clean" and pick a time that works for you.` },
+    { k: ["area","where","location","kansas","kck","kcmo","serve","travel","far","olathe","overland","liberty","lee's summit","shawnee"],
+      r: () => `We serve the whole Kansas City metro — both KS and MO sides of the state line. If you're in or around KC, we've got you covered. 🗺️` },
+    { k: ["phone","call","number","contact","email","reach","talk","human","person","someone"],
+      r: () => `You can reach a real Queen anytime:\n📞 ${biz.phone} or ${biz.phone2}\n✉️ ${biz.email}\n\nOr keep chatting with me — I can get you booked right here!` },
+    { k: ["review","rating","recommend","testimonial","good","trust"],
+      r: () => `We're 100% recommended on Facebook — every single reviewer gave us a thumbs up! Scroll up to see reviews, or check our <a href="${biz.facebook}" target="_blank" rel="noopener">Facebook page</a> for before-and-afters.` },
+    { k: ["who are you","about","women","owner","company","story","queens"],
+      r: () => `${biz.about}\n\n${biz.tagline}` },
+    { k: ["product","supply","supplies","chemical","eco","green","pet","bring"],
+      r: () => `Our Queens bring all supplies and equipment. Eco-friendly, pet-safe products are available on request — just mention it when you book.` },
+    { k: ["cancel","reschedule","policy","refund","guarantee","satisfaction"],
+      r: () => `Free rescheduling or cancellation up to 24 hours before your appointment. And every clean is backed by our satisfaction guarantee — if something's not right, we come back and fix it free.` },
+    { k: ["pay","payment","invoice","card","venmo","cash"],
+      r: () => `Easy — we send a digital invoice after your clean and you can pay online by card. No cash needed (but the Queens won't say no to cookies 🍪).` },
+    { k: ["hi","hello","hey","yo","sup","howdy","morning","afternoon"],
+      r: () => `Hi there! 👋 I'm Pearl, the Queens' concierge. Ask me about pricing, services, or availability — or tap a button below.` },
+    { k: ["thank","thanks","awesome","great","perfect","cool"],
+      r: () => `You're so welcome! Anything else I can help with? 👑` },
+  ];
+
+  const CHIPS = [["💰 Pricing","price"],["🧽 Services","services"],["📅 Book a clean","__book"],["📞 Contact","contact"]];
+
+  let booking = null; /* {step, name, phone, service} */
+
+  function add(kind, html){
+    const m = document.createElement("div");
+    m.className = "msg " + kind;
+    m.innerHTML = html;
+    body.appendChild(m);
+    body.scrollTop = body.scrollHeight;
+  }
+  function chips(){
+    const c = document.createElement("div");
+    c.className = "chips";
+    CHIPS.forEach(([label, val]) => {
+      const b = document.createElement("button");
+      b.textContent = label;
+      b.addEventListener("click", () => { c.remove(); handle(val, label.replace(/^\S+\s/,"")); });
+      c.appendChild(b);
+    });
+    body.appendChild(c);
+    body.scrollTop = body.scrollHeight;
+  }
+  function botSay(html, withChips){
+    const t = document.createElement("div");
+    t.className = "typing"; t.textContent = "Pearl is typing…";
+    body.appendChild(t); body.scrollTop = body.scrollHeight;
+    setTimeout(() => { t.remove(); add("bot", html); if (withChips) chips(); }, 500 + Math.random()*450);
+  }
+
+  function startBooking(){
+    booking = { step: "name" };
+    botSay("Let's get you royal treatment! 👑 First — what's your name?");
+  }
+  function bookingStep(text){
+    if (booking.step === "name"){
+      booking.name = text.slice(0, 60);
+      booking.step = "phone";
+      botSay(`Lovely to meet you, ${esc(booking.name.split(" ")[0])}! What's the best phone number to reach you?`);
+    } else if (booking.step === "phone"){
+      if (!/[\d]{7,}/.test(text.replace(/\D/g,""))){ botSay("Hmm, that doesn't look like a phone number — mind trying again? (e.g. (816) 555-1234)"); return; }
+      booking.phone = text.slice(0, 25);
+      booking.step = "service";
+      botSay(`Perfect. Which service are you interested in?\n${svcs.map((s,i)=>`${i+1}. ${s.name}`).join("\n")}\n\n(Just reply with the number or name)`);
+    } else if (booking.step === "service"){
+      const n = parseInt(text, 10);
+      const svc = (!isNaN(n) && svcs[n-1]) ? svcs[n-1]
+        : svcs.find(s => text.toLowerCase().includes(s.name.toLowerCase().split(" ")[0].toLowerCase())) || svcs[0];
+      S.addBooking({ name: booking.name, phone: booking.phone, email: "", address: "(via chat)", service: svc.name, date: "", notes: "Booked via chat concierge" });
+      botSay(`You're all set, ${esc(booking.name.split(" ")[0])}! 🎉 I've sent your ${esc(svc.name)} request to the Queens — they'll call ${esc(booking.phone)} shortly to confirm your time and exact price.\n\nAnything else I can help with?`, true);
+      booking = null;
+    }
+  }
+
+  function handle(raw, display){
+    add("me", esc(display || raw));
+    const text = raw.toLowerCase().trim();
+    if (raw === "__book" || (!booking && /\b(book|appointment|schedule me|sign up|get started|come clean|need a clean)\b/.test(text))){ startBooking(); return; }
+    if (booking){ bookingStep(raw.trim()); return; }
+    const match = k => k.length <= 4 && /^[a-z]+$/.test(k)
+      ? new RegExp("\\b" + k + "\\b").test(text)
+      : text.includes(k);
+    const hit = INTENTS.find(i => i.k.some(match));
+    if (hit){ botSay(hit.r(), false); }
+    else botSay(`Great question! I'm best with pricing, services, and booking — for anything else, call us at ${biz.phone} or email ${biz.email} and a real Queen will help. 👑`, true);
+  }
+
+  let greeted = false;
+  function openChat(){
+    win.classList.add("open");
+    fab.setAttribute("aria-expanded","true");
+    if (!greeted){
+      greeted = true;
+      botSay(`Hi! 👋 I'm Pearl, concierge for The Cleaning Queens KC — a proud women-operated cleaning crew serving both sides of the state line.\n\nHow can I help you today?`, true);
+    }
+    input.focus();
+  }
+  fab.addEventListener("click", () => win.classList.contains("open") ? win.classList.remove("open") : openChat());
+  $("chatClose").addEventListener("click", () => win.classList.remove("open"));
+  function send(){
+    const v = input.value.trim();
+    if (!v) return;
+    input.value = "";
+    handle(v);
+  }
+  $("chatSend").addEventListener("click", send);
+  input.addEventListener("keydown", e => { if (e.key === "Enter") send(); });
 })();
 </script>
 </body>

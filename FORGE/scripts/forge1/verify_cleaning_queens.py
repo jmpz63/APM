@@ -31,6 +31,22 @@ with sync_playwright() as p:
     pg.click("#bookForm button[type=submit]")
     check("booking confirmation", pg.locator("#bookDone").is_visible())
 
+    # chat bot
+    pg.click("#chatFab")
+    pg.wait_for_timeout(1400)
+    check("chat greets", "Pearl" in pg.inner_text("#chatBody"))
+    pg.fill("#chatInput", "how much does a deep clean cost?")
+    pg.click("#chatSend")
+    pg.wait_for_timeout(1400)
+    check("chat answers pricing", "$249" in pg.inner_text("#chatBody"))
+    # in-chat booking flow
+    for msg in ["book a clean", "Chat Tester", "816-555-9999", "2"]:
+        pg.fill("#chatInput", msg)
+        pg.click("#chatSend")
+        pg.wait_for_timeout(1300)
+    check("chat booking confirmed", "all set" in pg.inner_text("#chatBody"))
+    pg.click("#chatClose")
+
     # admin sign-in
     pg.goto(BASE + "admin.html", wait_until="networkidle")
     pg.fill("#lg-user", "admin")
