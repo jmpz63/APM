@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHANTOM TYPIST — AI Keyboard &amp; Mouse Actuator Overlay</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --border:#2a3550;
+    --text:#d7e0ef; --muted:#8b9bb8; --accent:#58a6ff; --accent2:#ffb457;
+    --good:#57d98a; --bad:#ff6b6b; --wire-pwr:#ff5c5c; --wire-gnd:#4a5568;
+    --wire-sig:#58a6ff; --wire-hi:#ffb457;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  header{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);padding:14px 26px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  header h1{font-size:18px;font-weight:700;letter-spacing:1px;white-space:nowrap}
+  header h1 span{color:var(--accent)}
+  header .rev{font-size:11px;color:var(--muted);border:1px solid var(--border);padding:2px 8px;border-radius:20px}
+  nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+  nav a{color:var(--muted);text-decoration:none;font-size:12.5px;padding:5px 11px;border-radius:7px;border:1px solid transparent}
+  nav a:hover{color:var(--text);border-color:var(--border);background:var(--panel2)}
+  main{max-width:1180px;margin:0 auto;padding:30px 26px 90px}
+  section{margin:38px 0;scroll-margin-top:80px}
+  h2{font-size:23px;margin-bottom:6px;padding-bottom:8px;border-bottom:1px solid var(--border);color:var(--accent)}
+  h2 .num{color:var(--accent2);font-size:15px;margin-right:10px;font-variant-numeric:tabular-nums}
+  h3{font-size:16px;margin:20px 0 8px;color:var(--accent2)}
+  p{margin:8px 0;color:var(--text)}
+  p.dim{color:var(--muted);font-size:14px}
+  ul,ol{margin:8px 0 8px 22px}
+  li{margin:5px 0}
+  code{font-family:Consolas,"Cascadia Code",monospace;background:#0a0e16;border:1px solid var(--border);
+    border-radius:4px;padding:1px 6px;font-size:12.5px;color:#9ecbff}
+  .hero{background:linear-gradient(135deg,#161b22,#1c2230);border:1px solid var(--border);border-radius:14px;
+    padding:26px 30px;margin-bottom:10px}
+  .hero p{font-size:15px}
+  .tag{display:inline-block;background:var(--panel2);border:1px solid var(--border);border-radius:20px;
+    padding:3px 12px;font-size:12px;color:var(--muted);margin:3px 5px 3px 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px}
+  .card h3{margin-top:0}
+  .callout{border-left:4px solid var(--accent2);background:#211b0e;border-radius:8px;padding:14px 18px;margin:16px 0;font-size:14px}
+  .callout.warn{border-left-color:var(--bad);background:#2a1416}
+  .callout.good{border-left-color:var(--good);background:#0f2318}
+  .callout b{color:var(--accent2)}
+  .callout.warn b{color:var(--bad)}
+  .figwrap{background:#0a0e16;border:1px solid var(--border);border-radius:12px;padding:18px;margin:16px 0;overflow-x:auto}
+  .figwrap .cap{font-size:12.5px;color:var(--muted);margin-top:10px;text-align:center}
+  svg{display:block;margin:0 auto;max-width:100%;height:auto}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+  tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+  td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+  .pn{font-family:Consolas,monospace;color:#9ecbff;font-size:12px}
+  .total td{font-weight:700;background:var(--panel2);color:var(--accent2)}
+  .pill{font-size:11px;padding:2px 8px;border-radius:12px;border:1px solid var(--border);white-space:nowrap}
+  .pill.a{color:var(--accent);border-color:#2b4a6b}
+  .pill.b{color:var(--accent2);border-color:#5a4620}
+  .pill.g{color:var(--good);border-color:#255c3a}
+  .kbd-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:8px 0}
+  .kbd-legend span{display:flex;align-items:center;gap:6px}
+  .swatch{width:14px;height:6px;border-radius:2px;display:inline-block}
+  footer{border-top:1px solid var(--border);padding:22px 26px;text-align:center;color:var(--muted);font-size:12.5px}
+  .specrow{display:flex;justify-content:space-between;border-bottom:1px dashed var(--border);padding:5px 0;font-size:13.5px}
+  .specrow b{color:var(--text)}
+  .specrow span{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>PHANTOM <span>TYPIST</span></h1>
+  <span class="rev">Rev A · concept design</span>
+  <nav>
+    <a href="#overview">Overview</a>
+    <a href="#arch">Architecture</a>
+    <a href="#kbd">Keyboard Rig</a>
+    <a href="#mouse">Mouse Rig</a>
+    <a href="#circuit">Circuit</a>
+    <a href="#pinout">Pinout</a>
+    <a href="#bom">BOM</a>
+    <a href="#assembly">Assembly</a>
+    <a href="#firmware">Firmware</a>
+    <a href="#build">Build</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ============ OVERVIEW ============ -->
+<section id="overview">
+  <div class="hero">
+    <h2 style="border:none;margin:0 0 6px"><span class="num">§0</span>Phantom Typist</h2>
+    <p>A non-invasive robotic overlay that sits on top of your existing keyboard and beside your mouse,
+    and physically presses keys, moves the mouse, clicks, and scrolls — driven by commands from your AI.
+    Nothing is wired into the target computer; the rig acts through the same mechanical interface a human
+    hand would, so the target machine cannot tell software from a "person."</p>
+    <div style="margin-top:12px">
+      <span class="tag">Non-invasive overlay</span>
+      <span class="tag">104-key solenoid array</span>
+      <span class="tag">CoreXY mouse gantry</span>
+      <span class="tag">ESP32-S3 · WiFi/BLE</span>
+      <span class="tag">AI over WebSocket</span>
+      <span class="tag">~$430 BOM</span>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <b>Read this first — engineering reality check.</b> If your goal is simply "let my AI type and click,"
+    a <b>USB HID emulator</b> (a $6 microcontroller pretending to be a keyboard/mouse) does the same job for
+    1% of the cost, instantly, with zero mechanics. You already have a
+    <code>Bluetooth_HID_Emulator</code> project in this workspace that does exactly that.
+    <br><br>
+    The <b>only</b> reasons to build a physical actuator rig instead: (1) the target machine is
+    <b>air-gapped / locked-down</b> and rejects new USB devices; (2) you need to demonstrate genuine
+    <b>physical presence</b> (defeating "is-a-human-at-the-desk" sensors, kiosk lockdowns); (3) it's a
+    <b>showpiece / art / robotics learning</b> build. This document designs the physical rig — but be honest
+    with yourself about which problem you actually have.
+  </div>
+
+  <div class="callout">
+    <b>Responsible-use note.</b> This is designed for automating <i>your own</i> machine. Using it to defeat
+    presence checks, proctoring, or access controls on systems you don't own may violate terms of service or
+    law. Build it for your own desk.
+  </div>
+
+  <div class="grid3" style="margin-top:18px">
+    <div class="card"><h3>What it does</h3><p class="dim">Presses any of 104 keys individually or in
+      combos (Shift/Ctrl/Alt), moves the mouse to XY targets, left/right clicks, and scrolls — all on real hardware.</p></div>
+    <div class="card"><h3>How it's driven</h3><p class="dim">Your AI (on forge1 or any host) sends
+      high-level commands — <code>type "hello"</code>, <code>moveTo(x,y)</code>, <code>click</code> — over
+      WiFi to the on-rig ESP32-S3, which sequences the actuators.</p></div>
+    <div class="card"><h3>Why an overlay</h3><p class="dim">It clamps over your existing keyboard with
+      alignment feet — no soldering to your keyboard, no modification. Lift it off and your desk is normal again.</p></div>
+  </div>
+</section>
+
+<!-- ============ ARCHITECTURE ============ -->
+<section id="arch">
+  <h2><span class="num">§1</span>System Architecture</h2>
+  <p class="dim">Three domains: the <b>AI/host</b> (decides what to type), the <b>controller</b> (translates
+  intent into actuator timing), and the <b>actuator hardware</b> (does the physical work). The target computer
+  is a passive recipient — it only sees keypresses and mouse motion.</p>
+
+  <div class="figwrap">
+    <svg viewBox="0 0 1000 470" font-family="Consolas,monospace" font-size="13">
+      <defs>
+        <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="#58a6ff"/>
+        </marker>
+        <marker id="arg" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="#57d98a"/>
+        </marker>
+      </defs>
+
+      <!-- AI/host -->
+      <rect x="30" y="40" width="230" height="150" rx="10" fill="#0f2318" stroke="#57d98a"/>
+      <text x="145" y="66" fill="#57d98a" text-anchor="middle" font-size="14" font-weight="bold">AI / HOST</text>
+      <text x="145" y="90" fill="#d7e0ef" text-anchor="middle">forge1 · gemma / LLM</text>
+      <text x="145" y="112" fill="#8b9bb8" text-anchor="middle">decides intent:</text>
+      <text x="145" y="132" fill="#9ecbff" text-anchor="middle">type "hello world"</text>
+      <text x="145" y="150" fill="#9ecbff" text-anchor="middle">moveTo(842,391)</text>
+      <text x="145" y="168" fill="#9ecbff" text-anchor="middle">click / scroll(-3)</text>
+
+      <!-- controller -->
+      <rect x="385" y="30" width="250" height="410" rx="10" fill="#1c2230" stroke="#58a6ff"/>
+      <text x="510" y="56" fill="#58a6ff" text-anchor="middle" font-size="14" font-weight="bold">CONTROLLER · ESP32-S3</text>
+      <rect x="410" y="72" width="200" height="60" rx="6" fill="#0a0e16" stroke="#2a3550"/>
+      <text x="510" y="96" fill="#d7e0ef" text-anchor="middle">WebSocket server</text>
+      <text x="510" y="116" fill="#8b9bb8" text-anchor="middle">command parser + queue</text>
+      <rect x="410" y="146" width="200" height="60" rx="6" fill="#0a0e16" stroke="#2a3550"/>
+      <text x="510" y="170" fill="#d7e0ef" text-anchor="middle">key-map &amp; motion planner</text>
+      <text x="510" y="190" fill="#8b9bb8" text-anchor="middle">char → key XY / bitmask</text>
+      <rect x="410" y="220" width="95" height="70" rx="6" fill="#0a0e16" stroke="#2a3550"/>
+      <text x="457" y="244" fill="#ffb457" text-anchor="middle" font-size="12">SPI shift-</text>
+      <text x="457" y="260" fill="#ffb457" text-anchor="middle" font-size="12">register</text>
+      <text x="457" y="276" fill="#8b9bb8" text-anchor="middle" font-size="11">→ keys</text>
+      <rect x="515" y="220" width="95" height="70" rx="6" fill="#0a0e16" stroke="#2a3550"/>
+      <text x="562" y="244" fill="#ffb457" text-anchor="middle" font-size="12">STEP/DIR</text>
+      <text x="562" y="260" fill="#ffb457" text-anchor="middle" font-size="12">+ PWM</text>
+      <text x="562" y="276" fill="#8b9bb8" text-anchor="middle" font-size="11">→ mouse</text>
+      <rect x="410" y="304" width="200" height="52" rx="6" fill="#0a0e16" stroke="#2a3550"/>
+      <text x="510" y="326" fill="#d7e0ef" text-anchor="middle" font-size="12">optical homing / limit sense</text>
+      <text x="510" y="344" fill="#8b9bb8" text-anchor="middle" font-size="11">closed-loop position ref</text>
+      <rect x="410" y="368" width="200" height="52" rx="6" fill="#211b0e" stroke="#ffb457"/>
+      <text x="510" y="390" fill="#ffb457" text-anchor="middle" font-size="12">12 V / 5 A PSU + buck</text>
+      <text x="510" y="408" fill="#8b9bb8" text-anchor="middle" font-size="11">rig power (isolated from target)</text>
+
+      <!-- actuators -->
+      <rect x="760" y="40" width="210" height="120" rx="10" fill="#211b0e" stroke="#ffb457"/>
+      <text x="865" y="66" fill="#ffb457" text-anchor="middle" font-size="13" font-weight="bold">KEYBOARD ARRAY</text>
+      <text x="865" y="90" fill="#d7e0ef" text-anchor="middle" font-size="12">104× push solenoid</text>
+      <text x="865" y="110" fill="#8b9bb8" text-anchor="middle" font-size="11">13× ULN2803 drivers</text>
+      <text x="865" y="130" fill="#8b9bb8" text-anchor="middle" font-size="11">1 finger per key</text>
+      <text x="865" y="150" fill="#8b9bb8" text-anchor="middle" font-size="11">pulse ~40 ms</text>
+
+      <rect x="760" y="185" width="210" height="120" rx="10" fill="#211b0e" stroke="#ffb457"/>
+      <text x="865" y="211" fill="#ffb457" text-anchor="middle" font-size="13" font-weight="bold">MOUSE GANTRY</text>
+      <text x="865" y="235" fill="#d7e0ef" text-anchor="middle" font-size="12">CoreXY · 2× NEMA17</text>
+      <text x="865" y="255" fill="#8b9bb8" text-anchor="middle" font-size="11">cradle carries real mouse</text>
+      <text x="865" y="275" fill="#8b9bb8" text-anchor="middle" font-size="11">click solenoids ×2</text>
+      <text x="865" y="295" fill="#8b9bb8" text-anchor="middle" font-size="11">scroll servo (SG90)</text>
+
+      <rect x="760" y="330" width="210" height="90" rx="10" fill="#0f1622" stroke="#2a3550"/>
+      <text x="865" y="356" fill="#8b9bb8" text-anchor="middle" font-size="13" font-weight="bold">TARGET COMPUTER</text>
+      <text x="865" y="380" fill="#d7e0ef" text-anchor="middle" font-size="12">your existing keyboard</text>
+      <text x="865" y="400" fill="#d7e0ef" text-anchor="middle" font-size="12">+ mouse (unmodified)</text>
+
+      <!-- arrows -->
+      <line x1="260" y1="115" x2="382" y2="115" stroke="#57d98a" stroke-width="2" marker-end="url(#arg)"/>
+      <text x="320" y="107" fill="#57d98a" text-anchor="middle" font-size="11">WiFi / WS</text>
+      <line x1="505" y1="220" x2="758" y2="120" stroke="#58a6ff" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="562" y1="220" x2="758" y2="230" stroke="#58a6ff" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="865" y1="160" x2="865" y2="183" stroke="#ffb457" stroke-width="2" marker-end="url(#ar)"/>
+      <text x="905" y="176" fill="#ffb457" font-size="10">presses</text>
+      <line x1="865" y1="305" x2="865" y2="328" stroke="#ffb457" stroke-width="2" marker-end="url(#ar)"/>
+      <text x="905" y="322" fill="#ffb457" font-size="10">moves</text>
+    </svg>
+    <div class="cap">Fig 1 — Signal chain. Green = network (intent). Blue = digital control. Amber = physical actuation &amp; power. The target computer is galvanically isolated from the rig.</div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Key design decisions</h3>
+      <div class="specrow"><span>Keyboard method</span><b>1 solenoid per key (parallel)</b></div>
+      <div class="specrow"><span>Why not a gantry for keys</span><b>combos &amp; speed</b></div>
+      <div class="specrow"><span>Mouse method</span><b>CoreXY carries real mouse</b></div>
+      <div class="specrow"><span>Controller</span><b>ESP32-S3 (WiFi+BLE, 45 GPIO)</b></div>
+      <div class="specrow"><span>Key driver</span><b>74HC595 → ULN2803A</b></div>
+      <div class="specrow"><span>Rig power</span><b>12 V 5 A, isolated</b></div>
+    </div>
+    <div class="card">
+      <h3>Performance targets</h3>
+      <div class="specrow"><span>Typing speed</span><b>~6–8 keys/s (~80 WPM)</b></div>
+      <div class="specrow"><span>Key press force</span><b>60–80 gf (Cherry MX ~45–60 gf)</b></div>
+      <div class="specrow"><span>Solenoid pulse</span><b>30–50 ms on, 20 ms gap</b></div>
+      <div class="specrow"><span>Mouse travel</span><b>250 × 150 mm work area</b></div>
+      <div class="specrow"><span>Mouse pos. accuracy</span><b>±0.2 mm (steppers)</b></div>
+      <div class="specrow"><span>Concurrent keys</span><b>up to 4 (modifier combos)</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KEYBOARD RIG ============ -->
+<section id="kbd">
+  <h2><span class="num">§2</span>Keyboard Actuator Overlay</h2>
+  <p class="dim">A rigid plate suspended a few millimetres above the keycaps on adjustable feet. Each key location
+  carries a small push-pull solenoid whose plunger tip lands on the centre of that keycap. Energising the
+  solenoid drives the plunger down ~4 mm — enough to actuate the switch — then a return spring lifts it.</p>
+
+  <div class="figwrap">
+    <svg viewBox="0 0 940 300" font-family="Consolas,monospace" font-size="12">
+      <!-- Side cross-section of one key actuator -->
+      <text x="470" y="24" fill="#58a6ff" text-anchor="middle" font-size="14" font-weight="bold">Single-key actuator — side cross-section</text>
+
+      <!-- mounting plate -->
+      <rect x="120" y="60" width="700" height="20" fill="#1c2230" stroke="#58a6ff"/>
+      <text x="835" y="74" fill="#8b9bb8" font-size="11">plate</text>
+
+      <!-- solenoid body -->
+      <rect x="420" y="80" width="100" height="70" rx="4" fill="#2a2410" stroke="#ffb457"/>
+      <text x="470" y="100" fill="#ffb457" text-anchor="middle" font-size="11">solenoid</text>
+      <text x="470" y="116" fill="#8b9bb8" text-anchor="middle" font-size="10">JF-0530B</text>
+      <!-- coil hatch -->
+      <line x1="428" y1="122" x2="512" y2="122" stroke="#5a4620"/>
+      <line x1="428" y1="132" x2="512" y2="132" stroke="#5a4620"/>
+      <line x1="428" y1="142" x2="512" y2="142" stroke="#5a4620"/>
+
+      <!-- plunger -->
+      <rect x="462" y="150" width="16" height="60" fill="#8b9bb8" stroke="#d7e0ef"/>
+      <!-- return spring coil -->
+      <path d="M470,150 l-14,8 l28,8 l-28,8 l28,8 l-28,8 l14,8" fill="none" stroke="#57d98a" stroke-width="1.5"/>
+      <text x="405" y="185" fill="#57d98a" font-size="10" text-anchor="end">return</text>
+      <text x="405" y="197" fill="#57d98a" font-size="10" text-anchor="end">spring</text>
+      <!-- silicone tip -->
+      <ellipse cx="470" cy="214" rx="12" ry="6" fill="#ff6b6b"/>
+      <text x="530" y="214" fill="#ff6b6b" font-size="10">silicone tip</text>
+
+      <!-- travel arrow -->
+      <line x1="560" y1="152" x2="560" y2="208" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#ar)"/>
+      <text x="568" y="184" fill="#58a6ff" font-size="10">~4 mm stroke</text>
+
+      <!-- keycap -->
+      <rect x="435" y="228" width="70" height="26" rx="4" fill="#0f1622" stroke="#8b9bb8"/>
+      <text x="470" y="245" fill="#8b9bb8" text-anchor="middle" font-size="10">keycap</text>
+      <!-- switch -->
+      <rect x="450" y="254" width="40" height="18" fill="#161b22" stroke="#2a3550"/>
+      <text x="600" y="266" fill="#8b9bb8" font-size="10">MX switch (your keyboard)</text>
+
+      <!-- adjustable feet -->
+      <rect x="150" y="80" width="14" height="180" fill="#1c2230" stroke="#58a6ff"/>
+      <rect x="776" y="80" width="14" height="180" fill="#1c2230" stroke="#58a6ff"/>
+      <text x="157" y="278" fill="#8b9bb8" font-size="10" text-anchor="middle">foot</text>
+      <text x="783" y="278" fill="#8b9bb8" font-size="10" text-anchor="middle">foot</text>
+      <line x1="150" y1="70" x2="150" y2="55" stroke="#57d98a"/>
+      <text x="150" y="48" fill="#57d98a" font-size="10" text-anchor="middle">height-adjust screw</text>
+    </svg>
+    <div class="cap">Fig 2 — One of 104 identical actuator stations. The silicone tip protects keycaps and adds compliance so exact height isn't critical.</div>
+  </div>
+
+  <h3>Addressing 104 solenoids without 104 GPIO</h3>
+  <p class="dim">The ESP32 can't drive 104 lines directly, so a daisy-chained shift-register bus does it over 3 wires.
+  13× <span class="pn">74HC595</span> (8 outputs each = 104) are clocked via SPI. Each output feeds one channel of a
+  <span class="pn">ULN2803A</span> Darlington array, which sinks the solenoid current and includes the flyback
+  clamp diode internally. To type a character the controller shifts out a 104-bit frame with the target bit(s) set,
+  latches it, waits the pulse time, then clears it.</p>
+
+  <div class="callout"><b>Combos are free.</b> Because every key has its own driver, <code>Ctrl+Shift+Esc</code>
+  is just three bits set in the same frame — no special-casing. The only constraint is the <b>power budget</b>:
+  hold no more than ~4 solenoids at once (see §5 power math).</div>
+
+  <div class="grid2">
+    <div class="card"><h3>Plate &amp; frame</h3><p class="dim">3&nbsp;mm laser-cut acrylic or aluminium key-plate with a
+      hole pattern matching a standard ANSI 104 layout. Mounted in a 2020-extrusion perimeter with four
+      thumb-screw feet that rest on the desk <i>around</i> the keyboard, not on it.</p></div>
+    <div class="card"><h3>Alignment</h3><p class="dim">Two locating pins drop into the gaps beside
+      <code>F1</code> and the numpad <code>Enter</code>. A one-time calibration wizard lights each solenoid so you
+      can confirm tip-to-keycap registration, then saves offsets.</p></div>
+  </div>
+</section>
+
+<!-- ============ MOUSE RIG ============ -->
+<section id="mouse">
+  <h2><span class="num">§3</span>Mouse Actuator Gantry</h2>
+  <p class="dim">Rather than emulate the mouse electrically, the rig <b>drives your real mouse</b> on a CoreXY gantry —
+  the mouse rides in a printed cradle, so its own sensor reports true motion to the computer. Two NEMA-17 steppers
+  fixed to the frame move the cradle in X and Y via a single GT2 belt loop (CoreXY). Click solenoids press the
+  physical buttons; a servo-driven friction wheel turns the scroll wheel.</p>
+
+  <div class="figwrap">
+    <svg viewBox="0 0 720 470" font-family="Consolas,monospace" font-size="12">
+      <text x="360" y="24" fill="#58a6ff" text-anchor="middle" font-size="14" font-weight="bold">CoreXY mouse gantry — top view</text>
+      <!-- frame -->
+      <rect x="70" y="50" width="580" height="360" rx="6" fill="none" stroke="#58a6ff" stroke-width="3"/>
+      <!-- steppers -->
+      <rect x="60" y="40" width="40" height="40" rx="4" fill="#2a2410" stroke="#ffb457"/>
+      <rect x="620" y="40" width="40" height="40" rx="4" fill="#2a2410" stroke="#ffb457"/>
+      <text x="80" y="34" fill="#ffb457" text-anchor="middle" font-size="10">A · NEMA17</text>
+      <text x="640" y="34" fill="#ffb457" text-anchor="middle" font-size="10">B · NEMA17</text>
+      <!-- X rail -->
+      <rect x="90" y="215" width="540" height="10" fill="#1c2230" stroke="#8b9bb8"/>
+      <text x="360" y="210" fill="#8b9bb8" text-anchor="middle" font-size="10">X carriage rail (8 mm rod ×2)</text>
+      <!-- Y rails -->
+      <rect x="150" y="60" width="10" height="340" fill="#1c2230" stroke="#8b9bb8"/>
+      <rect x="560" y="60" width="10" height="340" fill="#1c2230" stroke="#8b9bb8"/>
+      <!-- belt path (simplified) -->
+      <path d="M80,60 L360,220 L640,60 M80,80 L360,220 L640,80" fill="none" stroke="#57d98a" stroke-width="1.4" opacity=".8"/>
+      <text x="470" y="150" fill="#57d98a" font-size="10">GT2 belt loop</text>
+
+      <!-- cradle + mouse -->
+      <rect x="315" y="195" width="90" height="120" rx="10" fill="#0f2318" stroke="#57d98a"/>
+      <text x="360" y="180" fill="#57d98a" text-anchor="middle" font-size="11">mouse cradle</text>
+      <ellipse cx="360" cy="255" rx="30" ry="48" fill="#161b22" stroke="#d7e0ef"/>
+      <text x="360" y="258" fill="#d7e0ef" text-anchor="middle" font-size="10">real</text>
+      <text x="360" y="272" fill="#d7e0ef" text-anchor="middle" font-size="10">mouse</text>
+      <!-- click solenoids -->
+      <rect x="330" y="205" width="12" height="22" fill="#2a2410" stroke="#ffb457"/>
+      <rect x="378" y="205" width="12" height="22" fill="#2a2410" stroke="#ffb457"/>
+      <text x="300" y="205" fill="#ffb457" font-size="9" text-anchor="end">L-click</text>
+      <text x="420" y="205" fill="#ffb457" font-size="9">R-click</text>
+      <!-- scroll servo -->
+      <rect x="348" y="228" width="24" height="12" fill="#211b0e" stroke="#ffb457"/>
+      <text x="360" y="300" fill="#8b9bb8" text-anchor="middle" font-size="9">scroll wheel (SG90 + friction wheel)</text>
+
+      <!-- work area dims -->
+      <line x1="90" y1="430" x2="630" y2="430" stroke="#58a6ff" marker-end="url(#ar)" marker-start="url(#ar)"/>
+      <text x="360" y="448" fill="#58a6ff" text-anchor="middle" font-size="11">250 mm work area (X)</text>
+      <line x1="45" y1="60" x2="45" y2="400" stroke="#58a6ff" marker-end="url(#ar)" marker-start="url(#ar)"/>
+      <text x="30" y="235" fill="#58a6ff" text-anchor="middle" font-size="11" transform="rotate(-90 30 235)">150 mm (Y)</text>
+    </svg>
+    <div class="cap">Fig 3 — CoreXY keeps both heavy motors on the frame; only the light cradle moves, allowing fast, accurate positioning. Homing via two optical endstops (not shown) sets the origin.</div>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><h3>Why CoreXY over a mouse-emulator</h3>
+      <p class="dim">The computer's pointer acceleration, sensor DPI, and surface behaviour are all preserved because
+      the actual optical sensor is doing the sensing. The AI issues target pixels; a small closed-loop routine
+      nudges and reads back cursor position via the host (optional) or dead-reckons from a homed origin + known DPI.</p></div>
+    <div class="card"><h3>Clicks &amp; scroll</h3>
+      <p class="dim">Two 5&nbsp;V pull solenoids sit over the L/R buttons. Scroll uses an <span class="pn">SG90</span>
+      micro-servo turning a rubber friction wheel resting on the mouse's scroll wheel — discrete steps map to
+      scroll "notches."</p></div>
+  </div>
+  <div class="callout"><b>Cheaper alternative for the mouse:</b> skip the gantry entirely and let the AI send relative
+  mouse deltas through the same USB-HID path as the keyboard fallback (§0). Keep the gantry only if physical
+  presence is the point.</div>
+</section>
+
+<!-- ============ CIRCUIT ============ -->
+<section id="circuit">
+  <h2><span class="num">§4</span>Circuit Diagram</h2>
+  <p class="dim">One schematic covers the whole rig. The keyboard bank (shift-register → Darlington → solenoid) is
+  shown for one representative channel and repeats ×104. The mouse bank shows the two stepper drivers, click
+  solenoids, and scroll servo. Power distribution is at the bottom.</p>
+
+  <div class="kbd-legend">
+    <span><i class="swatch" style="background:var(--wire-pwr)"></i>+12 V / +5 V power</span>
+    <span><i class="swatch" style="background:var(--wire-gnd)"></i>GND</span>
+    <span><i class="swatch" style="background:var(--wire-sig)"></i>digital signal</span>
+    <span><i class="swatch" style="background:var(--wire-hi)"></i>actuator drive</span>
+  </div>
+
+  <div class="figwrap">
+    <svg viewBox="0 0 1000 640" font-family="Consolas,monospace" font-size="11.5">
+      <!-- ESP32 -->
+      <rect x="30" y="60" width="150" height="300" rx="8" fill="#1c2230" stroke="#58a6ff"/>
+      <text x="105" y="84" fill="#58a6ff" text-anchor="middle" font-weight="bold">ESP32-S3</text>
+      <text x="105" y="100" fill="#8b9bb8" text-anchor="middle" font-size="10">DevKitC-1</text>
+      <!-- pins -->
+      <text x="176" y="130" fill="#9ecbff" text-anchor="end">GPIO11 MOSI</text>
+      <text x="176" y="152" fill="#9ecbff" text-anchor="end">GPIO12 SCK</text>
+      <text x="176" y="174" fill="#9ecbff" text-anchor="end">GPIO10 LATCH</text>
+      <text x="176" y="210" fill="#9ecbff" text-anchor="end">GPIO4 X-STEP</text>
+      <text x="176" y="228" fill="#9ecbff" text-anchor="end">GPIO5 X-DIR</text>
+      <text x="176" y="246" fill="#9ecbff" text-anchor="end">GPIO6 Y-STEP</text>
+      <text x="176" y="264" fill="#9ecbff" text-anchor="end">GPIO7 Y-DIR</text>
+      <text x="176" y="286" fill="#9ecbff" text-anchor="end">GPIO15 SERVO</text>
+      <text x="176" y="308" fill="#9ecbff" text-anchor="end">GPIO16/17 CLICK</text>
+      <text x="176" y="330" fill="#9ecbff" text-anchor="end">GPIO8/9 HOME</text>
+
+      <!-- 74HC595 chain -->
+      <rect x="260" y="70" width="130" height="120" rx="6" fill="#161b22" stroke="#2a3550"/>
+      <text x="325" y="92" fill="#d7e0ef" text-anchor="middle">74HC595 #1</text>
+      <text x="325" y="110" fill="#8b9bb8" text-anchor="middle" font-size="10">SER/SRCLK/RCLK</text>
+      <text x="325" y="128" fill="#8b9bb8" text-anchor="middle" font-size="10">Q0..Q7</text>
+      <text x="325" y="158" fill="#8b9bb8" text-anchor="middle" font-size="10">Q7' →</text>
+      <rect x="410" y="70" width="130" height="120" rx="6" fill="#161b22" stroke="#2a3550" stroke-dasharray="4 3"/>
+      <text x="475" y="92" fill="#d7e0ef" text-anchor="middle">#2 … #13</text>
+      <text x="475" y="128" fill="#8b9bb8" text-anchor="middle" font-size="10">daisy-chain</text>
+      <text x="475" y="146" fill="#8b9bb8" text-anchor="middle" font-size="10">104 outputs</text>
+
+      <!-- ULN2803 -->
+      <rect x="600" y="70" width="130" height="120" rx="6" fill="#211b0e" stroke="#ffb457"/>
+      <text x="665" y="92" fill="#ffb457" text-anchor="middle">ULN2803A</text>
+      <text x="665" y="110" fill="#8b9bb8" text-anchor="middle" font-size="10">×13 (8ch each)</text>
+      <text x="665" y="128" fill="#8b9bb8" text-anchor="middle" font-size="10">int. flyback diode</text>
+      <text x="665" y="146" fill="#8b9bb8" text-anchor="middle" font-size="10">sinks 500 mA/ch</text>
+
+      <!-- solenoid -->
+      <circle cx="850" cy="110" r="26" fill="#2a2410" stroke="#ffb457"/>
+      <text x="850" y="106" fill="#ffb457" text-anchor="middle" font-size="10">key</text>
+      <text x="850" y="120" fill="#ffb457" text-anchor="middle" font-size="10">sol.</text>
+      <text x="850" y="152" fill="#8b9bb8" text-anchor="middle" font-size="10">×104</text>
+      <!-- +12 to solenoid -->
+      <line x1="850" y1="60" x2="850" y2="84" stroke="#ff5c5c" stroke-width="2"/>
+      <text x="858" y="72" fill="#ff5c5c" font-size="10">+12V</text>
+      <!-- solenoid to ULN -->
+      <line x1="824" y1="110" x2="730" y2="110" stroke="#ffb457" stroke-width="2"/>
+
+      <!-- ESP to 595 -->
+      <line x1="180" y1="130" x2="258" y2="105" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#ar)"/>
+      <line x1="180" y1="152" x2="258" y2="120" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#ar)"/>
+      <line x1="180" y1="174" x2="258" y2="135" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#ar)"/>
+      <line x1="390" y1="130" x2="408" y2="130" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#ar)"/>
+      <line x1="540" y1="130" x2="598" y2="130" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#ar)"/>
+
+      <!-- Mouse section -->
+      <rect x="260" y="230" width="150" height="90" rx="6" fill="#211b0e" stroke="#ffb457"/>
+      <text x="335" y="252" fill="#ffb457" text-anchor="middle">TMC2209 ×2</text>
+      <text x="335" y="270" fill="#8b9bb8" text-anchor="middle" font-size="10">STEP/DIR/EN</text>
+      <text x="335" y="288" fill="#8b9bb8" text-anchor="middle" font-size="10">UART config</text>
+      <text x="335" y="306" fill="#8b9bb8" text-anchor="middle" font-size="10">1/16 microstep</text>
+      <line x1="180" y1="210" x2="258" y2="250" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#ar)"/>
+      <line x1="180" y1="246" x2="258" y2="270" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#ar)"/>
+
+      <circle cx="470" cy="252" r="20" fill="#2a2410" stroke="#ffb457"/>
+      <text x="470" y="256" fill="#ffb457" text-anchor="middle" font-size="9">M-A</text>
+      <circle cx="470" cy="300" r="20" fill="#2a2410" stroke="#ffb457"/>
+      <text x="470" y="304" fill="#ffb457" text-anchor="middle" font-size="9">M-B</text>
+      <line x1="410" y1="260" x2="450" y2="255" stroke="#ffb457" stroke-width="2"/>
+      <line x1="410" y1="295" x2="450" y2="300" stroke="#ffb457" stroke-width="2"/>
+      <text x="500" y="278" fill="#8b9bb8" font-size="10">NEMA17 ×2</text>
+
+      <!-- click solenoids + servo from ULN spare / small driver -->
+      <rect x="600" y="230" width="130" height="90" rx="6" fill="#161b22" stroke="#2a3550"/>
+      <text x="665" y="252" fill="#d7e0ef" text-anchor="middle">aux drivers</text>
+      <text x="665" y="270" fill="#8b9bb8" text-anchor="middle" font-size="10">2× click solenoid</text>
+      <text x="665" y="288" fill="#8b9bb8" text-anchor="middle" font-size="10">1× SG90 servo</text>
+      <text x="665" y="306" fill="#8b9bb8" text-anchor="middle" font-size="10">(spare ULN ch + 5V)</text>
+      <line x1="180" y1="286" x2="598" y2="286" stroke="#58a6ff" stroke-width="1.4" marker-end="url(#ar)"/>
+      <line x1="180" y1="308" x2="598" y2="300" stroke="#58a6ff" stroke-width="1.4" marker-end="url(#ar)"/>
+
+      <!-- POWER RAIL -->
+      <rect x="30" y="430" width="940" height="170" rx="8" fill="#0f1622" stroke="#2a3550"/>
+      <text x="50" y="454" fill="#ffb457" font-weight="bold">POWER</text>
+
+      <rect x="60" y="470" width="120" height="60" rx="6" fill="#211b0e" stroke="#ffb457"/>
+      <text x="120" y="494" fill="#ffb457" text-anchor="middle" font-size="11">12V 5A PSU</text>
+      <text x="120" y="512" fill="#8b9bb8" text-anchor="middle" font-size="10">Mean Well</text>
+
+      <rect x="230" y="470" width="110" height="60" rx="6" fill="#161b22" stroke="#2a3550"/>
+      <text x="285" y="494" fill="#d7e0ef" text-anchor="middle" font-size="11">5A fuse</text>
+      <text x="285" y="512" fill="#8b9bb8" text-anchor="middle" font-size="10">+ flyback bulk cap</text>
+
+      <rect x="390" y="470" width="120" height="60" rx="6" fill="#161b22" stroke="#2a3550"/>
+      <text x="450" y="494" fill="#d7e0ef" text-anchor="middle" font-size="11">LM2596 buck</text>
+      <text x="450" y="512" fill="#8b9bb8" text-anchor="middle" font-size="10">12V→5V logic</text>
+
+      <!-- rails -->
+      <line x1="180" y1="500" x2="228" y2="500" stroke="#ff5c5c" stroke-width="2.5"/>
+      <line x1="340" y1="500" x2="388" y2="500" stroke="#ff5c5c" stroke-width="2.5"/>
+      <line x1="510" y1="490" x2="720" y2="490" stroke="#ff5c5c" stroke-width="2.5"/>
+      <text x="600" y="484" fill="#ff5c5c" font-size="10">+12V → solenoids &amp; steppers</text>
+      <line x1="510" y1="515" x2="720" y2="515" stroke="#ff5c5c" stroke-width="2"/>
+      <text x="600" y="533" fill="#ff5c5c" font-size="10">+5V → ESP32, 595s, servo, clicks</text>
+
+      <line x1="60" y1="560" x2="960" y2="560" stroke="#4a5568" stroke-width="3"/>
+      <text x="500" y="580" fill="#8b9bb8" text-anchor="middle" font-size="11">common GND (single-point star) — NOT connected to target computer</text>
+    </svg>
+    <div class="cap">Fig 4 — Schematic (representative channels). Full build repeats the 595→ULN→solenoid block 13× and shares the power rails. Keep a bulk electrolytic (≥1000 µF) across +12 V near the solenoid banks to absorb switching surges.</div>
+  </div>
+</section>
+
+<!-- ============ PINOUT ============ -->
+<section id="pinout">
+  <h2><span class="num">§5</span>Pinout &amp; Power Budget</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>ESP32-S3 pin map</h3>
+      <table>
+        <tr><th>GPIO</th><th>Function</th></tr>
+        <tr><td class="pn">11</td><td>SPI MOSI → 595 SER</td></tr>
+        <tr><td class="pn">12</td><td>SPI SCK → 595 SRCLK</td></tr>
+        <tr><td class="pn">10</td><td>595 RCLK (latch)</td></tr>
+        <tr><td class="pn">4 / 5</td><td>Mouse X STEP / DIR</td></tr>
+        <tr><td class="pn">6 / 7</td><td>Mouse Y STEP / DIR</td></tr>
+        <tr><td class="pn">18</td><td>Stepper EN (both)</td></tr>
+        <tr><td class="pn">15</td><td>Scroll servo PWM</td></tr>
+        <tr><td class="pn">16 / 17</td><td>L / R click solenoid</td></tr>
+        <tr><td class="pn">8 / 9</td><td>X / Y optical homing</td></tr>
+        <tr><td class="pn">1</td><td>TMC2209 UART (shared)</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Power budget (worst case)</h3>
+      <div class="specrow"><span>Key solenoid @12 V</span><b>~0.5 A each</b></div>
+      <div class="specrow"><span>Max concurrent keys</span><b>4 → 2.0 A</b></div>
+      <div class="specrow"><span>2× NEMA17 (moving)</span><b>~1.4 A</b></div>
+      <div class="specrow"><span>2× click solenoid</span><b>~0.6 A</b></div>
+      <div class="specrow"><span>Servo + logic</span><b>~0.5 A</b></div>
+      <div class="specrow"><span><b>Peak total</b></span><b>~4.5 A → 12 V 5 A PSU</b></div>
+      <div class="callout" style="margin-top:12px"><b>Firmware enforces</b> the 4-key limit and staggers stepper moves
+      away from key-press bursts so the PSU never browns out. A 5 A supply gives ~10% margin; step to 12 V 8 A if
+      you want simultaneous fast typing + mouse motion.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOM ============ -->
+<section id="bom">
+  <h2><span class="num">§6</span>Bill of Materials</h2>
+  <p class="dim">Representative part numbers and typical 2026 street prices (USD). Substitute freely — nothing here is
+  exotic. Quantities assume a full 104-key ANSI layout.</p>
+
+  <h3>Electronics</h3>
+  <table>
+    <tr><th>#</th><th>Part</th><th>Part No. / Spec</th><th class="r">Qty</th><th class="r">Unit</th><th class="r">Ext</th></tr>
+    <tr><td>1</td><td>Main controller</td><td class="pn">Espressif ESP32-S3-DevKitC-1-N16R8</td><td class="r">1</td><td class="r">$15</td><td class="r">$15</td></tr>
+    <tr><td>2</td><td>Shift register</td><td class="pn">Texas Instruments SN74HC595N (DIP-16)</td><td class="r">13</td><td class="r">$0.55</td><td class="r">$7</td></tr>
+    <tr><td>3</td><td>Darlington driver</td><td class="pn">STMicro ULN2803A (DIP-18)</td><td class="r">13</td><td class="r">$0.70</td><td class="r">$9</td></tr>
+    <tr><td>4</td><td>Key solenoid</td><td class="pn">JF-0530B push-pull, 12 V, ~4 mm stroke</td><td class="r">104</td><td class="r">$2.40</td><td class="r">$250</td></tr>
+    <tr><td>5</td><td>Stepper motor</td><td class="pn">NEMA17 17HS4401 (1.7 A, 40 N·cm)</td><td class="r">2</td><td class="r">$9</td><td class="r">$18</td></tr>
+    <tr><td>6</td><td>Stepper driver</td><td class="pn">TMC2209 SilentStepStick</td><td class="r">2</td><td class="r">$6</td><td class="r">$12</td></tr>
+    <tr><td>7</td><td>Click solenoid</td><td class="pn">5 V mini push solenoid (Adafruit 2776 equiv.)</td><td class="r">2</td><td class="r">$5</td><td class="r">$10</td></tr>
+    <tr><td>8</td><td>Scroll servo</td><td class="pn">TowerPro SG90 (9 g micro-servo)</td><td class="r">1</td><td class="r">$3</td><td class="r">$3</td></tr>
+    <tr><td>9</td><td>Optical endstop</td><td class="pn">Makerbase MK-Endstop (opto interrupter)</td><td class="r">2</td><td class="r">$2</td><td class="r">$4</td></tr>
+    <tr><td>10</td><td>PSU</td><td class="pn">Mean Well LRS-100-12 (12 V 8.5 A)</td><td class="r">1</td><td class="r">$18</td><td class="r">$18</td></tr>
+    <tr><td>11</td><td>Buck converter</td><td class="pn">LM2596 module (12→5 V, 3 A)</td><td class="r">1</td><td class="r">$2</td><td class="r">$2</td></tr>
+    <tr><td>12</td><td>Bulk cap / fuse / diodes</td><td class="pn">1000 µF 25 V, 5 A blade fuse, 1N5822</td><td class="r">1</td><td class="r">$6</td><td class="r">$6</td></tr>
+    <tr><td>13</td><td>PCB / protoboard + JST</td><td class="pn">Custom 2-layer or perfboard + connectors</td><td class="r">1</td><td class="r">$25</td><td class="r">$25</td></tr>
+    <tr class="total"><td colspan="5">Electronics subtotal</td><td class="r">$379</td></tr>
+  </table>
+
+  <h3>Mechanical &amp; frame</h3>
+  <table>
+    <tr><th>#</th><th>Part</th><th>Part No. / Spec</th><th class="r">Qty</th><th class="r">Unit</th><th class="r">Ext</th></tr>
+    <tr><td>14</td><td>Key-plate</td><td class="pn">3 mm acrylic, laser-cut ANSI-104 hole pattern</td><td class="r">1</td><td class="r">$18</td><td class="r">$18</td></tr>
+    <tr><td>15</td><td>Frame extrusion</td><td class="pn">2020 aluminium, 300/150 mm cuts</td><td class="r">1 set</td><td class="r">$16</td><td class="r">$16</td></tr>
+    <tr><td>16</td><td>Linear motion</td><td class="pn">8 mm smooth rod + LM8UU bearings</td><td class="r">1 set</td><td class="r">$14</td><td class="r">$14</td></tr>
+    <tr><td>17</td><td>Belt &amp; pulleys</td><td class="pn">GT2 6 mm belt + 20T pulleys + idlers</td><td class="r">1 set</td><td class="r">$10</td><td class="r">$10</td></tr>
+    <tr><td>18</td><td>Printed parts</td><td class="pn">solenoid holders, cradle, feet (PETG)</td><td class="r">~250 g</td><td class="r">$8</td><td class="r">$8</td></tr>
+    <tr><td>19</td><td>Silicone tips</td><td class="pn">6 mm silicone bumpers (keycap-safe)</td><td class="r">104</td><td class="r">$0.10</td><td class="r">$10</td></tr>
+    <tr><td>20</td><td>Fasteners</td><td class="pn">M3/M5 screws, T-nuts, thumb-screw feet</td><td class="r">1 kit</td><td class="r">$12</td><td class="r">$12</td></tr>
+    <tr class="total"><td colspan="5">Mechanical subtotal</td><td class="r">$88</td></tr>
+  </table>
+
+  <table>
+    <tr class="total"><td colspan="5">PROJECT TOTAL (approx.)</td><td class="r">$467</td></tr>
+  </table>
+  <p class="dim">The 104 key solenoids dominate cost. A <b>partial build</b> (letters, numbers, common modifiers ≈ 60 keys)
+  drops the total under $330. A <b>gantry-key</b> variant (one press-finger on a second CoreXY instead of 104 solenoids)
+  drops electronics to ~$120 but types far slower and can't do simultaneous combos.</p>
+</section>
+
+<!-- ============ ASSEMBLY ============ -->
+<section id="assembly">
+  <h2><span class="num">§7</span>Assembly Drawing (exploded)</h2>
+  <div class="figwrap">
+    <svg viewBox="0 0 900 470" font-family="Consolas,monospace" font-size="12">
+      <text x="450" y="24" fill="#58a6ff" text-anchor="middle" font-size="14" font-weight="bold">Keyboard overlay — exploded stack</text>
+
+      <!-- layer 1 driver PCB -->
+      <g>
+        <polygon points="200,70 700,70 760,110 260,110" fill="#161b22" stroke="#58a6ff"/>
+        <text x="480" y="95" fill="#58a6ff" text-anchor="middle">① Driver PCB (595 + ULN banks)</text>
+      </g>
+      <line x1="480" y1="110" x2="480" y2="150" stroke="#4a5568" stroke-dasharray="3 3"/>
+
+      <!-- layer 2 solenoid plate -->
+      <g>
+        <polygon points="200,150 700,150 760,190 260,190" fill="#211b0e" stroke="#ffb457"/>
+        <text x="480" y="175" fill="#ffb457" text-anchor="middle">② Solenoid mounting plate (×104 holders)</text>
+        <!-- solenoid dots -->
+        <g fill="#ffb457">
+          <circle cx="300" cy="170" r="4"/><circle cx="340" cy="170" r="4"/><circle cx="380" cy="170" r="4"/>
+          <circle cx="420" cy="170" r="4"/><circle cx="460" cy="170" r="4"/><circle cx="500" cy="170" r="4"/>
+          <circle cx="540" cy="170" r="4"/><circle cx="580" cy="170" r="4"/><circle cx="620" cy="170" r="4"/>
+        </g>
+      </g>
+      <line x1="480" y1="190" x2="480" y2="230" stroke="#4a5568" stroke-dasharray="3 3"/>
+
+      <!-- layer 3 key plate w/ holes -->
+      <g>
+        <polygon points="200,230 700,230 760,270 260,270" fill="#1c2230" stroke="#58a6ff"/>
+        <text x="480" y="255" fill="#d7e0ef" text-anchor="middle">③ Key-plate (alignment holes over each cap)</text>
+      </g>
+      <line x1="480" y1="270" x2="480" y2="310" stroke="#4a5568" stroke-dasharray="3 3"/>
+
+      <!-- layer 4 your keyboard -->
+      <g>
+        <polygon points="180,310 720,310 790,360 250,360" fill="#0f1622" stroke="#8b9bb8"/>
+        <text x="480" y="340" fill="#8b9bb8" text-anchor="middle">④ YOUR KEYBOARD (unmodified)</text>
+      </g>
+
+      <!-- feet -->
+      <rect x="250" y="360" width="14" height="70" fill="#1c2230" stroke="#58a6ff"/>
+      <rect x="706" y="360" width="14" height="70" fill="#1c2230" stroke="#58a6ff"/>
+      <text x="257" y="448" fill="#8b9bb8" text-anchor="middle" font-size="10">⑤ adjustable foot</text>
+      <text x="713" y="448" fill="#8b9bb8" text-anchor="middle" font-size="10">⑤ adjustable foot</text>
+
+      <!-- callout numbers on right -->
+      <text x="820" y="90" fill="#8b9bb8">①→③ M3 standoffs</text>
+      <text x="820" y="250" fill="#8b9bb8">bond ②③ with</text>
+      <text x="820" y="266" fill="#8b9bb8">4× nylon spacer</text>
+    </svg>
+    <div class="cap">Fig 5 — Four-layer sandwich on adjustable feet. Layers ①②③ bolt together as a liftable unit; the feet set the ride height so silicone tips rest a hair above the caps at idle.</div>
+  </div>
+
+  <div class="callout good"><b>Fabrication files to generate next:</b> (1) key-plate DXF from an ANSI-104 keymap,
+  (2) STL for the solenoid holder (repeat-arrayed), the mouse cradle, and feet, (3) driver-PCB Gerbers.
+  Say the word and I'll generate the DXF/keymap script and OpenSCAD sources.</div>
+</section>
+
+<!-- ============ FIRMWARE ============ -->
+<section id="firmware">
+  <h2><span class="num">§8</span>Firmware &amp; Command Protocol</h2>
+  <p class="dim">The ESP32 runs a WebSocket server. Your AI connects and streams JSON commands; the firmware queues
+  and executes them with power-aware scheduling.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Command protocol (JSON over WS)</h3>
+      <table>
+        <tr><th>Command</th><th>Effect</th></tr>
+        <tr><td class="pn">{"type":"key","chars":"Hello!"}</td><td>types the string, auto-shifting</td></tr>
+        <tr><td class="pn">{"type":"combo","keys":["ctrl","c"]}</td><td>simultaneous press/release</td></tr>
+        <tr><td class="pn">{"type":"move","x":842,"y":391}</td><td>gantry to pixel target</td></tr>
+        <tr><td class="pn">{"type":"click","btn":"left"}</td><td>click solenoid pulse</td></tr>
+        <tr><td class="pn">{"type":"scroll","notches":-3}</td><td>servo rotates wheel</td></tr>
+        <tr><td class="pn">{"type":"home"}</td><td>re-home mouse origin</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Execution rules</h3>
+      <ul>
+        <li><b>Power gate:</b> never energise &gt;4 key solenoids; queue overflow keys to next slot.</li>
+        <li><b>Debounce:</b> 30–50 ms press, 20 ms release before next key.</li>
+        <li><b>Mouse/key mutex:</b> steppers pause during key bursts to protect the PSU.</li>
+        <li><b>Homing:</b> optical endstops set origin at boot; positions dead-reckoned from DPI.</li>
+        <li><b>Watchdog:</b> lost WS link → release all actuators (fail-safe open).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="figwrap">
+    <svg viewBox="0 0 900 150" font-family="Consolas,monospace" font-size="12">
+      <rect x="20" y="45" width="130" height="60" rx="6" fill="#0f2318" stroke="#57d98a"/>
+      <text x="85" y="72" fill="#57d98a" text-anchor="middle">AI host</text>
+      <text x="85" y="90" fill="#8b9bb8" text-anchor="middle" font-size="10">emits JSON</text>
+
+      <rect x="210" y="45" width="130" height="60" rx="6" fill="#1c2230" stroke="#58a6ff"/>
+      <text x="275" y="72" fill="#58a6ff" text-anchor="middle">WS queue</text>
+      <text x="275" y="90" fill="#8b9bb8" text-anchor="middle" font-size="10">parse + validate</text>
+
+      <rect x="400" y="45" width="130" height="60" rx="6" fill="#1c2230" stroke="#58a6ff"/>
+      <text x="465" y="72" fill="#58a6ff" text-anchor="middle">planner</text>
+      <text x="465" y="90" fill="#8b9bb8" text-anchor="middle" font-size="10">char→bits / XY</text>
+
+      <rect x="590" y="45" width="130" height="60" rx="6" fill="#211b0e" stroke="#ffb457"/>
+      <text x="655" y="72" fill="#ffb457" text-anchor="middle">power gate</text>
+      <text x="655" y="90" fill="#8b9bb8" text-anchor="middle" font-size="10">≤4 keys, mutex</text>
+
+      <rect x="780" y="45" width="100" height="60" rx="6" fill="#211b0e" stroke="#ffb457"/>
+      <text x="830" y="72" fill="#ffb457" text-anchor="middle">actuate</text>
+
+      <line x1="150" y1="75" x2="208" y2="75" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#ar)"/>
+      <line x1="340" y1="75" x2="398" y2="75" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#ar)"/>
+      <line x1="530" y1="75" x2="588" y2="75" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#ar)"/>
+      <line x1="720" y1="75" x2="778" y2="75" stroke="#58a6ff" stroke-width="1.6" marker-end="url(#ar)"/>
+    </svg>
+    <div class="cap">Fig 6 — Firmware data flow. The power gate is the safety-critical stage.</div>
+  </div>
+</section>
+
+<!-- ============ BUILD ============ -->
+<section id="build">
+  <h2><span class="num">§9</span>Build Sequence</h2>
+  <ol>
+    <li><b>Prototype one channel first.</b> ESP32 + one 595 + one ULN + one solenoid. Prove SPI shift, latch,
+      and a clean key press before scaling to 104.</li>
+    <li><b>Build the driver PCB / protoboard</b> — 13× (595+ULN) banks, shared SPI bus, power rails, bulk cap, fuse.</li>
+    <li><b>Fabricate the key-plate</b> from your keyboard's exact layout (measure or use the ANSI-104 DXF).</li>
+    <li><b>Populate solenoids</b> into printed holders; fit silicone tips; wire in banks of 8 to each ULN.</li>
+    <li><b>Run the calibration wizard</b> — light each key in sequence, adjust feet until every tip actuates reliably.</li>
+    <li><b>Assemble the CoreXY mouse gantry</b>; home it; verify pixel-accurate moves with a test pattern.</li>
+    <li><b>Integrate the WebSocket link</b> to your AI; test <code>type</code>, <code>combo</code>, <code>move</code>, <code>click</code>.</li>
+    <li><b>Full-system soak test</b> — type a known paragraph, diff the result on-screen; measure WPM and error rate.</li>
+  </ol>
+
+  <div class="callout"><b>Verification mirrors the FORGE QA discipline:</b> define the pass condition first
+  (e.g. "types this 500-char paragraph with zero errors at ≥60 WPM"), test the real hardware, and turn every
+  mis-press into a calibration regression case.</div>
+</section>
+
+</main>
+
+<footer>
+  PHANTOM TYPIST · Rev A concept design · generated for jmpz63 · APM / PROJECTS/Active/Keyboard_Actuator_Overlay<br>
+  Next artifacts on request: key-plate DXF generator · OpenSCAD holder/cradle · ESP32 firmware skeleton · KiCad driver PCB.
+</footer>
+
+</body>
+</html>
